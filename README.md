@@ -1,4 +1,9 @@
 """
+13/04/2026
+BingHeng Huang
+Carlos Giovanni Castañeda Renteria
+Roberto Carreón Muñoz
+
 Proyecto Final Unimon
 
 Caracteristicas:
