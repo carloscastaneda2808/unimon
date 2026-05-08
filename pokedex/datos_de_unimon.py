@@ -1,4 +1,3 @@
-
 from pokedex.unimon import Unimon
 
 charizard = Unimon("Charizard", "fuego", 78, 84, 78, 100)
@@ -11,4 +10,3 @@ todos = {
     "Blastoise": blastoise,
     "Venusaur": venusaur
 }
- 

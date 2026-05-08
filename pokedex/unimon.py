@@ -14,9 +14,20 @@ class Unimon:
         self.spe = spe
         Unimon.todos.append(self)
 
-    def __str__(self):
-        return (f"{self.nombre}, {self.tipo}, {self.hp}, {self.atk}, {self.df}, {self.spe}")
-
+    def str_stats(self):
+        stats = ''
+        stats 
+        return (f"{self.nombre}")
     
+    def str_unimon(self):
+        return self.nombre
+
+    def __str__(self):
+        
+        return (f"Nombre: {self.nombre}, Tipo: {self.tipo}, Vida: {self.hp}, Ataque: {self.atk}, Defensa: {self.df}, Velocidad: {self.spe}")
+        
+    def mostrar_todos(cls):
+        for pokemon in cls.todos:
+            print(pokemon)
 
 
