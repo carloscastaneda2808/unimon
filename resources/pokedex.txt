@@ -1,0 +1,5 @@
+Charizard fuego 78 84 78 100 [lanza llamas, Tajo Aéreo, Garra Dragón, Anillo Igneo, Giro Fuego]
+
+Blastoise agua 79 83 100 78 [Pistola Agua, Hidro bomba, Surf, Rayo Hielo, Hidro cañón]
+
+Venusaur planta 80 82 83 80 [Látigo Cepa, Hoja Afilada, Bomba Lodo, Rayo Solar, Planta Feroz]

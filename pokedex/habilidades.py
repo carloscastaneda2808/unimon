@@ -12,3 +12,9 @@ class Habilidades:
         self.pp = pp
         self.acc = acc
         Habilidades.todos.append(self)
+
+    def str_stats(self):
+        return f"Estadisticas de {self.nombre}\nTipo: {self.tipo}\nPoder: {self.poder}\nPP: {self.pp}\nPresicion: {self.acc}"
+
+    def __str__(self):
+        return f"{self.nombre}"
