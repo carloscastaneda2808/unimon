@@ -5,7 +5,7 @@ Archivo para crear los unimones
 class Unimon:
     todos = []
 
-    def __init__(self, nombre, tipo, hp, atk, df, spe, hb =[]):
+    def __init__(self, nombre, tipo, hp, atk, df, spe, hb = []):
         self.nombre = nombre
         self.tipo = tipo
         self.hp = hp
@@ -15,9 +15,11 @@ class Unimon:
         self.hb = hb
         Unimon.todos.append(self)
 
+    # se imprime el unimon con sus estadisticas
     def str_stats(self):
         return f"Estadisticas de {self.nombre}\nTipo: {self.tipo}\nHP: {self.hp}\nAtaque: {self.atk}\nDefensa: {self.df}\nVelocidad: {self.spe}"
     
+    # se imprimen las habilidades, se utiliza en la funcion elegir_turno_usr
     def str_habilidades(self, longitud):
         cadena = ""
         for i in range(longitud):
@@ -25,6 +27,7 @@ class Unimon:
         
         return cadena
 
+    # solo imprime el nombre
     def __str__(self):
         return f"{self.nombre}"
 

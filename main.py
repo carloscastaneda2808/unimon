@@ -8,6 +8,7 @@ from unimon.io.input_validation import elegir_unimon_usr, elegir_habilidades_usr
 from unimon.pokedex.combate import restar_hp, verificar_hp
 
 if __name__ == "__main__":
+    # menu principal
     while True:
         print("\n===== MENU =====")
         print("1) Iniciar partida")
@@ -27,9 +28,11 @@ if __name__ == "__main__":
         if opcion == 0:
             print("Cerrando juego...")
             break
-
+        
+        # inicio de una partida
         elif opcion == 1:
             print("\n===== PARTIDA INICIADA =====")
+            # primero se elige el unimon y las habilides
             print("Elige el unimon")
             leer_unimon()
             unimon_usr = elegir_unimon_usr()
@@ -38,10 +41,13 @@ if __name__ == "__main__":
             leer_habilidades()
             elegir_habilidades_usr(unimon_usr)
 
+            # el npc elige aleatoriamente
             unimon_npc = elegir_unimon_npc()
             elegir_habilidades_npc(unimon_npc)
 
+            # inicio del combate
             print("\n==== COMBATE ====")
+            turno = 0
             while True:
                 print("1) Habilidades")
                 print("0) salir del combate")
@@ -60,17 +66,23 @@ if __name__ == "__main__":
                 if opcion2 == 0:
                     print("TE RENDISTE")
                     break
+
+                # los unimones combate, solo esta la opcion de ataques de daño
                 if opcion2 == 1:
+                    # se eligen las habilidades a usar, se les llama turno para no repetir nombres
                     turno_usr = elegir_turno_usr(unimon_usr)
                     turno_npc = elegir_turno_npc(unimon_npc)
 
+                    # Verifica todos lo casos para saber quien va primero
                     if unimon_usr.spe > unimon_npc.spe:
                         primero = 1
                     elif unimon_usr.spe < unimon_npc.spe:
                         primero = 2
+                    # si tiene igual de velocidad es aleatorio
                     else:
                         primero = randint(1, 2)
 
+                    # la habilidad ataca y verifica si el pokemon se ha debilitado para terminar el combate
                     if primero == 1:
                         restar_hp(turno_usr, unimon_usr, unimon_npc)
                         if verificar_hp(unimon_npc):
@@ -91,6 +103,9 @@ if __name__ == "__main__":
                         if verificar_hp(unimon_npc):
                             print("GANASTE")
                             break
+
+                # incrementa en uno para saber en que turno esta
+                turno += 1
                         
             print("El combate termino...")
             

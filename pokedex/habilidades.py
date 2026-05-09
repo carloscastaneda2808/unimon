@@ -13,8 +13,10 @@ class Habilidades:
         self.acc = acc
         Habilidades.todos.append(self)
 
+    # imprime las estadisticas de la habilidad
     def str_stats(self):
         return f"Estadisticas de {self.nombre}\nTipo: {self.tipo}\nPoder: {self.poder}\nPP: {self.pp}\nPresicion: {self.acc}"
 
+    # solo imprime el nombre
     def __str__(self):
         return f"{self.nombre}"
