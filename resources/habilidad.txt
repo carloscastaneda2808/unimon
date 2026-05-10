@@ -1,0 +1,29 @@
+Lanzallamas Fuego 90 15 100
+
+TajoAéreo Volador 75 15 95
+
+GarraDragón Dragon 80 15 100
+
+AnilloÍgneo Fuego 150 5 90
+
+GiroFuego Fuego 35 15 85
+
+PistolaAgua Agua 40 25 100
+
+Hidrobomba Agua 110 5 80
+
+Surf Agua 90 15 100
+
+RayoHielo Hielo 90 10 100
+
+Hidrocañón Agua 150 5 90
+
+LátigoCepa Planta 45 25 100
+
+HojaAfilada Planta 55 25 95
+
+BombaLodo Veneno 90 10 100
+
+RayoSolar Planta 120 10 100
+
+PlantaFeroz Planta 150 5 90

@@ -1,0 +1,5 @@
+Charizard fuego 78 84 78 100 Lanzallamas TajoAéreo GarraDragón AnilloÍgneo GiroFuego
+
+Blastoise agua 79 83 100 78 PistolaAgua Hidrobomba Surf RayoHielo Hidrocañón
+
+Venusaur planta 80 82 83 80 LátigoCepa HojaAfilada BombaLodo RayoSolar PlantaFeroz

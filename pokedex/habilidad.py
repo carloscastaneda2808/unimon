@@ -2,7 +2,7 @@
 Archivo para hacer las habilidades
 """
 
-class Habilidades:
+class Habilidad:
     todos = []
     
     def __init__(self, nombre, tipo, poder, pp, acc):
@@ -11,7 +11,8 @@ class Habilidades:
         self.poder = poder
         self.pp = pp
         self.acc = acc
-        Habilidades.todos.append(self)
+
+        Habilidad.todos.append(self)
 
     # imprime las estadisticas de la habilidad
     def str_stats(self):
