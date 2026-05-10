@@ -14,5 +14,5 @@ Caracteristicas:
     5. Combates
 
 Cosas del commit:
-    Ya funciona esta version, pero le faltan cosas. Como combate de varias pokemones. Los datos de los unimones y habilidades se agarran en resources, la lista de unimon es solo para saber que habilidades puede tener el pokemon no se guarda de una en la clase.
+    Ya funciona esta version, pero le faltan cosas, como combate de varias pokemones. Los datos de los unimones y habilidades se agarran en resources, la lista de unimon es solo para saber que habilidades puede tener el pokemon no se guarda de una en la clase.
 """
