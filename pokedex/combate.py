@@ -2,21 +2,26 @@
 Archivo para el combate
 '''
 
+from random import randint
+
 # sirve para ataques de danio solo y escribe un mensaje
 def restar_hp(mensaje, habilidad, unimon_atacante, unimon_defensa):
-    danio = (habilidad.poder * unimon_atacante.atk / unimon_defensa.df) // 4 + 2
+    if habilidad.acc < randint(1, 100):
+        danio = (habilidad.poder * unimon_atacante.atk / unimon_defensa.df) // 4 + 2
     
-    # verifica si el ataque es del mismo tipo para aplicar bonificacion
-    if habilidad.tipo == unimon_atacante.tipo:
-        danio = int(danio * 1.2)
+        # verifica si el ataque es del mismo tipo para aplicar bonificacion
+        if habilidad.tipo == unimon_atacante.tipo:
+            danio = int(danio * 1.2)
 
-    # aplica el multiplicador segun la efectividad entre tipos
-    danio *= verifiacr_tipo(unimon_atacante.tipo, unimon_defensa.tipo)
-    
+        # aplica el multiplicador segun la efectividad entre tipos
+        if unimon_atacante.tipo != unimon_defensa.tipo:
+            danio *= verifiacr_tipo(unimon_atacante.tipo, unimon_defensa.tipo)
 
-    print(f"\nEl {unimon_atacante} de {mensaje} utilizo {habilidad} haciendo {danio} de danio")
+        print(f"\nEl {unimon_atacante} de {mensaje} utilizo {habilidad} haciendo {danio} puntos de danio")
 
-    unimon_defensa.hp -= danio
+        unimon_defensa.hp -= danio
+    else:
+        print(f"\nEl {unimon_atacante} de {mensaje} falló")
 
 # verifica si el unimon esta debilitado y escribe un mensaje, falta poner una variable mensaje como un restar_hp
 def verificar_hp(unimon):
