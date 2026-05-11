@@ -11,8 +11,7 @@ def restar_hp(mensaje, habilidad, unimon_atacante, unimon_defensa):
         danio = int(danio * 1.2)
 
     # aplica el multiplicador segun la efectividad entre tipos
-    if unimon_atacante.tipo != unimon_defensa.tipo:
-        danio *= verifiacr_tipo(unimon_atacante.tipo, unimon_defensa.tipo)
+    danio *= verifiacr_tipo(unimon_atacante.tipo, unimon_defensa.tipo)
     
 
     print(f"\nEl {unimon_atacante} de {mensaje} utilizo {habilidad} haciendo {danio} de danio")
