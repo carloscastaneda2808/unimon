@@ -1,0 +1,8 @@
+Fuego Planta 2
+Fuego Agua 0.5
+
+Agua Planta 0.5
+Agua Fuego 2
+
+Planta Fuego 0.5
+Planta Agua 2
