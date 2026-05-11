@@ -1,29 +1,33 @@
-Lanzallamas Fuego 90 15 100
+Lanzallamas Fuego 90 15 100 Especial
+AnilloÍgneo Fuego 150 5 90 Especial
+GiroFuego Fuego 35 15 85 Especial
 
-TajoAéreo Volador 75 15 95
+PistolaAgua Agua 40 25 100 Especial
+Hidrobomba Agua 110 5 80 Especial
+Surf Agua 90 15 100 Especial
+Hidrocañón Agua 150 5 90 Especial
 
-GarraDragón Dragon 80 15 100
+LátigoCepa Planta 45 25 100 Físico
+HojaAfilada Planta 55 25 95 Físico
+RayoSolar Planta 120 10 100 Especial
+PlantaFeroz Planta 150 5 90 Físico
 
-AnilloÍgneo Fuego 150 5 90
+BombaLodo Veneno 90 10 100 Especial
 
-GiroFuego Fuego 35 15 85
+RayoHielo Hielo 90 10 100 Especial
 
-PistolaAgua Agua 40 25 100
+GarraDragón Dragon 80 15 100 Físico
 
-Hidrobomba Agua 110 5 80
+TajoAéreo Volador 75 15 95 Físico
 
-Surf Agua 90 15 100
 
-RayoHielo Hielo 90 10 100
 
-Hidrocañón Agua 150 5 90
 
-LátigoCepa Planta 45 25 100
+PolvoDormir Planta 0 15 75 Nada Dormido
+PolvoParalizante Planta 0 20 75 Nada Paralizado
+Somnífero Planta 0 10 80 Estados
+Espora Planta 0 15 100 Estados
 
-HojaAfilada Planta 55 25 95
-
-BombaLodo Veneno 90 10 100
-
-RayoSolar Planta 120 10 100
-
-PlantaFeroz Planta 150 5 90
+PolvoTóxico Veneno 0 20 90 Estados
+Tóxico Veneno 0 10 85 Estados
+OndaTóxica Veneno 0 20 90 Estados

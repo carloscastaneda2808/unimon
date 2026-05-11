@@ -5,13 +5,14 @@ Archivo para hacer las habilidades
 class Habilidad:
     todos = []
     
-    def __init__(self, nombre, tipo, poder, pp, acc):
+    def __init__(self, nombre, tipo, poder, pp, acc, sts):
         self.nombre = nombre
         self.tipo = tipo
         self.poder = poder
         self.pp = pp
         self.acc = acc
-
+        self.sts = sts
+        
         Habilidad.todos.append(self)
 
     # imprime las estadisticas de la habilidad

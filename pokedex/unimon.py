@@ -5,12 +5,14 @@ Archivo para crear los unimones
 class Unimon:
     todos = []
 
-    def __init__(self, nombre, tipo, hp, atk, df, spe, hb_posibles, hb = None):
+    def __init__(self, nombre, tipo, hp, atk, df, spa , spd , spe, hb_posibles, hb = None):
         self.nombre = nombre
         self.tipo = tipo
         self.hp = hp
         self.atk = atk
+        self.spa  = spa
         self.df = df
+        self.spd  = spd 
         self.spe = spe
 
         self.hb_posibles = hb_posibles

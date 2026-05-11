@@ -29,6 +29,6 @@ def abrir_habilidades():
         for linea in lineas:
             if linea.strip() != "":
                 dato = linea.split()
-                habilidades.append(Habilidad(dato[0], dato[1], int(dato[2]), int(dato[3]), int(dato[4])))
+                habilidades.append(Habilidad(dato[0], dato[1], int(dato[2]), int(dato[3]), int(dato[4]), dato[5]))
     
     return habilidades

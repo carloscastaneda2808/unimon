@@ -6,22 +6,37 @@ from random import randint
 
 # sirve para ataques de danio solo y escribe un mensaje
 def restar_hp(mensaje, habilidad, unimon_atacante, unimon_defensa):
+    # verificar la probabilidad (acc)
     if habilidad.acc < randint(1, 100):
-        danio = (habilidad.poder * unimon_atacante.atk / unimon_defensa.df) // 4 + 2
-    
+        
+        #
+        if habilidad.sts == "Nada":
+            return None
+        
+        # Cálcular el daño dependiendo si es Fi
+        if habilidad.sts == "Físico":
+            danio = (habilidad.poder * unimon_atacante.atk / unimon_defensa.df) // 4 + 2
+            
+        if habilidad.sts == "Especial":
+            danio = (habilidad.poder * unimon_atacante.spa / unimon_defensa.spd) // 4 + 2
+        
+
         # verifica si el ataque es del mismo tipo para aplicar bonificacion
         if habilidad.tipo == unimon_atacante.tipo:
             danio = int(danio * 1.2)
 
         # aplica el multiplicador segun la efectividad entre tipos
-        if unimon_atacante.tipo != unimon_defensa.tipo:
-            danio *= verifiacr_tipo(unimon_atacante.tipo, unimon_defensa.tipo)
+        danio *= verifiacr_tipo(unimon_atacante.tipo, unimon_defensa.tipo)
+
+        unimon_defensa.hp -= danio
+        habilidad.pp -= 1
 
         print(f"\nEl {unimon_atacante} de {mensaje} utilizo {habilidad} haciendo {danio} puntos de danio")
 
-        unimon_defensa.hp -= danio
+
     else:
         print(f"\nEl {unimon_atacante} de {mensaje} falló")
+
 
 # verifica si el unimon esta debilitado y escribe un mensaje, falta poner una variable mensaje como un restar_hp
 def verificar_hp(unimon):
@@ -49,4 +64,8 @@ def verifiacr_tipo(tipo_atk, tipo_def):
                         print("Es super efectivo")
                     elif dato[2] == "0.5":
                         print("No es muy efectivo")
-                    return int(dato[2])
+
+# [nombre, contador, ]
+def verificar_estado(estado):
+    if estado[0] <= 0:
+
