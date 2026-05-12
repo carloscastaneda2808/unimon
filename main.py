@@ -98,7 +98,7 @@ if __name__ == "__main__":
                     if primero == 1:
 
                         # Verifica si el Unimon puede actuar (no está dormido, paralizado ni congelado)
-                        if unimon_usr.estado != "Dormir" and unimon_usr.estado != "Paralizado" and unimon_usr.estado != "Hielado":
+                        if unimon_usr.estado != "Dormir" and unimon_usr.estado != "Paralizado" and unimon_usr.estado != "Congelado":
                             restar_hp("Usuario", turno_usr, unimon_usr, unimon_npc)
 
                         if verificar_hp(unimon_npc):
@@ -106,7 +106,7 @@ if __name__ == "__main__":
                             break
 
 
-                        if unimon_usr.estado != "Dormir" and unimon_usr.estado != "Paralizado" and unimon_usr.estado != "Hielado":
+                        if unimon_usr.estado != "Dormir" and unimon_usr.estado != "Paralizado" and unimon_usr.estado != "Congelado":
                             restar_hp("NPC", turno_npc, unimon_npc, unimon_usr)
                             if unimon_usr.estado != []:
                                 Estado.verificar_es(unimon_usr)

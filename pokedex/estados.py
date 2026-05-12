@@ -15,24 +15,38 @@ class Estado:
     def tipo_estado(self):
         pass
         
-
+    # verifica si el unimon tiene algun estado activo
     def verificar_es(self, unimon):
         if unimon.estado == "Dormir":
             return Estado.dormir(unimon)
+        
+        elif unimon.estado == "Paralizado":
+            return Estado.paralizado(unimon)
 
-    def dormir(self, unimon, i = None):
+    # aplica el estado de sueño con duracion variable y probabilidad de despertar
+    def dormir(self, unimon):
+        
+        if unimon.duracion == None:
+            unimon.duracion = 1
 
-        if i == None:
-            i = 1
-
-        if randint(1, i) == 1:
+        if randint(1, unimon.duracion) == 1:
             unimon.estado = "Dormido"
-            i += 1
+            unimon.duracion += 1
             return unimon
         else:
             unimon.estado = None
-            i = 1
+            unimon.duracion = None
             return unimon
+    
+    # el Congelado tiene un 20% de probabilidad de descongelarse
+    def Congelado(self, unimon):
+
+        if randint(1, 5) != 2:
+            unimon.estado = "Congelado"
+        else:
+            unimon.estado = None
+
+
 
 
 

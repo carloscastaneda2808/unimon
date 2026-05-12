@@ -5,7 +5,7 @@ Archivo para crear los unimones
 class Unimon:
     todos = []
 
-    def __init__(self, nombre, tipo, hp, atk, df, spa , spd , spe, hb_posibles, hb = None, estado = None):
+    def __init__(self, nombre, tipo, hp, atk, df, spa , spd , spe, hb_posibles, hb = None, estado = None, duracion = None):
         self.nombre = nombre
         self.tipo = tipo
         self.hp = hp
@@ -14,17 +14,18 @@ class Unimon:
         self.df = df
         self.spd  = spd 
         self.spe = spe
-
         self.hb_posibles = hb_posibles
 
         if hb is None:
             hb = []
         self.hb = hb
 
-        if estado is None:
-            estado = []
         self.estado = estado
 
+        if duracion is None:
+            duracion = 0
+        self.duracion = duracion
+        
         Unimon.todos.append(self)
 
     # se imprime el unimon con sus estadisticas
