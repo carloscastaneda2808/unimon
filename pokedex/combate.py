@@ -7,7 +7,7 @@ from random import randint
 # sirve para ataques de danio solo y escribe un mensaje
 def restar_hp(mensaje, habilidad, unimon_atacante, unimon_defensa):
     # verificar la probabilidad (acc)
-    if habilidad.acc < randint(1, 100):
+    if habilidad.acc >= randint(1, 100):
         
         # Evitar el daño de los estados 
         if habilidad.sts == "Nada":
@@ -16,17 +16,19 @@ def restar_hp(mensaje, habilidad, unimon_atacante, unimon_defensa):
         # Cálcular el daño dependiendo si es Fi
         if habilidad.sts == "Físico":
             danio = (habilidad.poder * unimon_atacante.atk / unimon_defensa.df) // 4 + 2
-            
+            if unimon_atacante.estado == "Quemado":
+                danio = int(danio / 2)
+
         if habilidad.sts == "Especial":
             danio = (habilidad.poder * unimon_atacante.spa / unimon_defensa.spd) // 4 + 2
-        
 
         # verifica si el ataque es del mismo tipo para aplicar bonificacion
         if habilidad.tipo == unimon_atacante.tipo:
             danio = int(danio * 1.2)
 
+
         # aplica el multiplicador segun la efectividad entre tipos
-        danio *= verifiacr_tipo(unimon_atacante.tipo, unimon_defensa.tipo)
+        danio *= verifiacar_tipo(unimon_atacante.tipo, unimon_defensa.tipo)
 
         unimon_defensa.hp -= danio
         habilidad.pp -= 1
@@ -49,7 +51,7 @@ def verificar_hp(unimon):
     return unimon.hp <= 0
 
 # devuelve la efectividad del ataque segun los tipos
-def verifiacr_tipo(tipo_atk, tipo_def):
+def verifiacar_tipo(tipo_atk, tipo_def):
 
     with open("unimon/resources/tipos.txt", "r", encoding="utf-8") as file:
         lineas = file.readlines()

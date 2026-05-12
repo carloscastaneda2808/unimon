@@ -94,6 +94,7 @@ if __name__ == "__main__":
 
                     if unimon_npc.estado != []:
                         Estado.verificar_es(unimon_npc)
+                        
                     # la habilidad ataca y verifica si el pokemon se ha debilitado para terminar el combate
                     if primero == 1:
 

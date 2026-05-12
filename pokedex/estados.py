@@ -38,15 +38,21 @@ class Estado:
             unimon.duracion = None
             return unimon
     
-    # el Congelado tiene un 20% de probabilidad de descongelarse
+    # El Congelado tiene un 20% de probabilidad de descongelarse
     def Congelado(self, unimon):
 
         if randint(1, 5) != 2:
             unimon.estado = "Congelado"
+            return unimon
         else:
             unimon.estado = None
+            return unimon
 
+    # Quita el 1/16 de vida cada ronda y baja el 50% de daño fisico
+    def Quemado(self, unimon):
 
+        unimon.hp = unimon.hp - int(unimon.hp / 16)
+        return unimon
 
 
 
