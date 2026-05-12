@@ -16,7 +16,7 @@ def abrir_unimon():
         for linea in lineas:
             if linea.strip() != "":
                 dato = linea.split()
-                unimones.append(Unimon(dato[0], dato[1], int(dato[2]), int(dato[3]), int(dato[4]), int(dato[5]), dato[6:]))
+                unimones.append(Unimon(dato[0], dato[1], int(dato[2]), int(dato[3]), int(dato[4]), int(dato[5]), int(dato[6]), int(dato[7]), dato[8], int(dato[9]), dato[10:]))
     
     return unimones
                 
@@ -29,6 +29,6 @@ def abrir_habilidades():
         for linea in lineas:
             if linea.strip() != "":
                 dato = linea.split()
-                habilidades.append(Habilidad(dato[0], dato[1], int(dato[2]), int(dato[3]), int(dato[4]), dato[5]))
+                habilidades.append(Habilidad(dato[0], dato[1], int(dato[2]), int(dato[3]), int(dato[4]), dato[5], dato[6]))
     
     return habilidades

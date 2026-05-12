@@ -1,7 +1,7 @@
-Charizard fuego 153 104 98 129 105 120 Lanzallamas TajoAéreo GarraDragón AnilloÍgneo GiroFuego
+Charizard Fuego 153 104 98 129 105 120 Nada 0 Lanzallamas TajoAéreo GarraDragón AnilloÍgneo GiroFuego
 
-Blastoise agua 154 103 120 105 125 98 PistolaAgua Hidrobomba Surf RayoHielo Hidrocañón
+Blastoise Agua 154 103 120 105 125 98 Nada 0 PistolaAgua Hidrobomba Surf RayoHielo Hidrocañón
 
-Bulbasaur planta 120 69 69 85 85 65 LátigoCepa HojaAfilada BombaLodo RayoSolar PlantaFeroz PolvoDormir PolvoParalizante
+Bulbasaur Planta 120 69 69 85 85 65 Nada 0 LátigoCepa HojaAfilada BombaLodo RayoSolar PlantaFeroz PolvoDormir PolvoParalizante
 
-Pikachu eléctrico 110 75 65 90 70 110 Impactrueno Rayo Trueno AtaqueRápido
+Pikachu Eléctrico 110 75 65 90 70 110 Nada 0 Impactrueno Rayo Trueno AtaqueRápido
