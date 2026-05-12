@@ -7,7 +7,7 @@ from copy import deepcopy
 from unimon.io.lectura import abrir_unimon, abrir_habilidades
 from unimon.io.input_validation import elegir_unimon_usr, elegir_habilidades_usr, elegir_unimon_npc, elegir_habilidades_npc, elegir_turno_usr, elegir_turno_npc
 from unimon.pokedex.combate import restar_hp, verificar_hp
-from unimon.pokedex.estados import estado_antes, estado_despues
+from unimon.pokedex.estados import estado_antes, estado_danio
 
 if __name__ == "__main__":
     # menu principal
@@ -56,6 +56,9 @@ if __name__ == "__main__":
             while True:
                 print(f"\n===== TURNO {turno} =====")
                 # verifica vida solo para mostrarla
+                if verificar_hp("NPC", unimon_npc):
+                    print("\nGANASTE")
+                    break
                 verificar_hp("Usuario", unimon_usr)
                 print("")
                 verificar_hp("NPC", unimon_npc)
@@ -83,9 +86,11 @@ if __name__ == "__main__":
                     # se eligen las habilidades a usar, se les llama turno para no repetir nombres
                     print("\n===== ELECCION DE TURNO =====")
                     turno_usr = elegir_turno_usr(unimon_usr)
-                    turno_npc = elegir_turno_npc(unimon_npc)
+                    turno_npc = elegir_turno_npc(unimon_npc) 
 
-                    # Verifica todos lo casos para saber quien va primero
+                    turno_usr = estado_antes(unimon_usr)
+                    turno_npc = estado_antes(unimon_npc)
+
                     if unimon_usr.spe > unimon_npc.spe:
                         primero = 1
                     elif unimon_usr.spe < unimon_npc.spe:
@@ -99,8 +104,7 @@ if __name__ == "__main__":
 
                         # Verifica si el Unimon puede actuar (no está dormido, paralizado ni congelado)
                         print("")
-                        estado_antes(unimon_usr)
-                        if unimon_usr.estado != "Dormir" and unimon_usr.estado != "Paralizado" and unimon_usr.estado != "Congelado":
+                        if turno_usr != "Pierde Turno":
                             restar_hp("Usuario", turno_usr, unimon_usr, unimon_npc)
 
                         if verificar_hp("NPC", unimon_npc):
@@ -108,8 +112,7 @@ if __name__ == "__main__":
                             break
 
                         print("")
-                        estado_antes(unimon_npc)
-                        if unimon_npc.estado != "Dormir" and unimon_npc.estado != "Paralizado" and unimon_npc.estado != "Congelado":
+                        if turno_npc != "Pierde Turno":
                             restar_hp("NPC", turno_npc, unimon_npc, unimon_usr)
 
                         if verificar_hp("Usuario", unimon_usr):
@@ -117,8 +120,7 @@ if __name__ == "__main__":
                             break
                     else:
                         print("")
-                        estado_antes(unimon_npc)
-                        if unimon_npc.estado != "Dormir" and unimon_npc.estado != "Paralizado" and unimon_npc.estado != "Hielado":
+                        if turno_npc != "Pierde Turno":
                             restar_hp("NPC", turno_npc, unimon_npc, unimon_usr)
 
                         if verificar_hp("Usuario", unimon_usr):
@@ -126,8 +128,7 @@ if __name__ == "__main__":
                             break
 
                         print("")
-                        estado_antes(unimon_usr)
-                        if unimon_usr.estado != "Dormir" and unimon_usr.estado != "Paralizado" and unimon_usr.estado != "Hielado":
+                        if turno_usr != "Pierde Turno":
                             restar_hp("Usuario", turno_usr, unimon_usr, unimon_npc)
 
                         if verificar_hp("NPC", unimon_npc):
@@ -135,8 +136,8 @@ if __name__ == "__main__":
                             break
                     
                     # verifica los estados quemado, evenenado y gravemente envenenado
-                    estado_despues(unimon_usr)
-                    estado_despues(unimon_npc)
+                    estado_danio(unimon_usr)
+                    estado_danio(unimon_npc)
 
                     
 

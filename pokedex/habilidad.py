@@ -5,7 +5,7 @@ Archivo para hacer las habilidades
 class Habilidad:
     todos = []
     
-    def __init__(self, nombre, tipo, poder, pp, acc, sts, estado):
+    def __init__(self, nombre, tipo, poder, pp, acc, sts, estado, estado_acc):
         self.nombre = nombre
         self.tipo = tipo
         self.poder = poder
@@ -13,6 +13,7 @@ class Habilidad:
         self.acc = acc
         self.sts = sts
         self.estado = estado
+        self.estado_acc = estado_acc
         
         Habilidad.todos.append(self)
 

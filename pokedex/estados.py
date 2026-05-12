@@ -2,6 +2,11 @@
 Archivo para los estados
 """
 from random import randint
+from copy import deepcopy
+
+def efecto(unimon_defensa, habilidad):
+    if randint(1, 100) <= habilidad.estado_acc:
+        unimon_defensa.estado = deepcopy(habilidad.estado)
         
 def estado_antes(unimon):
     if unimon.estado == "Dormir":
@@ -9,8 +14,13 @@ def estado_antes(unimon):
     
     if unimon.estado == "Congelado":
         return congelado(unimon)
+    
+    if unimon.estado == "Paralizado":
+        return paralizado(unimon)
+    
+    return False
 
-def estado_despues(unimon):
+def estado_danio(unimon):
     if unimon.estado == "Quemado":
         return quemado(unimon)
     
@@ -33,7 +43,7 @@ def dormir(unimon):
         unimon.estado = "Nada"
         unimon.duracion = 0
     
-    return unimon
+    return True
 
 # El Congelado tiene un 20% de probabilidad de descongelarse
 def congelado(unimon):
@@ -43,7 +53,16 @@ def congelado(unimon):
     else:
         unimon.estado = "Nada"
         
-    return unimon
+    return True
+
+# El Paralizado tiene un 12% de probabilidad de paralizar
+def paralizado(unimon):
+    unimon.spe = unimon.spe / 2
+
+    if randint(1, 100) <= 12:
+        return True
+    else:
+        return False
 
 # Quita el 1/16 de vida cada ronda y baja el 50% de daño fisico
 def quemado(unimon):
@@ -67,7 +86,7 @@ def gravemente_envenenado(unimon):
         unimon.duracion = 0
 
     return unimon
-    
+
 
 # contador, probabilidad de contador, 
 # redurcir acc, reducir speed, redurcir hp, reducir atk, 
