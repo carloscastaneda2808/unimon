@@ -33,5 +33,5 @@ Somnífero Planta 0 10 80 Estado Dormir
 Espora Planta 0 15 100 Estado Dormir
 
 PolvoTóxico Veneno 0 20 90 Estado Envenenado
-Tóxico Veneno 0 10 85 Estado Envenenado
+Tóxico Veneno 0 10 85 Estado GravementeEnvenenado
 OndaTóxica Veneno 0 20 90 Estado Envenenado

@@ -5,10 +5,12 @@ Archivo para crear los unimones
 class Unimon:
     todos = []
 
-    def __init__(self, nombre, tipo, hp, atk, df, spa , spd , spe, hb_posibles, hb = None, estado = None, duracion = None):
+    def __init__(self, nombre, tipo, hp, atk, df, spa , spd , spe, hb_posibles, hb = None, estado = None):
         self.nombre = nombre
         self.tipo = tipo
         self.hp = hp
+        self.hp_max = hp
+        
         self.atk = atk
         self.spa  = spa
         self.df = df
@@ -21,10 +23,6 @@ class Unimon:
         self.hb = hb
 
         self.estado = estado
-
-        if duracion is None:
-            duracion = 0
-        self.duracion = duracion
         
         Unimon.todos.append(self)
 
