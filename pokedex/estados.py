@@ -13,9 +13,27 @@ class Estado:
         self.contador = contador
     
     def tipo_estado(self):
+        pass
         
 
-    def dormir(self, nombre, probabilidad):
+    def verificar_es(self, unimon):
+        if unimon.estado == "Dormir":
+            return Estado.dormir(unimon)
+
+    def dormir(self, unimon, i = None):
+
+        if i == None:
+            i = 1
+
+        if randint(1, i) == 1:
+            unimon.estado = "Dormido"
+            i += 1
+            return unimon
+        else:
+            unimon.estado = None
+            i = 1
+            return unimon
+
 
 
 # contador, probabilidad de contador, 

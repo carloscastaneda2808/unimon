@@ -5,7 +5,7 @@ Archivo para crear los unimones
 class Unimon:
     todos = []
 
-    def __init__(self, nombre, tipo, hp, atk, df, spa , spd , spe, hb_posibles, hb = None):
+    def __init__(self, nombre, tipo, hp, atk, df, spa , spd , spe, hb_posibles, hb = None, estado = None):
         self.nombre = nombre
         self.tipo = tipo
         self.hp = hp
@@ -20,6 +20,10 @@ class Unimon:
         if hb is None:
             hb = []
         self.hb = hb
+
+        if estado is None:
+            estado = []
+        self.estado = estado
 
         Unimon.todos.append(self)
 

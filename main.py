@@ -7,6 +7,7 @@ from copy import deepcopy
 from unimon.io.lectura import abrir_unimon, abrir_habilidades
 from unimon.io.input_validation import elegir_unimon_usr, elegir_habilidades_usr, elegir_unimon_npc, elegir_habilidades_npc, elegir_turno_usr, elegir_turno_npc
 from unimon.pokedex.combate import restar_hp, verificar_hp
+from unison.pokedex.estados import Estado
 
 if __name__ == "__main__":
     # menu principal
@@ -88,24 +89,47 @@ if __name__ == "__main__":
                     else:
                         primero = randint(1, 2)
 
+                    if unimon_usr.estado != []:
+                        Estado.verificar_es(unimon_usr)
+
+                    if unimon_npc.estado != []:
+                        Estado.verificar_es(unimon_npc)
                     # la habilidad ataca y verifica si el pokemon se ha debilitado para terminar el combate
                     if primero == 1:
-                        restar_hp("Usuario", turno_usr, unimon_usr, unimon_npc)
+
+                        # Verifica si el Unimon puede actuar (no está dormido, paralizado ni congelado)
+                        if unimon_usr.estado != "Dormir" and unimon_usr.estado != "Paralizado" and unimon_usr.estado != "Hielado":
+                            restar_hp("Usuario", turno_usr, unimon_usr, unimon_npc)
+
                         if verificar_hp(unimon_npc):
                             print("GANASTE")
                             break
 
-                        restar_hp("NPC", turno_npc, unimon_npc, unimon_usr)
+
+                        if unimon_usr.estado != "Dormir" and unimon_usr.estado != "Paralizado" and unimon_usr.estado != "Hielado":
+                            restar_hp("NPC", turno_npc, unimon_npc, unimon_usr)
+                            if unimon_usr.estado != []:
+                                Estado.verificar_es(unimon_usr)
+
                         if verificar_hp(unimon_usr):
                             print("PERDISTE")
                             break  
                     else:
-                        restar_hp("NPC", turno_npc, unimon_npc, unimon_usr)
+                        if unimon_usr.estado != "Dormir" and unimon_usr.estado != "Paralizado" and unimon_usr.estado != "Hielado":
+                            restar_hp("NPC", turno_npc, unimon_npc, unimon_usr)
+                            if unimon_usr.estado != []:
+                                Estado.verificar_es(unimon_usr)
+
                         if verificar_hp(unimon_usr):
                             print("PERDISTE")
                             break
 
-                        restar_hp("Usuario", turno_usr, unimon_usr, unimon_npc)
+
+                        if unimon_usr.estado != "Dormir" and unimon_usr.estado != "Paralizado" and unimon_usr.estado != "Hielado":
+                            restar_hp("Usuario", turno_usr, unimon_usr, unimon_npc)
+                            if unimon_usr.estado != []:
+                                Estado.verificar_es(unimon_usr)
+
                         if verificar_hp(unimon_npc):
                             print("GANASTE")
                             break

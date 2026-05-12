@@ -9,7 +9,7 @@ def restar_hp(mensaje, habilidad, unimon_atacante, unimon_defensa):
     # verificar la probabilidad (acc)
     if habilidad.acc < randint(1, 100):
         
-        #
+        # Evitar el daño de los estados 
         if habilidad.sts == "Nada":
             return None
         
@@ -68,4 +68,3 @@ def verifiacr_tipo(tipo_atk, tipo_def):
 # [nombre, contador, ]
 def verificar_estado(estado):
     if estado[0] <= 0:
-

@@ -2,28 +2,88 @@ Fuego Planta 2
 Fuego Agua 0.5
 Fuego Fuego 0.5
 Fuego Veneno 1
+Fuego Hielo 2
+Fuego Dragon 0.5
 Fuego Volador 1
+Fuego Eléctrico 1
+Fuego Normal 1
 
 Agua Planta 0.5
 Agua Fuego 2
 Agua Agua 0.5
 Agua Veneno 1
+Agua Hielo 1
+Agua Dragon 0.5
 Agua Volador 1
+Agua Eléctrico 1
+Agua Normal 1
 
 Planta Fuego 0.5
 Planta Agua 2
 Planta Planta 0.5
 Planta Veneno 0.5
+Planta Hielo 1
+Planta Dragon 0.5
 Planta Volador 0.5
-
-Volador Planta 2
-Volador Fuego 1
-Volador Agua 1
-Volador Veneno 1
-Volador Volador 1
+Planta Eléctrico 1
+Planta Normal 1
 
 Veneno Planta 2
 Veneno Veneno 0.5
 Veneno Fuego 1
 Veneno Agua 1
+Veneno Hielo 1
+Veneno Dragon 1
 Veneno Volador 1
+Veneno Eléctrico 1
+Veneno Normal 1
+
+Hielo Planta 2
+Hielo Agua 0.5
+Hielo Fuego 0.5
+Hielo Veneno 1
+Hielo Hielo 0.5
+Hielo Dragon 2
+Hielo Volador 2
+Hielo Eléctrico 1
+Hielo Normal 1
+
+Dragon Dragon 2
+Dragon Planta 1
+Dragon Agua 1
+Dragon Fuego 1
+Dragon Veneno 1
+Dragon Hielo 1
+Dragon Volador 1
+Dragon Eléctrico 1
+Dragon Normal 1
+
+Volador Planta 2
+Volador Fuego 1
+Volador Agua 1
+Volador Veneno 1
+Volador Hielo 1
+Volador Dragon 1
+Volador Volador 1
+Volador Eléctrico 0.5
+Volador Normal 1
+
+Eléctrico Agua 2
+Eléctrico Fuego 1
+Eléctrico Planta 0.5
+Eléctrico Veneno 1
+Eléctrico Hielo 1
+Eléctrico Dragon 0.5
+Eléctrico Volador 2
+Eléctrico Eléctrico 0.5
+Eléctrico Normal 1
+
+Normal Fuego 1
+Normal Agua 1
+Normal Planta 1
+Normal Veneno 1
+Normal Hielo 1
+Normal Dragon 1
+Normal Volador 1
+Normal Eléctrico 1
+Normal Normal 1

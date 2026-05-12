@@ -1,33 +1,37 @@
-Lanzallamas Fuego 90 15 100 Especial
-AnilloÍgneo Fuego 150 5 90 Especial
-GiroFuego Fuego 35 15 85 Especial
+Lanzallamas Fuego 90 15 100 Especial Quemado
+AnilloÍgneo Fuego 150 5 90 Especial Nada
+GiroFuego Fuego 35 15 85 Especial Nada
 
-PistolaAgua Agua 40 25 100 Especial
-Hidrobomba Agua 110 5 80 Especial
-Surf Agua 90 15 100 Especial
-Hidrocañón Agua 150 5 90 Especial
+PistolaAgua Agua 40 25 100 Especial Nada
+Hidrobomba Agua 110 5 80 Especial Nada
+Surf Agua 90 15 100 Especial Nada
+Hidrocañón Agua 150 5 90 Especial Nada
 
-LátigoCepa Planta 45 25 100 Físico
-HojaAfilada Planta 55 25 95 Físico
-RayoSolar Planta 120 10 100 Especial
-PlantaFeroz Planta 150 5 90 Físico
+LátigoCepa Planta 45 25 100 Físico Nada
+HojaAfilada Planta 55 25 95 Físico Nada
+RayoSolar Planta 120 10 100 Especial Nada
+PlantaFeroz Planta 150 5 90 Físico Nada
 
-BombaLodo Veneno 90 10 100 Especial
+BombaLodo Veneno 90 10 100 Especial Envenenado
 
-RayoHielo Hielo 90 10 100 Especial
+RayoHielo Hielo 90 10 100 Especial Congelado
 
-GarraDragón Dragon 80 15 100 Físico
+GarraDragón Dragon 80 15 100 Físico Nada
 
-TajoAéreo Volador 75 15 95 Físico
+TajoAéreo Volador 75 15 95 Físico Retroceso
+
+Impactrueno Eléctrico 40 30 100 Especial Paralizado
+Rayo Eléctrico 90 15 100 Especial Paralizado
+Trueno Eléctrico 110 10 70 Especial Paralizado
+AtaqueRápido Normal 40 30 100 Físico Nada
 
 
 
+PolvoDormir Planta 0 15 75 Estado Dormir
+PolvoParalizante Planta 0 20 75 Estado Paralizado
+Somnífero Planta 0 10 80 Estado Dormir
+Espora Planta 0 15 100 Estado Dormir
 
-PolvoDormir Planta 0 15 75 Nada Dormido
-PolvoParalizante Planta 0 20 75 Nada Paralizado
-Somnífero Planta 0 10 80 Estados
-Espora Planta 0 15 100 Estados
-
-PolvoTóxico Veneno 0 20 90 Estados
-Tóxico Veneno 0 10 85 Estados
-OndaTóxica Veneno 0 20 90 Estados
+PolvoTóxico Veneno 0 20 90 Estado Envenenado
+Tóxico Veneno 0 10 85 Estado Envenenado
+OndaTóxica Veneno 0 20 90 Estado Envenenado
