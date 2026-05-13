@@ -112,6 +112,13 @@ if __name__ == "__main__":
                     resultado = "TE RENDISTE"
                     break
 
+                if len(equipo_npc) > 1:
+                    if cambiar_npc(unimon_npc, unimon_usr):
+                        if opcion2 == 1:
+                            opcion2 = -1
+                        elif opcion2 == 2:
+                            opcion2 = -2
+
                 # los dos unimones intentan atacar
                 if opcion2 == 1:
                     # se eligen las habilidades a usar, se les llama turno para no repetir nombres
