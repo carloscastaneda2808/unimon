@@ -7,7 +7,7 @@ from copy import deepcopy
 from unimon.io.lectura import abrir_unimon, abrir_habilidades
 from unimon.io.input_validation import elegir_unimon_usr, elegir_habilidades_usr, elegir_unimon_npc, elegir_habilidades_npc, elegir_turno_usr, elegir_turno_npc
 from unimon.pokedex.combate import restar_hp, verificar_hp
-from unimon.pokedex.estados import estado_antes, estado_danio
+from unimon.pokedex.estados import estado_antes, estado_danio, verificar_paralizado
 
 if __name__ == "__main__":
     # menu principal
@@ -56,9 +56,6 @@ if __name__ == "__main__":
             while True:
                 print(f"\n===== TURNO {turno} =====")
                 # verifica vida solo para mostrarla
-                if verificar_hp("NPC", unimon_npc):
-                    print("\nGANASTE")
-                    break
                 verificar_hp("Usuario", unimon_usr)
                 print("")
                 verificar_hp("NPC", unimon_npc)
@@ -88,8 +85,9 @@ if __name__ == "__main__":
                     turno_usr = elegir_turno_usr(unimon_usr)
                     turno_npc = elegir_turno_npc(unimon_npc) 
 
-                    turno_usr = estado_antes(unimon_usr)
-                    turno_npc = estado_antes(unimon_npc)
+                    # verificar si se misminuira la velocidad
+                    verificar_paralizado(unimon_usr)
+                    verificar_paralizado(unimon_npc)
 
                     if unimon_usr.spe > unimon_npc.spe:
                         primero = 1
@@ -104,32 +102,41 @@ if __name__ == "__main__":
 
                         # Verifica si el Unimon puede actuar (no está dormido, paralizado ni congelado)
                         print("")
-                        if turno_usr != "Pierde Turno":
+                        if not estado_antes(unimon_usr):
                             restar_hp("Usuario", turno_usr, unimon_usr, unimon_npc)
+                        else:
+                            # notifica al usuario porque no atacó
+                            print(f"El {unimon_usr} de Usuario pierde turno por estar {unimon_usr.estado}")
 
                         if verificar_hp("NPC", unimon_npc):
                             print("\nGANASTE")
                             break
 
                         print("")
-                        if turno_npc != "Pierde Turno":
+                        if not estado_antes(unimon_npc):
                             restar_hp("NPC", turno_npc, unimon_npc, unimon_usr)
+                        else:
+                            print(f"El {unimon_npc} de NPC pierde turno por estar {unimon_npc.estado}")
 
                         if verificar_hp("Usuario", unimon_usr):
                             print("\nPERDISTE")
                             break
                     else:
                         print("")
-                        if turno_npc != "Pierde Turno":
+                        if not estado_antes(unimon_npc):
                             restar_hp("NPC", turno_npc, unimon_npc, unimon_usr)
+                        else:
+                            print(f"El {unimon_npc} de NPC pierde turno por estar {unimon_npc.estado}")
 
                         if verificar_hp("Usuario", unimon_usr):
                             print("\nPERDISTE")
                             break
 
                         print("")
-                        if turno_usr != "Pierde Turno":
+                        if not estado_antes(unimon_usr):
                             restar_hp("Usuario", turno_usr, unimon_usr, unimon_npc)
+                        else:
+                            print(f"El {unimon_usr} de Usuario pierde turno por estar {unimon_usr.estado}")
 
                         if verificar_hp("NPC", unimon_npc):
                             print("\nGANASTE")
@@ -139,7 +146,18 @@ if __name__ == "__main__":
                     estado_danio(unimon_usr)
                     estado_danio(unimon_npc)
 
+                    # verificar si alguien murio por los estados de daño
+                    if unimon_usr.hp <= 0 and unimon_npc.hp <= 0:
+                        print(f"\nEMPATE")
+                        break
+
+                    if unimon_usr.hp <= 0:
+                        print(F"\nPERDISTE")
+                        break   
                     
+                    if unimon_npc.hp <= 0:
+                        print(f"\nGANASTE")
+                        break
 
                 # incrementa en uno para saber en que turno esta
                 turno += 1

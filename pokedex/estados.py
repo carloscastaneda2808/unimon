@@ -5,18 +5,18 @@ from random import randint
 from copy import deepcopy
 
 def efecto(unimon_defensa, habilidad):
-    if randint(1, 100) <= habilidad.estado_acc:
+    if randint(1, 100) <= int(habilidad.estado_acc):
         unimon_defensa.estado = deepcopy(habilidad.estado)
         
 def estado_antes(unimon):
-    if unimon.estado == "Dormir":
-        return dormir(unimon)
+    if unimon.estado == "Dormido":
+        return dormdo(unimon)
     
     if unimon.estado == "Congelado":
         return congelado(unimon)
     
     if unimon.estado == "Paralizado":
-        return paralizado(unimon)
+        return paralizado()
     
     return False
 
@@ -32,11 +32,15 @@ def estado_danio(unimon):
 
 
 # aplica el estado de sueño con duracion variable y probabilidad de despertar
-def dormir(unimon):
-    if unimon.duracion == 0:
-        unimon.duracion = 1
+# modifique esta funcion porque en el pokemon el estado dormido dura entre 1 o 3 turno
+# y eso se elige al principio, no cada turno
+def dormdo(unimon):
 
-    if randint(1, unimon.duracion) == 1:
+    # se usan numeros negativos para no confundir con duracion de gravemente envenenado
+    if unimon.duracion >= 0:
+        unimon.duracion = randint(-3, -1)
+
+    if unimon.duracion < 0:
         unimon.estado = "Dormido"
         unimon.duracion += 1
     else:
@@ -50,19 +54,22 @@ def congelado(unimon):
 
     if randint(1, 100) >= 20:
         unimon.estado = "Congelado"
+        return True
     else:
         unimon.estado = "Nada"
-        
-    return True
+        return False
 
 # El Paralizado tiene un 12% de probabilidad de paralizar
-def paralizado(unimon):
-    unimon.spe = unimon.spe / 2
+def paralizado():
 
     if randint(1, 100) <= 12:
         return True
     else:
         return False
+    
+def verificar_paralizado(unimon):
+    if unimon.estado == "Paralizado":
+        unimon.spe = unimon.spe_max / 2
 
 # Quita el 1/16 de vida cada ronda y baja el 50% de daño fisico
 def quemado(unimon):
@@ -76,7 +83,7 @@ def envenenado(unimon):
     return unimon
 
 def gravemente_envenenado(unimon):
-    if unimon.duracion == 0:
+    if unimon.duracion <= 0:
         unimon.duracion = 1
 
     unimon.hp -= int((unimon.duracion * unimon.hp_max) / 16)

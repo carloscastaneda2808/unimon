@@ -12,7 +12,7 @@ def restar_hp(mensaje, habilidad, unimon_atacante, unimon_defensa):
     if habilidad.acc >= randint(1, 100):
         danio = 0
         
-        # Cálcular el daño dependiendo si es Fi
+        # Cálcular el daño dependiendo si es Fisico
         if habilidad.sts == "Físico":
             danio = (habilidad.poder * unimon_atacante.atk / unimon_defensa.df) // 4 + 2
 
@@ -20,6 +20,7 @@ def restar_hp(mensaje, habilidad, unimon_atacante, unimon_defensa):
             if unimon_atacante.estado == "Quemado":
                 danio = int(danio / 2)
 
+        # Calcula el daño dependiendo si es Especial
         if habilidad.sts == "Especial":
             danio = (habilidad.poder * unimon_atacante.spa / unimon_defensa.spd) // 4 + 2
 
@@ -27,13 +28,13 @@ def restar_hp(mensaje, habilidad, unimon_atacante, unimon_defensa):
         if habilidad.tipo == unimon_atacante.tipo:
             danio = int(danio * 1.2)
 
-
         # aplica el multiplicador segun la efectividad entre tipos
         mensaje2 = None
         if habilidad.sts != "Estado":
             bonificador, mensaje2 = verificar_tipo(habilidad.tipo, unimon_defensa.tipo)
             danio *= bonificador
 
+        # se hacen los calculos
         unimon_defensa.hp -= danio
         habilidad.pp -= 1
 
@@ -42,7 +43,8 @@ def restar_hp(mensaje, habilidad, unimon_atacante, unimon_defensa):
         if mensaje2 != None:
             print(mensaje2)
 
-        if habilidad.estado != "Nada":
+        # verifica si se el estado puede afectar al unimon defensa
+        if habilidad.estado != "Nada" and unimon_defensa.estado == "Nada":
             unimon_defensa = efecto(unimon_defensa, habilidad)
 
     else:

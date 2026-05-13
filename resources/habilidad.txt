@@ -27,10 +27,10 @@ AtaqueRápido Normal 40 30 100 Físico Nada 0
 
 
 
-PolvoDormir Planta 0 15 75 Estado Dormir 100
+PolvoDormir Planta 0 15 75 Estado Dormido 100
 PolvoParalizante Planta 0 20 75 Estado Paralizado 100
-Somnífero Planta 0 10 80 Estado Dormir 100
-Espora Planta 0 15 100 Estado Dormir 100
+Somnífero Planta 0 10 80 Estado Dormido 100
+Espora Planta 0 15 100 Estado Dormido 100
 
 PolvoTóxico Veneno 0 20 90 Estado Envenenado 100
 Tóxico Veneno 0 10 85 Estado GravementeEnvenenado 100

@@ -16,6 +16,8 @@ class Unimon:
         self.df = df
         self.spd  = spd 
         self.spe = spe
+        self.spe_max = spe
+        
         self.estado = estado
         self.duracion = duracion
 
