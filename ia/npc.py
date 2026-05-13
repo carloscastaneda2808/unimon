@@ -69,7 +69,7 @@ def cambiar_npc(unimon_npc, unimon_usr):
     if verificar_unimon_tipo(unimon_usr.tipo, unimon_npc.tipo) == "Es super efectivo":
         acc += 10
 
-    if verificar_unimon_tipo(unimon_usr.tipo, unimon_npc.tipo) == "No es muy efectivo":
+    if verificar_unimon_tipo(unimon_npc.tipo, unimon_usr.tipo) == "No es muy efectivo":
         acc += 10
         
     return acc >= randint(1, 100)

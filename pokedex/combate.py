@@ -50,8 +50,7 @@ def restar_hp(mensaje, habilidad, unimon_atacante, unimon_defensa):
     else:
         print(f"El {unimon_atacante} de {mensaje} utilizo {habilidad}, pero falló")
 
-
-# verifica si el unimon esta debilitado y escribe un mensaje, falta poner una variable mensaje como un restar_hp
+# verifica la vida
 def verificar_hp(mensaje, unimon):
     if unimon.hp < 0:
         hp = 0
@@ -65,12 +64,13 @@ def verificar_hp(mensaje, unimon):
 
     return unimon.hp <= 0
 
+# mensaje cuando esta debilitado
 def debilitado(unimon, equipo, mensaje):
     print(f"El {unimon} de {mensaje} esta debilitado")  
     equipo.remove(unimon)
     return False
 
-# devuelve la efectividad del ataque segun los tipos
+# devuelve la efectividad del ataque segun los tipos habilidad y unimon
 def verificar_habilidad_tipo(tipo_atk, tipo_def):
 
     with open("unimon/resources/tipos.txt", "r", encoding="utf-8") as file:
@@ -92,7 +92,8 @@ def verificar_habilidad_tipo(tipo_atk, tipo_def):
                         return float(dato[2]), "No es muy efectivo"
                     
     return float(1), "No encontrado"
-                    
+
+# devuelve la efectividad de los tipos unimon y unimon
 def verificar_unimon_tipo(tipo_atk, tipo_def):
 
     with open("unimon/resources/tipos.txt", "r", encoding="utf-8") as file:

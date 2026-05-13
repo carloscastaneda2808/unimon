@@ -18,5 +18,5 @@ Comandos:
     python -m unimon.main
 
 Cosas del commit:
-    Este codigo cuando lo empeze solo dios y yo sabiamos como funcionada, ahora solo dios (es broma). Este commit puede que tenga error, pero se puede correr. Le aniadi una carpte llamada ia con un archivo llamdo npc. El combate de varios pokemones ya funciona. El archivo main cambio mucho, no es eficiente pero funciona.
+    Este commit puede que tenga error, pero se puede correr. Le aniadi una carpte llamada ia con un archivo llamdo npc. El combate de varios pokemones ya funciona. El archivo main cambio mucho, no es eficiente pero funciona.
 """
