@@ -31,7 +31,7 @@ def restar_hp(mensaje, habilidad, unimon_atacante, unimon_defensa):
         # aplica el multiplicador segun la efectividad entre tipos
         mensaje2 = None
         if habilidad.sts != "Estado":
-            bonificador, mensaje2 = verificar_tipo(habilidad.tipo, unimon_defensa.tipo)
+            bonificador, mensaje2 = verificar_habilidad_tipo(habilidad.tipo, unimon_defensa.tipo)
             danio *= bonificador
 
         # se hacen los calculos
@@ -65,15 +65,20 @@ def verificar_hp(mensaje, unimon):
 
     return unimon.hp <= 0
 
+def debilitado(unimon, equipo, mensaje):
+    print(f"El {unimon} de {mensaje} esta debilitado")  
+    equipo.remove(unimon)
+    return False
+
 # devuelve la efectividad del ataque segun los tipos
-def verificar_tipo(tipo_atk, tipo_def):
+def verificar_habilidad_tipo(tipo_atk, tipo_def):
 
     with open("unimon/resources/tipos.txt", "r", encoding="utf-8") as file:
         lineas = file.readlines()
 
         for linea in lineas:
 
-            if linea.strip() != "":
+            if linea.strip() != "" and not linea.startswith("#"):
                 dato = linea.split()
 
                 if dato[0] == tipo_atk and dato[1] == tipo_def:
@@ -85,3 +90,27 @@ def verificar_tipo(tipo_atk, tipo_def):
                     
                     if dato[2] == "0.5":
                         return float(dato[2]), "No es muy efectivo"
+                    
+    return float(1), "No encontrado"
+                    
+def verificar_unimon_tipo(tipo_atk, tipo_def):
+
+    with open("unimon/resources/tipos.txt", "r", encoding="utf-8") as file:
+        lineas = file.readlines()
+
+        for linea in lineas:
+
+            if linea.strip() != "" and not linea.startswith("#"):
+                dato = linea.split()
+
+                if dato[0] == tipo_atk and dato[1] == tipo_def:
+                    if dato[2] == "1":
+                        return "Es efectivo"
+
+                    if dato[2] == "2":
+                        return "Es super efectivo"
+                    
+                    if dato[2] == "0.5":
+                        return "No es muy efectivo"
+                    
+    return "No encontrado"

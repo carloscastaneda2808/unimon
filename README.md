@@ -18,5 +18,5 @@ Comandos:
     python -m unimon.main
 
 Cosas del commit:
-    Ya funciona esta version, pero le faltan cosas, como combate de varias pokemones. Los datos de los unimones y habilidades se agarran en resources, la lista de unimon es solo para saber que habilidades puede tener el pokemon no se guarda de una en la clase.
+    Este codigo cuando lo empeze solo dios y yo sabiamos como funcionada, ahora solo dios (es broma). Este commit puede que tenga error, pero se puede correr. Le aniadi una carpte llamada ia con un archivo llamdo npc. El combate de varios pokemones ya funciona. El archivo main cambio mucho, no es eficiente pero funciona.
 """

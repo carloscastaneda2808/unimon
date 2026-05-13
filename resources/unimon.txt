@@ -1,7 +1,43 @@
-Charizard Fuego 153 104 98 129 105 120 Nada 0 Lanzallamas TajoAéreo GarraDragón AnilloÍgneo GiroFuego
+# FUEGO
+Charizard Fuego 153 84 78 109 85 100 Nada 0 Lanzallamas TajoAéreo GarraDragón Llamarada AnilloÍgneo Sofoco GiroFuego AtaqueRápido
+Arcanine Fuego 165 110 80 100 80 95 Nada 0 EnviteÍgneo VelocidadExtrema Lanzallamas Rayo Triturar VoltioCruel ColmilloÍgneo Llamarada
+Flareon Fuego 140 130 60 95 110 65 Nada 0 EnviteÍgneo Lanzallamas Llamarada Mordisco Triturar CuerpoPesado PuñoFuego Sofoco
 
-Blastoise Agua 154 103 120 105 125 98 Nada 0 PistolaAgua Hidrobomba Surf RayoHielo Hidrocañón
+# AGUA
+Blastoise Agua 154 83 100 85 105 78 Nada 0 Surf Hidrobomba RayoHielo Cascada Hidrocañón Terremoto PistolaAgua Mordisco
+Gyarados Agua 170 125 79 60 100 81 Nada 0 Cascada Terremoto Hidrobomba GarraDragón Mordisco Triturar Ventisca Hiperrayo
+Lapras Agua 205 85 80 85 95 60 Nada 0 RayoHielo Surf Hidrobomba Psíquico Ventisca Rayo CuerpoPesado RayoBurbuja
+Vaporeon Agua 205 65 60 110 95 65 Nada 0 Surf Hidrobomba RayoHielo BolaSombra RayoBurbuja Ácido Mordisco Triataque
+Starmie Agua 135 75 85 100 85 115 Nada 0 Surf Psíquico RayoHielo Rayo Hidrobomba OndaTrueno BolaSombra GiroFuego
 
-Bulbasaur Planta 120 69 69 85 85 65 Nada 0 LátigoCepa HojaAfilada BombaLodo RayoSolar PlantaFeroz PolvoDormir PolvoParalizante
+# PLANTA
+Venusaur Planta 155 82 83 100 100 80 Nada 0 HojaAfilada RayoSolar BombaLodo Somnífero GigaDrenado PlantaFeroz LátigoCepa
 
-Pikachu Eléctrico 110 75 65 90 70 110 Nada 0 Impactrueno Rayo Trueno AtaqueRápido
+# ELÉCTRICO
+Raichu Eléctrico 135 90 55 90 80 110 Nada 0 Rayo Trueno VelocidadExtrema Surf OndaTrueno PuñoTrueno OndaVoltio Impactrueno
+Jolteon Eléctrico 140 65 60 110 95 130 Nada 0 Rayo Trueno BolaSombra BombaLodo OndaVoltio Chispazo OndaTrueno AtaqueRápido
+
+# PSÍQUICO
+Alakazam Psíquico 130 50 45 135 95 120 Nada 0 Psíquico BolaSombra OndaTóxica Rayo RayoHielo Triataque OndaTrueno Psicocorte
+
+# LUCHA
+Machamp Lucha 165 130 80 65 85 55 Nada 0 ABocajarro Avalancha Terremoto PuñoTrueno PuñoFuego PuñoHielo Sumisión TajoCruzado
+
+# FANTASMA
+Gengar Fantasma 135 65 60 130 75 110 Nada 0 BolaSombra BombaLodo Psíquico Rayo Trueno GigaDrenado OndaTóxica
+
+# VENENO
+Nidoking Veneno 156 102 77 85 75 85 Nada 0 Terremoto BombaLodo Avalancha RayoHielo Rayo Llamarada PuyaNociva TierraViva
+
+# ROCA
+Aerodactyl Roca 155 105 65 60 75 130 Nada 0 Avalancha TajoAéreo Terremoto ColmilloÍgneo GarraDragón RocaAfilada Triturar Mordisco
+
+# BICHO
+Scyther Bicho 145 110 80 55 80 105 Nada 0 TijeraX TajoAéreo Hiperrayo GarraDragón AtaqueRápido Psicocorte CuerpoPesado Cascada
+
+# DRAGON
+Dragonite Dragon 166 134 95 100 100 80 Nada 0 GarraDragón VelocidadExtrema Lanzallamas RayoHielo Surf Trueno Terremoto Dragoaliento
+
+# NORMAL
+Snorlax Normal 235 110 65 65 110 30 Nada 0 CuerpoPesado Terremoto Hiperrayo Surf Lanzallamas Rayo PuñoHielo Triturar
+Chansey Normal 325 5 5 35 105 50 Nada 0 Tóxico RayoHielo Psíquico Rayo BombaLodo Triataque Llamarada

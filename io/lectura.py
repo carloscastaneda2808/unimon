@@ -2,6 +2,7 @@
 Archivo para leer resources
 '''
 
+from copy import deepcopy
 from unimon.pokedex.unimon import Unimon
 from unimon.pokedex.habilidad import Habilidad
 
@@ -14,9 +15,20 @@ def abrir_unimon():
 
         # se guarda cada linea como objeto
         for linea in lineas:
-            if linea.strip() != "":
+            if linea.strip() != "" and not linea.startswith("#"):
                 dato = linea.split()
-                unimones.append(Unimon(dato[0], dato[1], int(dato[2]), int(dato[3]), int(dato[4]), int(dato[5]), int(dato[6]), int(dato[7]), dato[8], int(dato[9]), dato[10:]))
+
+                cadenas = dato[10:]
+                objetos = abrir_habilidades()
+
+                # en la variable hb_posbiles se meten las habilidades como objetos
+                for i in range(len(cadenas)):
+                    for obj in objetos:
+                        if cadenas[i] == obj.nombre:
+                            cadenas[i] = deepcopy(obj)
+                            break
+
+                unimones.append(Unimon(dato[0], dato[1], int(dato[2]), int(dato[3]), int(dato[4]), int(dato[5]), int(dato[6]), int(dato[7]), dato[8], int(dato[9]), cadenas))
     
     return unimones
                 
@@ -27,7 +39,7 @@ def abrir_habilidades():
         habilidades = []
 
         for linea in lineas:
-            if linea.strip() != "":
+            if linea.strip() != "" and not linea.startswith("#"):
                 dato = linea.split()
                 habilidades.append(Habilidad(dato[0], dato[1], int(dato[2]), int(dato[3]), int(dato[4]), dato[5], dato[6], dato[7]))
     

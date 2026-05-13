@@ -3,88 +3,106 @@ Archivo para validar las entradas
 '''
 
 from random import randint
+from copy import deepcopy
 
-from unimon.pokedex.unimon import Unimon
-from unimon.pokedex.habilidad import Habilidad
-
-# esta funcion sera para elegir el unimon, necesita la variable dada por abrir_unimon
-def elegir_unimon_usr(unimones):
+"""
+EQUIPO
+"""
+def elegir_equipo_usr(unimones, cantidad):
     for i in range(len(unimones)):
         print(f"{i+1}) {unimones[i]}")
 
     while True:
         try:
-            opcion = int(input(f"Elige opción (1-{len(unimones)}): "))
+            opciones = list(map(int, input(f"Elige {cantidad} opciones (1-{len(unimones)}): ").split()))
 
-            if opcion < 1 or opcion > len(unimones):
-                raise ValueError("Opción fuera de rango")
-            break
-
-        except ValueError as e:
-            print(e)
-    
-    return unimones[opcion-1]
-
-# esta funcion es para elegir las habilidades, necesita la variable dada por abrir_habilidad
-# tambien necesitara verificar si el pokemon las puede tener, por eso hay una lista despues de las estadisticas de unimon.txt
-def elegir_habilidades_usr(unimon, habilidades):
-    for i in range(len(unimon.hb_posibles)):
-        print(f"{i+1}) {unimon.hb_posibles[i]}")
-
-    # el usuario tiene que escribir una lista
-    while True:
-        try:
-            opciones = list(map(int, input(f"Elige 4 opciones (1-{len(unimon.hb_posibles)}): ").split()))
-
-            if len(opciones) != 4:
+            if len(opciones) != cantidad:
                 raise ValueError("Numero incorrecto de opciones")
             if len(opciones) != len(set(opciones)):
                 raise ValueError("Hay repetidos")
             for opcion in opciones:
-                if opcion < 1 or opcion > len(unimon.hb_posibles):
+                if opcion < 1 or opcion > len(unimones):
                     raise ValueError(f"Opción {opcion} fuera de rango")
             break
             
         except ValueError as e:
             print(e)
 
-    # va verificando cada opcion
+    equipo = []
     for opcion in opciones:
-        # verifica si la que habilidad se escojio de habilidad.txt, no es lo mas eficiente pero funciona
-        for habilidad in habilidades:
-            if habilidad.nombre == unimon.hb_posibles[opcion-1]:
-                # se va aniadiendo a hb
-                unimon.hb.append(habilidad)
+        equipo.append(unimones[opcion-1])
+
+    return equipo
+
+"""
+HABILIDADES
+"""
+def elegir_habilidades_usr(equipo, cantidad):
+
+    # se hace por cada unimon del equipo
+    for unimon in equipo:
+        print(f"\nElige las habilidades de {unimon}")
+
+        for i in range(len(unimon.hb_posibles)):
+            print(f"{i+1}) {unimon.hb_posibles[i]}")
+
+        # el usuario tiene que escribir una lista
+        while True:
+            try:
+                opciones = list(map(int, input(f"Elige {cantidad} opciones (1-{len(unimon.hb_posibles)}): ").split()))
+
+                if len(opciones) != cantidad:
+                    raise ValueError("Numero incorrecto de opciones")
+                if len(opciones) != len(set(opciones)):
+                    raise ValueError("Hay repetidos")
+                for opcion in opciones:
+                    if opcion < 1 or opcion > len(unimon.hb_posibles):
+                        raise ValueError(f"Opción {opcion} fuera de rango")
+                break
+                
+            except ValueError as e:
+                print(e)
+
+        # va verificando cada opcion
+        for opcion in opciones:
+            # añiade las habilidades posibles seleccionadas en habilidades
+            unimon.hb.append(unimon.hb_posibles[opcion-1])
+
+    return equipo
+
+"""
+SACAR UNIMON
+"""
+def elegir_sacar_usr(equipo):
+    if len(equipo) > 0:
+        print("\n====  SACAR UNIMON =====")
+        for i in range(len(equipo)):
+            print(f"{i+1}) {equipo[i]}")
+
+        while True:
+            try:
+                opcion = int(input(f"Elige opción (1-{len(equipo)}): "))
+
+                if opcion < 1 or opcion > len(equipo):
+                    raise ValueError("Opción fuera de rango")
                 break
 
-    return unimon.hb
+            except ValueError as e:
+                print(e)
+
+        # no se usa deepcopy para que esten conectadas las variables
+        unimon = equipo[opcion-1]
+        print(f"Usuario saco a {unimon}")
+
+        return unimon
     
+    return "Todos debilitados"
 
-# las siguientes dos funciones son lo mismo que las anteriores pero con el npc
-def elegir_unimon_npc(unimones):
-    return unimones[randint(0, len(unimones)-1)]
-
-def elegir_habilidades_npc(unimon, habilidades):
-    # se crea una lista igual a la hb_posbiles
-    hb_posibles = unimon.hb_posibles.copy()
-
-    while len(unimon.hb) < 4:
-        opcion = hb_posibles[randint(0, len(hb_posibles)-1)]
-
-        # verifica si la que habilidad se escojio de habilidad.txt, no es lo mas eficiente pero funciona
-        for habilidad in habilidades:
-            if habilidad.nombre == opcion:
-                # se va aniadiendo a hb
-                unimon.hb.append(habilidad)
-                break
-
-        # se va eliminando cada elemento que ya se escojio
-        hb_posibles.remove(opcion)
-
-    return unimon.hb
-
+"""
+MOVIMIENTO
+"""
 # el usuaria elige la habilidad a utilizar
-def elegir_turno_usr(unimon):
+def elegir_movimiento_usr(unimon):
     # se guarda la longitud de la lista habilidades porque se repite
     l = len(unimon.hb)
     # se imprimen las habilidades
@@ -104,6 +122,35 @@ def elegir_turno_usr(unimon):
     # regresa la habilidad seleccionada
     return unimon.hb[opcion-1]
 
-# el npc elige aleatoriamente
-def elegir_turno_npc(unimon):
-    return unimon.hb[randint(0, len(unimon.hb)-1)]
+"""
+CANTIDAD
+"""
+def cantidad_unimones():
+    print("\n===== CANTIDAD DE UNIMONES =====")
+    while True:
+        try:
+            opcion = int(input(f"Elige opción (1-10): "))
+
+            if opcion < 1 or opcion > 10:
+                raise ValueError("Opción fuera de rango")
+            break
+
+        except ValueError as e:
+            print(e)
+    
+    return opcion
+
+def cantidad_habilidades():
+    print("\n===== CANTIDAD DE HABILIDADES =====")
+    while True:
+        try:
+            opcion = int(input(f"Elige opción (1-4): "))
+
+            if opcion < 1 or opcion > 4:
+                raise ValueError("Opción fuera de rango")
+            break
+
+        except ValueError as e:
+            print(e)
+
+    return opcion

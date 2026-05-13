@@ -10,7 +10,7 @@ def efecto(unimon_defensa, habilidad):
         
 def estado_antes(unimon):
     if unimon.estado == "Dormido":
-        return dormdo(unimon)
+        return dormido(unimon)
     
     if unimon.estado == "Congelado":
         return congelado(unimon)
@@ -34,7 +34,7 @@ def estado_danio(unimon):
 # aplica el estado de sueño con duracion variable y probabilidad de despertar
 # modifique esta funcion porque en el pokemon el estado dormido dura entre 1 o 3 turno
 # y eso se elige al principio, no cada turno
-def dormdo(unimon):
+def dormido(unimon):
 
     # se usan numeros negativos para no confundir con duracion de gravemente envenenado
     if unimon.duracion >= 0:
