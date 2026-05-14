@@ -1,0 +1,77 @@
+# FUEGO  
+Lanzallamas Fuego 90 15 100 Especial Quemado 10
+Llamarada Fuego 110 5 85 Especial Quemado 10
+EnviteÍgneo Fuego 120 15 100 Físico Quemado 10
+ColmilloÍgneo Fuego 65 15 95 Físico Quemado 10
+GiroFuego Fuego 35 15 85 Especial Nada 0
+AnilloÍgneo Fuego 150 5 90 Especial Nada 0
+PuñoFuego Fuego 75 15 100 Físico Quemado 10
+Sofoco Fuego 130 5 90 Especial Nada 0
+
+# AGUA
+Surf Agua 90 15 100 Especial Nada 0
+Hidrobomba Agua 110 5 80 Especial Nada 0
+Cascada Agua 80 15 100 Físico Nada 0
+PistolaAgua Agua 40 25 100 Especial Nada 0
+Hidrocañón Agua 150 5 90 Especial Nada 0
+Martillazo Agua 100 10 90 Físico Nada 0
+RayoBurbuja Agua 65 20 100 Especial Nada 0
+Tenaza Agua 35 15 85 Físico Nada 0
+
+# PLANTA
+HojaAfilada Planta 55 25 95 Físico Nada 0
+RayoSolar Planta 120 10 100 Especial Nada 0
+LátigoCepa Planta 45 25 100 Físico Nada 0
+PlantaFeroz Planta 150 5 90 Físico Nada 0
+Somnífero Planta 0 10 80 Estado Dormido 100
+Espora Planta 0 15 100 Estado Dormido 100
+GigaDrenado Planta 75 10 100 Especial Nada 0
+
+# ELÉCTRICO
+Rayo Eléctrico 90 15 100 Especial Paralizado 10
+Trueno Eléctrico 110 10 70 Especial Paralizado 30
+PuñoTrueno Eléctrico 75 15 100 Físico Paralizado 10
+Impactrueno Eléctrico 40 30 100 Especial Paralizado 10
+OndaVoltio Eléctrico 60 20 100 Especial Nada 0
+Chispazo Eléctrico 80 15 100 Especial Paralizado 30
+VoltioCruel Eléctrico 90 15 100 Físico Nada 0
+OndaTrueno Eléctrico 0 20 90 Estado Paralizado 100
+
+# HIELO / VENENO
+RayoHielo Hielo 90 10 100 Especial Congelado 10
+Ventisca Hielo 110 5 70 Especial Congelado 10
+PuñoHielo Hielo 75 15 100 Físico Congelado 10
+BombaLodo Veneno 90 10 100 Especial Envenenado 30
+Tóxico Veneno 0 10 85 Estado GravementeEnvenenado 100
+PuyaNociva Veneno 80 20 100 Físico Envenenado 30
+OndaTóxica Veneno 95 10 100 Especial Envenenado 10
+Ácido Veneno 40 30 100 Especial Envenenado 10
+
+# TIERRA / ROCA / LUCHA
+Terremoto Tierra 100 10 100 Físico Nada 0
+TierraViva Tierra 90 10 100 Especial Nada 0
+Avalancha Roca 75 10 90 Físico Nada 0
+RocaAfilada Roca 100 5 80 Físico Nada 0
+ABocajarro Lucha 120 5 100 Físico Nada 0
+Sumisión Lucha 80 20 80 Físico Nada 0
+TajoCruzado Lucha 100 5 80 Físico Nada 0
+PatadaSalto Lucha 100 10 95 Físico Nada 0
+
+# PSÍQUICO / FANTASMA / BICHO / VOLADOR / DRAGON
+Psíquico Psíquico 90 10 100 Especial Nada 0
+Psicocorte Psíquico 70 20 100 Físico Nada 0
+BolaSombra Fantasma 80 15 100 Especial Nada 0
+TijeraX Bicho 80 15 100 Físico Nada 0
+TajoAéreo Volador 75 15 95 Especial Nada 0
+PicoTaladro Volador 80 20 100 Físico Nada 0
+GarraDragón Dragon 80 15 100 Físico Nada 0
+Dragoaliento Dragon 60 20 100 Especial Paralizado 30
+
+# NORMAL / OTROS
+Hiperrayo Normal 150 5 90 Especial Nada 0
+CuerpoPesado Normal 80 10 100 Físico Nada 0
+VelocidadExtrema Normal 80 5 100 Físico Nada 0
+AtaqueRápido Normal 40 30 100 Físico Nada 0
+Triataque Normal 80 10 100 Especial Nada 0
+Triturar Siniestro 80 15 100 Físico Nada 0
+Mordisco Siniestro 60 25 100 Físico Nada 0
