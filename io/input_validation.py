@@ -73,17 +73,22 @@ def elegir_habilidades_usr(equipo, cantidad):
 """
 SACAR UNIMON
 """
-def elegir_sacar_usr(equipo):
-    if len(equipo) > 0:
+def elegir_sacar_usr(equipo, unimon_viejo = None):
+    equipo_copy = equipo.copy()
+
+    if unimon_viejo != None:
+        equipo_copy.remove(unimon_viejo)
+
+    if len(equipo_copy) > 0:
         print("\n====  SACAR UNIMON =====")
-        for i in range(len(equipo)):
-            print(f"{i+1}) {equipo[i]}")
+        for i in range(len(equipo_copy)):
+            print(f"{i+1}) {equipo_copy[i]}")
 
         while True:
             try:
-                opcion = int(input(f"Elige opción (1-{len(equipo)}): "))
+                opcion = int(input(f"Elige opción (1-{len(equipo_copy)}): "))
 
-                if opcion < 1 or opcion > len(equipo):
+                if opcion < 1 or opcion > len(equipo_copy):
                     raise ValueError("Opción fuera de rango")
                 break
 
@@ -91,10 +96,10 @@ def elegir_sacar_usr(equipo):
                 print(e)
 
         # no se usa deepcopy para que esten conectadas las variables
-        unimon = equipo[opcion-1]
-        print(f"Usuario saco a {unimon}")
+        unimon_nuevo = equipo_copy[opcion-1]
+        print(f"\nUsuario saco a {unimon_nuevo}")
 
-        return unimon
+        return unimon_nuevo
     
     return "Todos debilitados"
 

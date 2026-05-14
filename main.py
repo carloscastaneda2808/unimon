@@ -204,7 +204,7 @@ if __name__ == "__main__":
                 # USUARIO CAMBIA
                 elif opcion2 == 2:
                     movimiento_npc = elegir_movimiento_npc(unimon_npc)
-                    unimon_usr = elegir_sacar_usr(equipo_usr)
+                    unimon_usr = elegir_sacar_usr(equipo_usr, unimon_usr)
 
                     # el NPC ataca
                     print("")
@@ -225,7 +225,7 @@ if __name__ == "__main__":
                     print("\n===== ELECCION DE MOVIMIENTO =====")
                     movimiento_usr = elegir_movimiento_usr(unimon_usr)
                     print("")
-                    unimon_npc = elegir_sacar_npc(equipo_npc)
+                    unimon_npc = elegir_sacar_npc(equipo_npc, unimon_npc)
 
                     # el usuario ataca
                     print("")
@@ -244,8 +244,8 @@ if __name__ == "__main__":
                 # LOS DOS CAMBIAN
                 elif opcion2 == -2:
                     print("\n====  SACAR UNIMON =====")
-                    unimon_usr = elegir_sacar_usr(equipo_usr)
-                    unimon_npc = elegir_sacar_npc(equipo_npc)
+                    unimon_usr = elegir_sacar_usr(equipo_usr, unimon_usr)
+                    unimon_npc = elegir_sacar_npc(equipo_npc, unimon_npc)
 
                 estado_danio(unimon_usr)
                 estado_danio(unimon_npc)

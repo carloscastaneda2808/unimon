@@ -45,9 +45,17 @@ def elegir_habilidades_npc(equipo, cantidad):
 """
 SACAR UNIMON
 """
-def elegir_sacar_npc(equipo):
-    if len(equipo) > 0:
-        return equipo[randint(0, len(equipo)-1)]
+def elegir_sacar_npc(equipo, unimon_viejo = None):
+    equipo_copy = equipo.copy()
+
+    if unimon_viejo != None:
+        equipo_copy.remove(unimon_viejo)
+
+    if len(equipo_copy) > 0:
+        unimon_nuevo = equipo_copy[randint(0, len(equipo_copy)-1)]
+        print(f"\nNPC saco a {unimon_nuevo}")
+
+        return unimon_nuevo
     
     return "Todos debilitados"
 
