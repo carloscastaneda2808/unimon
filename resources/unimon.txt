@@ -41,3 +41,4 @@ Dragonite Dragon 166 134 95 100 100 80 Nada 0 GarraDragón VelocidadExtrema Lanz
 # NORMAL
 Snorlax Normal 235 110 65 65 110 30 Nada 0 CuerpoPesado Terremoto Hiperrayo Surf Lanzallamas Rayo PuñoHielo Triturar
 Chansey Normal 325 5 5 35 105 50 Nada 0 Tóxico RayoHielo Psíquico Rayo BombaLodo Triataque Llamarada
+

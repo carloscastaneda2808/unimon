@@ -104,73 +104,76 @@ while True:
             #终止程序                 / Terminar el programa
             sys.exit()
 
-        # 鼠标移到按钮上方就换颜色    / Cambiar color cuando el mouse pasa sobre el botón
-        if event.type == pygame.MOUSEMOTION:
-            if boton_inicio.collidepoint(mouse_pos):
-                color_boton_inicio = (0, 0, 255)
-            else:
-                color_boton_inicio = (0,100,255)
 
-            if boton_estadisticas.collidepoint(mouse_pos):
-                color_boton_estadisticas = (0, 0, 255)
-            else:
-                color_boton_estadisticas = (0,100,255)
+        if opcion == None:
 
-            if boton_configuracion.collidepoint(mouse_pos):
-                color_boton_configuracion = (0, 0, 255)
-            else:
-                color_boton_configuracion = (0,100,255)
+            # 鼠标移到按钮上方就换颜色    / Cambiar color cuando el mouse pasa sobre el botón
+            if event.type == pygame.MOUSEMOTION:
+                if boton_inicio.collidepoint(mouse_pos):
+                    color_boton_inicio = (0, 0, 255)
+                else:
+                    color_boton_inicio = (0,100,255)
 
-            if boton_salir.collidepoint(mouse_pos):
-                color_boton_salir = (255, 0, 0)
-            else:
-                color_boton_salir = (255, 140, 0)
+                if boton_estadisticas.collidepoint(mouse_pos):
+                    color_boton_estadisticas = (0, 0, 255)
+                else:
+                    color_boton_estadisticas = (0,100,255)
 
-        # 按下按钮，opcion就会转换变量 / Al presionar el botón, "opcion" cambiará de valor
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if opcion is None:
+                if boton_configuracion.collidepoint(mouse_pos):
+                    color_boton_configuracion = (0, 0, 255)
+                else:
+                    color_boton_configuracion = (0,100,255)
+
+                if boton_salir.collidepoint(mouse_pos):
+                    color_boton_salir = (255, 0, 0)
+                else:
+                    color_boton_salir = (255, 140, 0)
+
+            # 按下按钮，opcion就会转换变量 / Al presionar el botón, "opcion" cambiará de valor
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if opcion is None:
+                    if event.button == 1:
+
+                        if boton_inicio.collidepoint(event.pos):
+                            opcion = "menu"
+
+                        if boton_estadisticas.collidepoint(event.pos):
+                            opcion = "estadisticas"
+
+                        if boton_configuracion.collidepoint(event.pos):
+                            opcion = "configuracion"
+
+                        if boton_salir.collidepoint(event.pos):
+                            pygame.quit()
+                            sys.exit()
+
+
+            if event.type == pygame.MOUSEBUTTONUP:
+
                 if event.button == 1:
 
-                    if boton_inicio.collidepoint(event.pos):
-                        opcion = "menu"
-
-                    if boton_estadisticas.collidepoint(event.pos):
-                        opcion = "estadisticas"
-
-                    if boton_configuracion.collidepoint(event.pos):
-                        opcion = "configuracion"
-
-                    if boton_salir.collidepoint(event.pos):
-                        pygame.quit()
-                        sys.exit()
+                    color_boton_inicio = (0, 100, 255)
+                    color_boton_estadisticas = (0, 100, 255)
+                    color_boton_configuracion = (0, 100, 255)
+                    color_boton_salir = (255, 140, 0)
 
 
-        if event.type == pygame.MOUSEBUTTONUP:
+        # ================ Unimon ==================
+        screen.blit(backround, (0, 0))
+        screen.blit(titulo,textRect)
 
-            if event.button == 1:
-
-                color_boton_inicio = (0, 100, 255)
-                color_boton_estadisticas = (0, 100, 255)
-                color_boton_configuracion = (0, 100, 255)
-                color_boton_salir = (255, 140, 0)
-
-
-    # ================ Unimon ==================
-    screen.blit(backround, (0, 0))
-    screen.blit(titulo,textRect)
-
-    # ================ 按钮 1 / Botón 1 ==================
-    pygame.draw.rect(screen, color_boton_inicio, boton_inicio)
-    screen.blit(jugar, jugarRect)
-    # ================ 按钮 2 / Botón 2 ==================    
-    pygame.draw.rect(screen, color_boton_estadisticas, boton_estadisticas)
-    screen.blit(estadisticas, estadisticasrRect)
-    # ================ 按钮 3 / Botón 3 ==================    
-    pygame.draw.rect(screen, color_boton_configuracion, boton_configuracion)
-    screen.blit(configuracion, configuracionRect)
-    # ================ 按钮 4 / Botón 4 ==================    
-    pygame.draw.rect(screen, color_boton_salir, boton_salir)
-    screen.blit(salir, salirRect)
+        # ================ 按钮 1 / Botón 1 ==================
+        pygame.draw.rect(screen, color_boton_inicio, boton_inicio)
+        screen.blit(jugar, jugarRect)
+        # ================ 按钮 2 / Botón 2 ==================    
+        pygame.draw.rect(screen, color_boton_estadisticas, boton_estadisticas)
+        screen.blit(estadisticas, estadisticasrRect)
+        # ================ 按钮 3 / Botón 3 ==================    
+        pygame.draw.rect(screen, color_boton_configuracion, boton_configuracion)
+        screen.blit(configuracion, configuracionRect)
+        # ================ 按钮 4 / Botón 4 ==================    
+        pygame.draw.rect(screen, color_boton_salir, boton_salir)
+        screen.blit(salir, salirRect)
 
     
     # Menu页面 / Página del menú
@@ -199,7 +202,6 @@ while True:
         rects_unimon = []
         # 打印所有宝可梦的名称            / Mostrar todos los nombres de Unimon
         for i, unimon in enumerate(Unimon.todos):
-
 
             columna = i % unimon_por_filas
             fila = i // unimon_por_filas
@@ -264,11 +266,8 @@ while True:
         screen.blit(salir_menu, salir_menuRect)
 
 
-        
-
     if opcion == "estadisticas":
         screen.blit(backround, (0, 0))
-
 
         # ================ Salir estadisticas ================
         salir_estadisticas = letras_botones.render("Salir de estadisticas", True, (0, 0, 0), color_salir_menu)
@@ -328,4 +327,3 @@ while True:
 
 
     pygame.display.flip()
-
