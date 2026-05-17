@@ -3,12 +3,12 @@ import pygame
 import sys
 from copy import deepcopy
 
-from unimon.funciones_UP.lectura import abrir_unimon
-from unimon.funciones_UP.input_validation import elegir_equipo_usr, elegir_habilidades_usr, elegir_sacar_usr, elegir_movimiento_usr, cantidad_unimones, cantidad_habilidades
-from unimon.pokedex.combate import restar_hp, verificar_hp, debilitado
-from unimon.pokedex.estados import estado_antes, estado_danio, verificar_paralizado
-from unimon.ia.npc import cambiar_npc, elegir_equipo_npc, elegir_habilidades_npc, elegir_sacar_npc, elegir_movimiento_npc
-from unimon.pokedex.unimon import Unimon
+from funciones_UP.lectura import abrir_unimon
+from funciones_UP.input_validation import elegir_equipo_usr, elegir_habilidades_usr, elegir_sacar_usr, elegir_movimiento_usr, cantidad_unimones, cantidad_habilidades
+from pokedex.combate import restar_hp, verificar_hp, debilitado
+from pokedex.estados import estado_antes, estado_danio, verificar_paralizado
+from ia.npc import cambiar_npc, elegir_equipo_npc, elegir_habilidades_npc, elegir_sacar_npc, elegir_movimiento_npc
+from pokedex.unimon import Unimon
 
 unimones = abrir_unimon()
 
@@ -34,13 +34,13 @@ screen = pygame.display.set_mode((ancho, altura))
 pygame.display.set_caption("Unimon")
 
 # 开始背景              / Fondo inicial
-imagen = pygame.image.load("unimon/images/backround/inicio.jpg").convert()
+imagen = pygame.image.load("images/backround/inicio.jpg").convert()
 backround = pygame.transform.scale(imagen, (ancho, altura))
 
 # 字体 # Fuentes
-letras_titulo = pygame.font.Font("unimon/letras/SHPinscher-Regular.otf", 180)
-letras_botones = pygame.font.Font("unimon/letras/SHPinscher-Regular.otf", 65)
-letras_unimones = pygame.font.Font("unimon/letras/SHPinscher-Regular.otf", 30)
+letras_titulo = pygame.font.Font("letras/SHPinscher-Regular.otf", 180)
+letras_botones = pygame.font.Font("letras/SHPinscher-Regular.otf", 65)
+letras_unimones = pygame.font.Font("letras/SHPinscher-Regular.otf", 30)
 
 # 主页标题, 生成文字图片 / Título principal, generar imagen del texto
 titulo = letras_titulo.render("Unimon", True, (0, 80, 255))
@@ -323,7 +323,6 @@ while True:
 
         screen.blit(salir_configuracion, salir_configuracionRect)
         screen.blit(Cantidad_de_unimones,Cantidad_de_unimonesRect)
-
 
 
     pygame.display.flip()

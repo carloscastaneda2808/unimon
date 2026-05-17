@@ -14,8 +14,17 @@ Caracteristicas:
     5. Combates
 
 Comandos:
-    -Para iniciar el programa se usa:
-    python -m unimon.main
+    - para crear venv (tienes que tener python 3.11):
+        py -3.11 -m venv .venv
+
+    - para activar venv:
+        .\.venv\Scripts\Activate.ps1
+
+    - para desactivar venv:
+        deactivate
+
+    - para iniciar el programa desde la carpte unimon se usa:
+    python -m interfaz_grafica
 
 Cosas del commit:
     Este codigo cuando lo empeze solo dios y yo sabiamos como funcionada, ahora solo dios (es broma). Este commit puede que tenga error, pero se puede correr. Le aniadi una carpte llamada ia con un archivo llamdo npc. El combate de varios pokemones ya funciona. El archivo main cambio mucho, no es eficiente pero funciona.

@@ -4,7 +4,7 @@ Archivo para el combate
 
 from random import randint
 from copy import deepcopy
-from unimon.pokedex.estados import efecto
+from pokedex.estados import efecto
 
 # sirve para ataques de danio solo y escribe un mensaje
 def restar_hp(mensaje, habilidad, unimon_atacante, unimon_defensa):

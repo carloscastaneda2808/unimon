@@ -3,12 +3,12 @@ Archivo para leer resources
 '''
 
 from copy import deepcopy
-from unimon.pokedex.unimon import Unimon
-from unimon.pokedex.habilidad import Habilidad
+from pokedex.unimon import Unimon
+from pokedex.habilidad import Habilidad
 
 # Esta función sera para leer y guardar en una variable los datos de unimon.txt
 def abrir_unimon():
-    with open("unimon/resources/unimon.txt", "r", encoding="utf-8") as file:
+    with open("resources/unimon.txt", "r", encoding="utf-8") as file:
         # se separa el .txt en lineas
         lineas = file.readlines()
         unimones = []
@@ -34,7 +34,7 @@ def abrir_unimon():
                 
 # Esta funcion sera para leer y guardar en una variable los datos de habilidades.txt
 def abrir_habilidades():
-    with open("unimon/resources/habilidad.txt", "r", encoding="utf-8") as file:
+    with open("resources/habilidad.txt", "r", encoding="utf-8") as file:
         lineas = file.readlines()
         habilidades = []
 

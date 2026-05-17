@@ -3,7 +3,7 @@ Archivo para la IA
 """
 
 from random import randint
-from unimon.pokedex.combate import verificar_unimon_tipo
+from pokedex.combate import verificar_unimon_tipo
 from copy import deepcopy
 
 """
