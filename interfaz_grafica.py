@@ -1,328 +1,369 @@
-from random import randint
+"""
+Archivo de interfaz grafica 3
+"""
+
 import pygame
-import sys
-from copy import deepcopy
+from random import randint
+from sys import exit
+from copy import copy, deepcopy
 
 from funciones_UP.lectura import abrir_unimon
-from funciones_UP.input_validation import elegir_equipo_usr, elegir_habilidades_usr, elegir_sacar_usr, elegir_movimiento_usr, cantidad_unimones, cantidad_habilidades
-from pokedex.combate import restar_hp, verificar_hp, debilitado
-from pokedex.estados import estado_antes, estado_danio, verificar_paralizado
-from ia.npc import cambiar_npc, elegir_equipo_npc, elegir_habilidades_npc, elegir_sacar_npc, elegir_movimiento_npc
+from funciones_graficas.boton import Boton
 from pokedex.unimon import Unimon
+
+# Funciones
+def eliminar_titulo(nombre):
+    titulos.pop(nombre)
+
+def crear_titulo(nombre):
+    titulos[f"{nombre}"] = Boton(letras_titulo, f"{nombre}", negro, (ancho / 2, altura / 10), titulo_tamanio, verde)
+
+def obj_botones(objetos, tipo, negro, azul):
+
+    objetos_por_filas = 5
+    espacio = ancho / (objetos_por_filas + 1)
+
+    for i, obj in enumerate(objetos):
+
+        columna = i % objetos_por_filas
+        fila = i // objetos_por_filas
+
+        x = espacio * (columna + 1)
+        y = 300 + fila * 100
+
+        botones[f"{obj.nombre}_{tipo}"] = Boton(letras_unimones, obj.nombre, negro, (x, y), (180, 60), azul, obj)
+
+def eliminar_obj_botones(objetos, tipo):
+    for obj in objetos:
+        botones.pop(f"{obj.nombre}_{tipo}")
+
+def crear_ventana(nombre, botones):
+    ventanas[f"{nombre}"] = botones
+
+def eliminar_ventana(nombre):
+    ventanas.pop(nombre)
 
 unimones = abrir_unimon()
 
 pygame.init()
 
-# 窗口大小              / Tamaño de la ventana
-ancho = 1400
-altura = 800
-
-# Menu退出选项颜色      / Color de la opción salir del menú
-color_salir_menu = (255, 140, 0)
-# 按钮留白距离          / Espacio de relleno de los botones
-blanco_x = 20
-blanco_y = 10
-ancho_letras = deepcopy(ancho)
-altura_letras = deepcopy(altura)
-
-#帧率                   /  FPS
-fps = pygame.time.Clock()
-
-# 窗口标题              / Título de la ventana
+# Pantalla
+info_pantalla = pygame.display.Info()
+ancho = info_pantalla.current_w
+altura = info_pantalla.current_h
 screen = pygame.display.set_mode((ancho, altura))
 pygame.display.set_caption("Unimon")
 
-# 开始背景              / Fondo inicial
-imagen = pygame.image.load("images/backround/inicio.jpg").convert()
-backround = pygame.transform.scale(imagen, (ancho, altura))
+# FPS
+fps = pygame.time.Clock()
 
-# 字体 # Fuentes
-letras_titulo = pygame.font.Font("letras/SHPinscher-Regular.otf", 180)
-letras_botones = pygame.font.Font("letras/SHPinscher-Regular.otf", 65)
-letras_unimones = pygame.font.Font("letras/SHPinscher-Regular.otf", 30)
+# Colores
+rojo = "Red"
+verde = "Green"
+azul = "Blue"
+azul_oscuro = "darkblue"
+cian = "cyan"
+negro = "Black"
+gris = "gray"
 
-# 主页标题, 生成文字图片 / Título principal, generar imagen del texto
-titulo = letras_titulo.render("Unimon", True, (0, 80, 255))
+# Letras
+letras_titulo = pygame.font.Font("letras/SHPinscher-Regular.otf", 100)
+letras_botones = pygame.font.Font("letras/SHPinscher-Regular.otf", 50)
+letras_unimones = pygame.font.Font("letras/SHPinscher-Regular.otf", 50)
 
-# 给文字创建框         / Crear rectángulo para el texto
-textRect = titulo.get_rect() 
+# Tamanio
+titulo_tamanio = (700, 110)
+boton_tamanio = (400, 80)
 
-# ================ Jugar ================
+# Fondo
+backround_surf = pygame.image.load("images/backround/inicio.jpg").convert()
+backround_scale = pygame.transform.scale(backround_surf, (ancho, altura))
 
-# 主页按钮             / Botón principal
-jugar = letras_botones.render("Iniciar partida", True, (245, 245, 220))
-jugarRect = jugar.get_rect()
+# Titulos
+titulos = { "menu_principal": Boton(letras_titulo, "Menu Principal", negro, (ancho / 2, altura / 10), titulo_tamanio, verde),
+            "elegir_unimones": Boton(letras_titulo, "Elegir Unimones", negro, (ancho / 2, altura / 10), titulo_tamanio, verde),
+            "elegir_habilidades": Boton(letras_titulo, "Elegir Habilidades", negro, (ancho / 2, altura / 10), titulo_tamanio, verde),
+            "estadisticas": Boton(letras_titulo, "Estadisticas", negro, (ancho / 2, altura / 10), titulo_tamanio, verde),
+            "configuracion": Boton(letras_titulo, "Configuracion", negro, (ancho / 2, altura / 10), titulo_tamanio, verde),
+            "combate": Boton(letras_titulo, "Combate", negro, (ancho / 2, altura / 10), titulo_tamanio, verde),
+            "atacar": Boton(letras_titulo, "Atacar", negro, (ancho / 2, altura / 10), titulo_tamanio, verde),
+            "cambiar": Boton(letras_titulo, "Cambiar", negro, (ancho / 2, altura / 10), titulo_tamanio, verde)
 
-# 按钮设定             / Configuración del botón
-boton_inicio = pygame.Rect(0, 0, (jugarRect.width + blanco_x), (jugarRect.height + blanco_y))
-boton_inicio.center = (ancho / 2, altura / 2.5)
-color_boton_inicio = (0,100,255)
+            # se aniaden los titulos de cada unimon
+            }
 
-jugarRect.center = boton_inicio.center
+# Botones
+botones = {
+    # Menu principal
+    "elegir_unimones": Boton(letras_botones, "Elegir Unimones", negro, (ancho / 2, 3 * altura / 10), boton_tamanio, azul),
+    "estadisticas": Boton(letras_botones, "Estadisticas", negro, (ancho / 2, 5 * altura / 10), boton_tamanio, azul),
+    "configuracion": Boton(letras_botones, "Configuracion", negro, (ancho / 2, 7 * altura / 10), boton_tamanio, azul),
 
-# ================ Estadisticas ================
-estadisticas = letras_botones.render("Estadisticas", True, (245, 245, 220))
-estadisticasrRect = estadisticas.get_rect()
-# 按钮设定             / Configuración del botón
-boton_estadisticas = pygame.Rect(0, 0, (estadisticasrRect.width + blanco_x), (estadisticasrRect.height + blanco_y))
-boton_estadisticas.center = (ancho / 2, altura / 1.8)
-color_boton_estadisticas = (0,100,255)
+    # Elegir unimones
+    "elegir_habilidades": Boton(letras_botones, "Elegir Habilidades", negro, (3 * ancho / 4, 9 * altura / 10), boton_tamanio, azul),
 
-estadisticasrRect.center = boton_estadisticas.center
+    # Elegir habilidades
+    "combate": Boton(letras_botones, "Combate", negro, (3 * ancho / 4, 9 * altura / 10), boton_tamanio, azul),
 
-# ================ Configuracion ================
-configuracion = letras_botones.render("Configuracion", True, (245, 245, 220))
-configuracionRect = configuracion.get_rect()
-# 按钮设定             / Configuración del botón
-boton_configuracion = pygame.Rect(0, 0, (configuracionRect.width + blanco_x), (configuracionRect.height + blanco_y))
-boton_configuracion.center = (ancho / 2, altura / 1.4)
-color_boton_configuracion = (0,100,255)
+    # Combate
+    "atacar": Boton(letras_botones, "Atacar", negro, (ancho / 2, 3 * altura / 10), boton_tamanio, azul),
+    "cambiar": Boton(letras_botones, "Cambiar", negro, (ancho / 2, 5 * altura / 10),  boton_tamanio, azul),
 
-configuracionRect.center = boton_configuracion.center
+    # Salir
+    "salir": Boton(letras_botones, "Salir", negro, (ancho / 2, 9 * altura / 10), boton_tamanio, azul),
+    "salir_izquierda": Boton(letras_botones, "Atrás", negro, (ancho / 4, 9 * altura / 10), boton_tamanio, azul),
 
-# ================ Salir ================
-salir = letras_botones.render("Salir", True, (0, 0, 0))
-salirRect = salir.get_rect()
-# 按钮设定              / Configuración del botón
-boton_salir = pygame.Rect(0, 0, (salirRect.width + blanco_x), (salirRect.height + blanco_y))
-boton_salir.center = (ancho / 2, altura / 1.15)
-color_boton_salir = (255, 140, 0)
+    # Se aniaden botones de cada unimon, que son sus habilidades
+    }
 
-salirRect.center = boton_salir.center
+# Botones de los unimones
+obj_botones(unimones, "general", negro, azul)
 
+# Menus
+ventanas = { "menu_principal": ["elegir_unimones", "estadisticas", "configuracion", "salir"],
+                    # se crea la ventana de elegir_unimones con crear_ventana()
+                    # se crea la ventana de elegir_habilidades con crear_ventana() mas tarde
+                    "combate": ["atacar", "cambiar", "salir"],
+                    "estadisticas": ["salir"],
+                    "configuracion": ["salir"],
+                    "atacar": ["salir"],
+                    "cambiar": ["salir"],
+                    }
 
-opcion = None
-color_bk_letra = []
+# Ventanas de elegir_unimones
+lista_unimones = [f"{unimon.nombre}_general" for unimon in unimones]
+lista_unimones.append("salir_izquierda")
+lista_unimones.append("elegir_habilidades")
+crear_ventana("elegir_unimones", lista_unimones)
+
+# Funciones de los unimones
+cantidad_unimones = 6
+cantidad_habilidades = 4
+equipo_usr = []
+
+# Opcion vent(ventana)
+vent = "menu_principal"
+
+# Ciclo principal
 while True:
-    mouse_pos = pygame.mouse.get_pos()
-    
+    pos_mouse = pygame.mouse.get_pos()
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
-            
-            #终止程序                 / Terminar el programa
-            sys.exit()
+            exit()
 
-
-        if opcion == None:
-
-            # 鼠标移到按钮上方就换颜色    / Cambiar color cuando el mouse pasa sobre el botón
-            if event.type == pygame.MOUSEMOTION:
-                if boton_inicio.collidepoint(mouse_pos):
-                    color_boton_inicio = (0, 0, 255)
-                else:
-                    color_boton_inicio = (0,100,255)
-
-                if boton_estadisticas.collidepoint(mouse_pos):
-                    color_boton_estadisticas = (0, 0, 255)
-                else:
-                    color_boton_estadisticas = (0,100,255)
-
-                if boton_configuracion.collidepoint(mouse_pos):
-                    color_boton_configuracion = (0, 0, 255)
-                else:
-                    color_boton_configuracion = (0,100,255)
-
-                if boton_salir.collidepoint(mouse_pos):
-                    color_boton_salir = (255, 0, 0)
-                else:
-                    color_boton_salir = (255, 140, 0)
-
-            # 按下按钮，opcion就会转换变量 / Al presionar el botón, "opcion" cambiará de valor
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if opcion is None:
-                    if event.button == 1:
-
-                        if boton_inicio.collidepoint(event.pos):
-                            opcion = "menu"
-
-                        if boton_estadisticas.collidepoint(event.pos):
-                            opcion = "estadisticas"
-
-                        if boton_configuracion.collidepoint(event.pos):
-                            opcion = "configuracion"
-
-                        if boton_salir.collidepoint(event.pos):
-                            pygame.quit()
-                            sys.exit()
-
-
-            if event.type == pygame.MOUSEBUTTONUP:
-
-                if event.button == 1:
-
-                    color_boton_inicio = (0, 100, 255)
-                    color_boton_estadisticas = (0, 100, 255)
-                    color_boton_configuracion = (0, 100, 255)
-                    color_boton_salir = (255, 140, 0)
-
-
-        # ================ Unimon ==================
-        screen.blit(backround, (0, 0))
-        screen.blit(titulo,textRect)
-
-        # ================ 按钮 1 / Botón 1 ==================
-        pygame.draw.rect(screen, color_boton_inicio, boton_inicio)
-        screen.blit(jugar, jugarRect)
-        # ================ 按钮 2 / Botón 2 ==================    
-        pygame.draw.rect(screen, color_boton_estadisticas, boton_estadisticas)
-        screen.blit(estadisticas, estadisticasrRect)
-        # ================ 按钮 3 / Botón 3 ==================    
-        pygame.draw.rect(screen, color_boton_configuracion, boton_configuracion)
-        screen.blit(configuracion, configuracionRect)
-        # ================ 按钮 4 / Botón 4 ==================    
-        pygame.draw.rect(screen, color_boton_salir, boton_salir)
-        screen.blit(salir, salirRect)
-
-    
-    # Menu页面 / Página del menú
-    if opcion == "menu":
-        screen.blit(backround, (0, 0))
-
-        # unimon_por_filas是每一行应该有几个名字 / "unimon_por_filas" es cuántos nombres habrá por fila
-        unimon_por_filas = 10
-
-        # 宝可梦数量                      / Cantidad de Unimones
-        cantidad = len(Unimon.todos)
-
-        # 复制坐标                        / Copiar coordenadas
-        altura_nombre = deepcopy(altura)
-        ancho_nombre = deepcopy(ancho)
-
-        # 计算每一列之间的平均距离        / Calcular la distancia promedio entre columnas
-        espacio = ancho_nombre / (unimon_por_filas + 1)
-
-        # 根据宝可梦数量计算颜色数量      / Calcular cantidad de colores según la cantidad de Unimones
-        if len(color_bk_letra) < len(Unimon.todos):
-            for i in range(len(Unimon.todos)):
-                color_bk_letra.append((0,180,255))
-
-        todos_unimon = []
-        rects_unimon = []
-        # 打印所有宝可梦的名称            / Mostrar todos los nombres de Unimon
-        for i, unimon in enumerate(Unimon.todos):
-
-            columna = i % unimon_por_filas
-            fila = i // unimon_por_filas
-
-            x = espacio * (columna + 1)
-            y = 100 + fila * 100
-
-
-            # 把每个宝可梦的名字变成图片，然后存储在todos_unimon / Convertir cada nombre en imagen y guardarlo en todos_unimon
-            texto_unimon  = letras_unimones.render(unimon.nombre, True, (255, 255, 255), color_bk_letra[i])
-            todos_unimon.append(texto_unimon )
-            # 给文字创建框 / Crear rectángulo para el texto
-            unimonRect = texto_unimon .get_rect()
-            unimonRect.center = (x, y)
-
-            rects_unimon.append(unimonRect)
-
-            # 最后打印 / Dibujar finalmente
-            screen.blit(todos_unimon[i],unimonRect)
-
-        # ================ Salir menu ================
-        salir_menu = letras_botones.render("Salir de menu", True, (0, 0, 0), color_salir_menu)
-        salir_menuRect = salir_menu.get_rect()
-        salir_menuRect.center = (ancho / 2, altura / 1.15)
-
-        # 检测鼠标左键                                       / Detectar clic izquierdo del mouse
+        # Cambiar ventana
         if event.type == pygame.MOUSEBUTTONDOWN:
-
-            # 左键点击宝可梦名字，会改颜色然后等于选择了这个宝可梦 
-            # Al hacer clic izquierdo en el nombre, cambiará de color y quedará seleccionado
             if event.button == 1:
 
-                for i, rect in enumerate(rects_unimon):
-                # rect = 当前宝可梦名字的矩形区域             / rect = área rectangular del nombre actual
-                # event.pos = 鼠标点击的位置，例如 (300,100)  / event.pos = posición del clic del mouse, por ejemplo (300,100)
-                # collidepoint() = 判断鼠标有没有点到这个区域 / collidepoint() = verificar si el mouse hizo clic en esta área
-                    if rect.collidepoint(event.pos):
-                        color_bk_letra[i] = (0, 0, 255)
+                # Menu principal
+                if vent == "menu_principal":
+                    if botones["elegir_unimones"].collision(pos_mouse):
+                        vent = "elegir_unimones"
+                        botones["elegir_unimones"].cambiar_fondo(azul)
 
-            # 退出menu             / Salir del menú
-            if salir_menuRect.collidepoint(mouse_pos):
-                opcion = None
+                    elif botones["estadisticas"].collision(pos_mouse):
+                        vent = "estadisticas"
+                        botones["estadisticas"].cambiar_fondo(azul)
 
+                    elif botones["configuracion"].collision(pos_mouse):
+                        vent = "configuracion"
+                        botones["configuracion"].cambiar_fondo(azul)
 
-            # 右键取消选择         / Clic derecho para cancelar selección
-            if event.button == 3:
+                    elif botones["salir"].collision(pos_mouse):
+                        pygame.quit()
+                        exit()
 
-                for i, rect in enumerate(rects_unimon):
+                # Elegir Unimon
+                elif vent == "elegir_unimones":
+                    # FUNCION PARA IMPRIMIR UNIMONES
+                    for unimon in unimones:
+                        boton = botones[f"{unimon.nombre}_general"]
+                        if boton.collision(pos_mouse):
+                            if boton.fondo == azul_oscuro:
+                                if len(equipo_usr) < cantidad_unimones:
+                                    # Boton
+                                    boton.cambiar_fondo(cian)
 
-                    if rect.collidepoint(event.pos):
-                        color_bk_letra[i] = (0, 180, 255)
-        
-        # 检测鼠标移动             / Detectar movimiento del mouse
+                                    # Clase
+                                    equipo_usr.append(unimon)
+
+                                    # Menu de equipo
+                                    obj_botones(equipo_usr, "equipo_usr", negro, azul)
+                                    lista_unimones = [f"{unimon.nombre}_equipo_usr" for unimon in equipo_usr]
+                                    lista_unimones.append("salir_izquierda")
+                                    lista_unimones.append("combate")
+                                    crear_ventana("elegir_habilidades", lista_unimones)
+
+                                    # Menu de unimon con habilidades
+                                    crear_titulo(unimon.nombre)
+                                    obj_botones(unimon.hb_posibles, f"{unimon.nombre}_hb_posibles", negro, azul)
+                                    lista_hb = [f"{hb}_{unimon.nombre}_hb_posibles" for hb in unimon.lista_hb()]
+                                    lista_hb.append("salir")
+                                    crear_ventana(unimon.nombre, lista_hb)
+
+                                else:
+                                    boton.cambiar_fondo(rojo)
+                        
+                            elif boton.fondo == cian:
+                                # Boton
+                                boton.cambiar_fondo(azul_oscuro)
+
+                                # Clase
+                                equipo_usr.remove(unimon)
+
+                                # Menu de equipo
+                                obj_botones(equipo_usr, "equipo_usr", negro, azul)
+                                lista_unimones = [f"{unimon.nombre}_equipo_usr" for unimon in equipo_usr]
+                                lista_unimones.append("salir_izquierda")
+                                lista_unimones.append("combate")
+                                crear_ventana("elegir_habilidades", lista_unimones)
+
+                                # Eliminar menu de unimon con habilidades
+                                eliminar_titulo(unimon.nombre)
+                                eliminar_obj_botones(unimon.hb_posibles, f"{unimon.nombre}_hb_posibles")
+                                eliminar_ventana(unimon.nombre)
+
+                    if botones["salir_izquierda"].collision(pos_mouse):
+                        botones["salir_izquierda"].cambiar_fondo(azul)
+                        vent = "menu_principal"
+
+                    elif botones["elegir_habilidades"].collision(pos_mouse):
+                        botones["elegir_habilidades"].cambiar_fondo(azul)
+                        vent = "elegir_habilidades"
+
+                # Elegir Habilidades
+                elif vent == "elegir_habilidades":
+
+                    # FUNCION PARA MOSTRAR LOS UNIMONES ELEGIDOS
+                    for unimon in equipo_usr:
+                        boton = botones[f"{unimon.nombre}_equipo_usr"]
+                        if boton.collision(pos_mouse):
+                            boton.cambiar_fondo(azul)
+                            vent = f"{unimon.nombre}"
+
+                    if botones["salir_izquierda"].collision(pos_mouse):
+                        botones["salir_izquierda"].cambiar_fondo(azul)
+                        vent = "elegir_unimones"
+
+                    elif botones["combate"].collision(pos_mouse):
+                        botones["combate"].cambiar_fondo(azul)
+                        vent = "combate"
+
+                # Combate
+                elif vent == "combate":
+                    if botones["atacar"].collision(pos_mouse):
+                        botones["atacar"].cambiar_fondo(azul)
+                        vent = "atacar"
+
+                    elif botones["cambiar"].collision(pos_mouse):
+                        botones["cambiar"].cambiar_fondo(azul)
+                        vent = "cambiar"
+                    
+                    elif botones["salir"].collision(pos_mouse):
+                        botones["salir"].cambiar_fondo(azul)
+                        vent = "elegir_habilidades"
+
+                # Atacar y cambiar
+                elif vent == "atacar":
+                    if botones["salir"].collision(pos_mouse):
+                        botones["salir"].cambiar_fondo(azul)
+                        vent = "combate"
+
+                elif vent == "cambiar":
+                    if botones["salir"].collision(pos_mouse):
+                        botones["salir"].cambiar_fondo(azul)
+                        vent = "combate"
+
+                # Estadisticas
+                elif vent == "estadisticas":
+                    if botones["salir"].collision(pos_mouse):
+                        botones["salir"].cambiar_fondo(azul)
+                        vent = "menu_principal"
+
+                # Configuracion
+                elif vent == "configuracion":  
+                    if botones["salir"].collision(pos_mouse):
+                        botones["salir"].cambiar_fondo(azul)
+                        vent = "menu_principal"
+
+                # Venta de cada unimon
+                for unimon in equipo_usr:
+                    if vent == f"{unimon.nombre}":
+                        for hb in unimon.hb_posibles:
+                            boton = botones[f"{hb.nombre}_{unimon.nombre}_hb_posibles"]
+
+                            if boton.collision(pos_mouse):
+                                if boton.fondo == azul_oscuro:
+                                    if len(unimon.hb) < cantidad_habilidades:
+                                        # Boton
+                                        boton.cambiar_fondo(cian)
+
+                                        # Clase
+                                        unimon.hb.append(hb)
+
+                                    else:
+                                        boton.cambiar_fondo(rojo)
+                            
+                                elif boton.fondo == cian:
+                                    # Boton
+                                    boton.cambiar_fondo(azul_oscuro)
+
+                                    # Clase
+                                    unimon.hb.remove(hb)
+
+                        if botones["salir"].collision(pos_mouse):
+                            botones["salir"].cambiar_fondo(azul)
+                            vent = "elegir_habilidades"
+
+        # Cambiar de color
         if event.type == pygame.MOUSEMOTION:
+                    
+            for boton_nombre in ventanas.get(vent, []):
+                boton = botones[boton_nombre]
+                if boton.collision(pos_mouse) and boton.fondo != cian:
+                    boton.cambiar_fondo(azul_oscuro)
 
-            if salir_menuRect.collidepoint(mouse_pos):
-                color_salir_menu = (255, 0, 0)
-            else:
-                color_salir_menu = (255, 140, 0)
+                elif boton.fondo != cian:
+                    boton.cambiar_fondo(azul)
 
-        
-        screen.blit(salir_menu, salir_menuRect)
+    # Imprime la pantalla
+    screen.blit(backround_scale, (0, 0))
 
+    if vent == "menu_principal":
+        titulos["menu_principal"].dibujar(screen)  
 
-    if opcion == "estadisticas":
-        screen.blit(backround, (0, 0))
+    elif vent == "elegir_unimones":
+        titulos["elegir_unimones"].dibujar(screen)
 
-        # ================ Salir estadisticas ================
-        salir_estadisticas = letras_botones.render("Salir de estadisticas", True, (0, 0, 0), color_salir_menu)
-        salir_estadisticasRect = salir_estadisticas.get_rect()
-        salir_estadisticasRect.center = (ancho / 2, altura / 1.15)
+    elif vent == "elegir_habilidades":
+        titulos["elegir_habilidades"].dibujar(screen)
 
-        # 检测鼠标左键          / Detectar clic izquierdo del mouse
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            
-            # 退出menu          / Salir del menú
-            if salir_estadisticasRect.collidepoint(mouse_pos):
-                opcion = None
+    elif vent == "combate":
+        titulos["combate"].dibujar(screen)
 
-        # 检测鼠标移动          / Detectar movimiento del mouse
-        if event.type == pygame.MOUSEMOTION:
+    elif vent == "atacar":
+        titulos["atacar"].dibujar(screen)
 
-            if salir_estadisticasRect.collidepoint(mouse_pos):
-                color_salir_menu = (255, 0, 0)
-            else:
-                color_salir_menu = (255, 140, 0)
+    elif vent == "cambiar":
+        titulos["cambiar"].dibujar(screen)
 
-        screen.blit(salir_estadisticas, salir_estadisticasRect)
+    elif vent == "estadisticas":
+        titulos["estadisticas"].dibujar(screen)  
 
-        
-    if opcion == "configuracion":
-        screen.blit(backround, (0, 0))
+    elif vent == "configuracion":
+        titulos["configuracion"].dibujar(screen)
 
-        Cantidad_de_unimones = letras_botones.render("Cantidad de unimones", True, (255, 255, 255), (0,100,255))
-        Cantidad_de_unimonesRect = Cantidad_de_unimones.get_rect()
-        Cantidad_de_unimonesRect.center = (ancho / 2, altura / 2)
+    # Dibuja los titulos de los unimoes
+    for unimon in equipo_usr:
+        if vent == f"{unimon.nombre}":
+            titulo = titulos[f"{unimon.nombre}"]
+            titulo.dibujar(screen)
 
-        
-
-        # ================ Salir configuracion ================
-        salir_configuracion = letras_botones.render("Salir de configuracion", True, (0, 0, 0), color_salir_menu)
-        salir_configuracionRect = salir_configuracion.get_rect()
-        salir_configuracionRect.center = (ancho / 2, altura / 1.15)
-
-        # 检测鼠标左键          / Detectar clic izquierdo del mouse
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            
-            # 退出menu          / Salir del menú
-            if salir_configuracionRect.collidepoint(mouse_pos):
-                opcion = None
-
-        # 检测鼠标移动          / Detectar movimiento del mouse
-        if event.type == pygame.MOUSEMOTION:
-
-            if salir_configuracionRect.collidepoint(mouse_pos):
-                color_salir_menu = (255, 0, 0)
-            else:
-                color_salir_menu = (255, 140, 0)
-
-        screen.blit(salir_configuracion, salir_configuracionRect)
-        screen.blit(Cantidad_de_unimones,Cantidad_de_unimonesRect)
-
-
-    pygame.display.flip()
+    # Dibuja los botones
+    for boton_nombre in ventanas.get(vent, []):
+        botones[boton_nombre].dibujar(screen)
+    
+    pygame.display.update()
+    fps.tick(60)
