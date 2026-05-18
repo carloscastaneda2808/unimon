@@ -40,13 +40,6 @@ class Unimon:
         
         cadena = cadena[0:-1]
         return cadena
-    
-    def lista_hb(self):
-        lis = []
-        for hb in self.hb_posibles:
-            lis.append(hb.nombre)
-        
-        return lis
 
     # solo imprime el nombre
     def __str__(self):
