@@ -9,51 +9,19 @@ from copy import copy, deepcopy
 from time import sleep
 
 from funciones_UP.lectura import abrir_unimon
-from funciones_graficas.boton import Boton
+from funciones_visual.boton import Boton
 from pokedex.unimon import Unimon
 from ia.npc import elegir_equipo_npc, elegir_habilidades_npc, elegir_sacar_npc
 
 # Funciones
-class UnimonSprite():
-    def __init__(self, nombre, jugador):
-        if jugador == "Usuario":
-            self.nombre = nombre
-            nombre = nombre.lower()
-
-            stand = pygame.image.load(f"images/pokemon/{nombre}_back.png").convert_alpha()
-            stand = pygame.transform.scale(stand, (600, 600))
-
-            self.frames = [stand]
-            self.index = 0
-            self.image = self.frames[self.index]
-
-            self.rect = self.image.get_rect(center = (3 * ancho / 12, 7 * altura / 10))
-
-        if jugador == "NPC":
-            self.nombre = nombre
-            nombre = nombre.lower()
-
-            stand = pygame.image.load(f"images/pokemon/{nombre}_front.png").convert_alpha()
-            stand = pygame.transform.scale(stand, (400, 400))
-
-            self.frames = [stand]
-            self.index = 0
-            self.image = self.frames[self.index]
-
-            self.rect = self.image.get_rect(center = (9 * ancho / 12, 5 * altura / 10))
-
-    def dibujar(self, screen):
-        screen.blit(self.image, self.rect)
-
-
-def eliminar_titulo(nombre):
-    titulos.pop(nombre)
-
 def crear_titulo(nombre, texto = None):
     if not texto:
         texto = copy(nombre)
 
     titulos[f"{nombre}"] = Boton(letras_titulo, f"{texto}", negro, (ancho / 2, altura / 10), titulo_tamanio, verde)
+
+def eliminar_titulo(nombre):
+    titulos.pop(nombre)
 
 def obj_botones(objetos, tipo, negro, azul):
 
@@ -241,7 +209,7 @@ while True:
 
                                     # Clase
                                     equipo_usr.append(unimon)
-                                    unimones_sprite[f"{unimon.nombre}_usr"] = UnimonSprite(unimon.nombre, "Usuario")
+                                    unimones_sprite[f"{unimon.nombre}_usr"] = UnimonSprite(unimon.nombre, "Usuario", (3 * ancho / 12, 7 * altura / 10))
 
                                     # Menu de equipo
                                     obj_botones(equipo_usr, "equipo_usr", negro, azul)
