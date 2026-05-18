@@ -11,8 +11,41 @@ from time import sleep
 from funciones_UP.lectura import abrir_unimon
 from funciones_graficas.boton import Boton
 from pokedex.unimon import Unimon
+from ia.npc import elegir_equipo_npc, elegir_habilidades_npc, elegir_sacar_npc
 
 # Funciones
+class UnimonSprite():
+    def __init__(self, nombre, jugador):
+        if jugador == "Usuario":
+            self.nombre = nombre
+            nombre = nombre.lower()
+
+            stand = pygame.image.load(f"images/pokemon/{nombre}_back.png").convert_alpha()
+            stand = pygame.transform.scale(stand, (600, 600))
+
+            self.frames = [stand]
+            self.index = 0
+            self.image = self.frames[self.index]
+
+            self.rect = self.image.get_rect(center = (3 * ancho / 12, 7 * altura / 10))
+
+        if jugador == "NPC":
+            self.nombre = nombre
+            nombre = nombre.lower()
+
+            stand = pygame.image.load(f"images/pokemon/{nombre}_front.png").convert_alpha()
+            stand = pygame.transform.scale(stand, (400, 400))
+
+            self.frames = [stand]
+            self.index = 0
+            self.image = self.frames[self.index]
+
+            self.rect = self.image.get_rect(center = (9 * ancho / 12, 5 * altura / 10))
+
+    def dibujar(self, screen):
+        screen.blit(self.image, self.rect)
+
+
 def eliminar_titulo(nombre):
     titulos.pop(nombre)
 
@@ -79,6 +112,9 @@ letras_unimones = pygame.font.Font("letras/SHPinscher-Regular.otf", 35)
 titulo_tamanio = (700, 110)
 boton_tamanio = (400, 80)
 
+# Sprite de unimones
+unimones_sprite = {}
+
 # Fondo
 backround_surf = pygame.image.load("images/backround/inicio.jpg").convert()
 backround_scale = pygame.transform.scale(backround_surf, (ancho, altura))
@@ -110,8 +146,9 @@ botones = {
     "combate": Boton(letras_botones, "Combate", negro, (3 * ancho / 4, 9 * altura / 10), boton_tamanio, azul),
 
     # Combate
-    "atacar": Boton(letras_botones, "Atacar", negro, (ancho / 2, 3 * altura / 10), boton_tamanio, azul),
-    "sacar": Boton(letras_botones, "Sacar", negro, (ancho / 2, 5 * altura / 10),  boton_tamanio, azul),
+    "atacar": Boton(letras_botones, "Atacar", negro, (ancho / 6, 9 * altura / 10), boton_tamanio, azul),
+    "sacar": Boton(letras_botones, "Sacar", negro, (3 * ancho / 6, 9 * altura / 10),  boton_tamanio, azul),
+    "huir": Boton(letras_botones, "Huir", negro, (5 * ancho / 6, 9 * altura / 10),  boton_tamanio, azul),
 
     # Salir
     "salir": Boton(letras_botones, "Salir", negro, (ancho / 2, 9 * altura / 10), boton_tamanio, azul),
@@ -135,7 +172,7 @@ ventanas = { "menu_principal": ["elegir_unimones", "estadisticas", "configuracio
                     
                     "elegir_habilidades": ["atras_izquierda", "seguir_derecha"],
 
-                    "combate": ["atacar", "sacar", "atras"],
+                    "combate": ["atacar", "sacar", "huir"],
                     "estadisticas": ["atras"],
                     "configuracion": ["atras"],
 
@@ -152,6 +189,9 @@ crear_ventana("elegir_unimones", lista_unimones)
 cantidad_unimones = 6
 cantidad_habilidades = 4
 equipo_usr = []
+unimon_usr = None
+equipo_npc = []
+unimon_npc = None
 
 # Opcion vent(ventana)
 vent = "menu_principal"
@@ -201,6 +241,7 @@ while True:
 
                                     # Clase
                                     equipo_usr.append(unimon)
+                                    unimones_sprite[f"{unimon.nombre}_usr"] = UnimonSprite(unimon.nombre, "Usuario")
 
                                     # Menu de equipo
                                     obj_botones(equipo_usr, "equipo_usr", negro, azul)
@@ -232,6 +273,9 @@ while True:
                         if equipo_usr:
                             botones["elegir_habilidades"].cambiar_fondo(azul)
                             vent = "elegir_habilidades"
+                            equipo_npc = elegir_equipo_npc(unimones, len(equipo_usr))
+                            for unimon in equipo_npc:
+                                unimones_sprite[f"{unimon.nombre}_npc"] = UnimonSprite(unimon.nombre, "NPC")
 
                         else:
                             botones["elegir_habilidades"].cambiar_fondo(rojo)
@@ -252,14 +296,26 @@ while True:
 
                     elif botones["seguir_derecha"].collision(pos_mouse):
                         pasar = True
+                        nuevo_len_hb = 0
+                        pasado_len_hb = len(equipo_usr[0].hb)
+
                         for unimon in equipo_usr:
                             if not unimon.hb:
                                 pasar = False
                                 break
 
+                            nuevo_len_hb = len(unimon.hb)
+                            if nuevo_len_hb != pasado_len_hb:
+                                pasar = False
+                                break
+                            
+                            pasado_len_hb = len(unimon.hb)
+                        
                         if pasar:
                             botones["seguir_derecha"].cambiar_fondo(azul)
                             vent = "sacar"
+                            elegir_habilidades_npc(equipo_npc, pasado_len_hb)
+                            unimon_npc = elegir_sacar_npc(equipo_npc)
                         
                         else:
                             botones["seguir_derecha"].cambiar_fondo(rojo)
@@ -274,8 +330,8 @@ while True:
                         botones["sacar"].cambiar_fondo(azul)
                         vent = "sacar"
                     
-                    elif botones["atras"].collision(pos_mouse):
-                        botones["atras"].cambiar_fondo(azul)
+                    elif botones["huir"].collision(pos_mouse):
+                        botones["huir"].cambiar_fondo(azul)
                         vent = "elegir_habilidades"
                 
                 # Sacar
@@ -283,13 +339,21 @@ while True:
                     for unimon in equipo_usr:
                         boton = botones[f"{unimon.nombre}_equipo_usr"]
                         if boton.collision(pos_mouse):
-                            boton.cambiar_fondo(azul)
-                            vent = "combate"
-                            unimon_usr = unimon
+                            if unimon != unimon_usr:
+                                boton.cambiar_fondo(azul)
+                                vent = "combate"
+                                unimon_usr = unimon
+
+                            else:
+                                boton.cambiar_fondo(rojo)
             
                     if botones["atras"].collision(pos_mouse):
-                        botones["atras"].cambiar_fondo(azul)
-                        vent = "combate"
+                        if unimon_usr:
+                            botones["atras"].cambiar_fondo(azul)
+                            vent = "combate"
+
+                        else:
+                            botones["atras"].cambiar_fondo(rojo)
 
                 # Estadisticas
                 elif vent == "estadisticas":
@@ -360,6 +424,7 @@ while True:
 
                                 # Clase
                                 equipo_usr.remove(unimon)
+                                unimones_sprite.pop(f"{unimon.nombre}_usr")
 
                                 # Actualizar menu de equipo
                                 obj_botones(equipo_usr, "equipo_usr", negro, azul)
@@ -422,6 +487,8 @@ while True:
 
     elif vent == "combate":
         titulos["combate"].dibujar(screen)
+        unimones_sprite[f"{unimon_usr.nombre}_usr"].dibujar(screen)
+        unimones_sprite[f"{unimon_npc.nombre}_npc"].dibujar(screen)
 
     elif vent == "sacar":
         titulos["sacar"].dibujar(screen)
