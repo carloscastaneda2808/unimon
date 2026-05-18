@@ -2,14 +2,14 @@
 Archivo para crear textos
 """
 
-from elemento_ui import ElementoUI
+from clases_visual.elemento_ui import ElementoUI
 
 class Texto(ElementoUI):
     textos = {}
 
-    def __init__(self, nombre, x, y, ancho, alto, fuente, texto, texto_color, fondo_color, imagen_ruta=None):
+    def __init__(self, nombre, fuente, texto, texto_color, fondo_color, imagen_ruta, x, y, ancho, alto):
         # Invoca a elementos UI
-        super().__init__(x, y, ancho, alto, fuente, texto, texto_color, fondo_color, imagen_ruta)
+        super().__init__(fuente, texto, texto_color, fondo_color, imagen_ruta, x, y, ancho, alto)
         
         # Se guarda en un dicccionario
         Texto.textos[nombre] = self

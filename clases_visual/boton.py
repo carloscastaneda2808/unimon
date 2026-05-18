@@ -2,14 +2,16 @@
 Archivo para crear botones
 """
 
-from elemento_ui import ElementoUI
+from clases_visual.elemento_ui import ElementoUI
 
 class Boton(ElementoUI):
     botones = {}
 
-    def __init__(self, nombre, x, y, ancho, alto, fuente, texto, texto_color, boton_color, imagen_ruta=None):
+    def __init__(self, nombre, fuente, texto, texto_color, boton_color, imagen_ruta, x, y, ancho, alto, tipo, accion):
         # super() invoca a elementos UI
-        super().__init__(x, y, ancho, alto, fuente, texto, texto_color, boton_color, imagen_ruta)
+        super().__init__(fuente, texto, texto_color, boton_color, imagen_ruta, x, y, ancho, alto)
+        self.tipo = tipo
+        self.accion = accion
         
         # Se guarda en un diccionario
         Boton.botones[nombre] = self
