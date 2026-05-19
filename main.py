@@ -97,7 +97,6 @@ Ventana("sacar", [Imagen.imagenes["inicio"]], [Texto.textos["sacar"]], [Boton.bo
 
 # Datos
 datos_unimones()
-datos_habilidades()
 
 # Empieza en inicio
 ventana = "inicio"

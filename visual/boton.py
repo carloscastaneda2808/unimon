@@ -53,3 +53,18 @@ class Boton(ElementoUI):
     def ventana_salir():
         pygame.quit()
         exit()
+
+    def objetos_botones(objetos, ancho):
+        
+        objetos_por_filas = 4
+        espacio = ancho / (objetos_por_filas + 1)
+
+        for i, obj in enumerate(objetos):
+
+            columna = i % objetos_por_filas
+            fila = i // objetos_por_filas
+
+            x = espacio * (columna + 1)
+            y = 230 + fila * 100
+
+        Boton(f"{obj.nombre}", )

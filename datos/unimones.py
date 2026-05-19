@@ -4,6 +4,9 @@ Archivo para los datos de los unimones
 
 import pygame
 from pokedex.unimon import Unimon
+from pokedex.habilidad import Habilidad
+
+from datos.habilidades import datos_habilidades
 
 pygame.init()
 
@@ -131,3 +134,13 @@ def datos_unimones():
               ["images/pokemon/chansey_front.png",
               "images/pokemon/chansey_back.png"],
               ancho * 3/12, altura * 9/12, 500, 500)
+       
+       datos_habilidades()
+
+       for unimon_nombre in Unimon.unimones:
+              unimon = Unimon.unimones[unimon_nombre]
+              for habilidad_nombre in Habilidad.habilidades:
+                     habilidad = Habilidad.habilidades[habilidad_nombre]
+                     for hb_posible in unimon.hb_posibles:
+                            if hb_posible == habilidad_nombre:
+                                   unimon.hb.append(habilidad)
