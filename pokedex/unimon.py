@@ -2,48 +2,78 @@
 Archivo para crear los unimones
 """
 
-class Unimon:
-    todos = []
+import pygame
 
-    def __init__(self, nombre, tipo, hp, atk, df, spa , spd , spe, estado, duracion, hb_posibles, hb = None):
-        self.nombre = nombre
+pygame.init()
+
+info_pantalla = pygame.display.Info()
+ancho = info_pantalla.current_w
+altura = info_pantalla.current_h
+
+class Unimon:
+    unimones = {}
+
+    def __init__(self, nombre, tipo, 
+                 hp, atk_fisico, df_fisico, atk_especial, df_especial, spe, 
+                 estado, estado_duracion,
+                 hb_posibles,
+                 imagenes_rutas, x, y, ancho, altura):
+        
+        # Estadisticas
         self.tipo = tipo
         self.hp = hp
         self.hp_max = hp
-        
-        self.atk = atk
-        self.spa  = spa
-        self.df = df
-        self.spd  = spd 
+        self.atk_fisico = atk_fisico
+        self.df_fisico = df_fisico
+        self.atk_especial = atk_especial
+        self.df_especial = df_especial
         self.spe = spe
         self.spe_max = spe
-        
-        self.estado = estado
-        self.duracion = duracion
 
+        # Habilidades
+        self.hb = []
         self.hb_posibles = hb_posibles
-        if hb is None:
-            hb = []
-        self.hb = hb
+
+        # Estado
+        self.estado = estado
+        self.estado_duracion = estado_duracion
+
+        # Sprite
+        self.frames = []
+
+        for imagen_ruta in imagenes_rutas:    
+            frame = pygame.image.load(imagen_ruta).convert_alpha()
+            frame = pygame.transform.scale(frame, (ancho, altura))
+            self.frames.append(frame)
         
-        Unimon.todos.append(self)
+        self.x = x
+        self.y = y
+        self.index = 0
+        self.imagen = self.frames[self.index]
+        self.rect = self.imagen.get_rect(center = (self.x, self.y))
 
-    # se imprime el unimon con sus estadisticas
-    def str_stats(self):
-        return f"\nEstadisticas de {self.nombre}\nTipo: {self.tipo}\nHP: {self.hp}\nAtaque: {self.atk}\nDefensa: {self.df}\nVelocidad: {self.spe}\nPosibles Habilidades: {self.hb_posibles}"
+        # Guardar en la clase
+        Unimon.unimones[nombre] = self
     
-    # se imprimen las habilidades, se utiliza en la funcion elegir_turno_usr
-    def str_habilidades(self):
-        cadena = ""
-        for i in range(len(self.hb)):
-           cadena += f"{i+1}) {self.hb[i]}\n"
-        
-        cadena = cadena[0:-1]
-        return cadena
+    # Funciones
+    def verificar_hp(self):
+        return self.hp > 0
 
-    # solo imprime el nombre
-    def __str__(self):
-        return f"{self.nombre}"
-    
+    # Funciones de Sprite
+    def cambiar_front(self):
+        self.cambiar_xy(ancho * 9/12, altura * 5/12)
+        self.cambiar_imagen(1)
 
+    def cambiar_imagen(self, index):
+        self.index = index
+        self.imagen = self.frames[self.index]
+        self.rect = self.imagen.get_rect(center = (self.x, self.y))
+
+    def cambiar_xy(self, x, y):
+        self.x = x
+        self.y = y
+        self.rect = self.imagen.get_rect(center = (self.x, self.y))
+
+    def dibujar(self, screen):
+        screen.blit(self.imagen, self.rect)
 

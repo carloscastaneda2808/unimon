@@ -15,17 +15,16 @@ class Ventana:
     def hover(self, pos_mouse, azul, azul_oscuro):
         for boton in self.botones:
             if boton.collision(pos_mouse):
-                boton.cambiar_boton(azul_oscuro)
+                boton.cambiar_fondo(azul_oscuro)
             else:
-                boton.cambiar_boton(azul)
+                boton.cambiar_fondo(azul)
 
-    def collision(self, pos_mouse, azul, ventana):
+    def collision(self, pos_mouse, azul):
         for boton in self.botones:
             if boton.collision(pos_mouse):
-                if boton.tipo == "ventana":
-                    boton.cambiar_boton(azul)
-                    return boton.accion
-        return ventana
+                boton.cambiar_fondo(azul)
+                return boton.funcion()
+        return None
 
     def dibujar(self, screen):
         for imagen in self.imagenes:

@@ -1,328 +1,129 @@
 """
-Archivo main
+Archivo para interfaz grafica de prube
 """
 
-from random import randint
-from copy import deepcopy
-from unimon.funciones_UP.lectura import abrir_unimon
-from unimon.funciones_UP.input_validation import elegir_equipo_usr, elegir_habilidades_usr, elegir_sacar_usr, elegir_movimiento_usr, cantidad_unimones, cantidad_habilidades
-from unimon.pokedex.combate import restar_hp, verificar_hp, debilitado
-from unimon.pokedex.estados import estado_antes, estado_danio, verificar_paralizado
-from unimon.ia.npc import cambiar_npc, elegir_equipo_npc, elegir_habilidades_npc, elegir_sacar_npc, elegir_movimiento_npc
 import pygame
+from sys import exit
+from copy import copy
 
-def main():
-    # lo principal para que funcione el codigo
-    unimones = abrir_unimon()
-    cantidad_uni = 6
-    cantidad_hb = 4
+from visual.boton import Boton
+from visual.texto import Texto
+from visual.ventana import Ventana
+from visual.imagen import Imagen
 
-    # menu principal
-    while True:
-        print("\n===== MENU =====")
-        print("1) Iniciar partida")
-        print("2) Estadisticas")
-        print("3) Configuracion")
-        print("0) Salir")
+from datos.unimones import datos_unimones
+from datos.habilidades import datos_habilidades
 
-        while True:
-            try:
-                opcion = int(input("Elige opción (0-3): "))
+pygame.init()
 
-                if opcion < 0 or opcion > 3:
-                    raise ValueError("Opción fuera de rango")
-                break
+# Pantalla
+info_pantalla = pygame.display.Info()
+ancho = info_pantalla.current_w
+altura = info_pantalla.current_h
+screen = pygame.display.set_mode((ancho, altura))
+pygame.display.set_caption("Unimon")
 
-            except ValueError as e:
-                print(e)
-        
-        if opcion == 0:
-            print("Cerrando juego...")
-            break
-        
-        # inicio de una partida
-        elif opcion == 1:
-            print("\n===== PARTIDA INICIADA =====")
-            gano = "Nada"
-            # primero se elige el unimon y las habilides
-            print("\n===== ELECCION DEL UNIMON =====")
-            equipo_usr = deepcopy(elegir_equipo_usr(unimones, cantidad_uni))
+# FPS
+fps = pygame.time.Clock()
 
-            print("\n===== ELECCION DE LAS HABILIDADES =====")
-            elegir_habilidades_usr(equipo_usr, cantidad_hb)
+# Colores
+rojo = "Red"
+verde = "Green"
+azul = "Blue"
+azul_oscuro = "darkblue"
+cian = "cyan"
+negro = "Black"
+gris = "gray"
 
-            # el npc elige aleatoriamente
-            equipo_npc = deepcopy(elegir_equipo_npc(unimones, cantidad_uni))
-            elegir_habilidades_npc(equipo_npc, cantidad_hb)
+# Letras
+fuente_1 = pygame.font.Font("letras/SHPinscher-Regular.otf", 100)
+fuente_2 = pygame.font.Font("letras/SHPinscher-Regular.otf", 50)
+fuente_3 = pygame.font.Font("letras/SHPinscher-Regular.otf", 35)
 
-            unimon_usr = elegir_sacar_usr(equipo_usr)
-            unimon_npc = elegir_sacar_npc(equipo_npc)
+# Imagenes
+Imagen("inicio", "images/backround/inicio.jpg", ancho, altura, 0, 0)
 
-            # inicio del combate
-            print("\n===== COMBATE =====")
-            turno = 1
-            while True:
-                print(f"\n===== TURNO {turno} =====")
-                # verifica vida solo para mostrarla
-                verificar_hp("Usuario", unimon_usr)
-                print("")
-                verificar_hp("NPC", unimon_npc)
-                print("")
-                print("1) Habilidades")
-                print("2) Cambiar Unimon")
-                print("0) salir del combate")
+# Textos
+Texto("inicio", fuente_1, "Unimon", negro, verde, None, ancho * 1/2, altura * 1/10, 700, 110)
+Texto("elegir_unimones", fuente_1, "Elegir Unimon", negro, verde, None, ancho / 2, altura / 10, 700, 110)
+Texto("elegir_habilidades", fuente_1, "Elegir Habilidades", negro, verde, None, ancho / 2, altura / 10, 700, 110)
+Texto("estadisticas", fuente_1, "Estadisticas", negro, verde, None, ancho / 2, altura / 10, 700, 110)
+Texto("configuracion", fuente_1, "Configuracion", negro, verde, None, ancho / 2, altura / 10, 700, 110)
+Texto("combate", fuente_1, "Combate", negro, verde, None, ancho / 2, altura / 10, 700, 110)
+Texto("atacar", fuente_1, "Atacar", negro, verde, None, ancho / 2, altura / 10, 700, 110)
+Texto("sacar", fuente_1, "Sacar", negro, verde, None, ancho / 2, altura / 10, 700, 110)
 
-                while True:
-                    try:
-                        opcion2 = int(input("Elige opción (0-2): "))
+# Botones
+# Inicio
+Boton("jugar", fuente_2, "Jugar", negro, azul, None, ancho * 1/2, altura * 3/10, 400, 80, Boton.ventana_elegir_unimones)
+Boton("estadisticas", fuente_2, "Estadisticas", negro, azul, None, ancho * 1/2, altura * 5/10, 400, 80, Boton.ventana_estadisticas)
+Boton("configuracion", fuente_2, "Configuracion", negro, azul, None, ancho * 1/2, altura * 7/10, 400, 80, Boton.ventana_configuracion)
+Boton("salir", fuente_2, "Salir", negro, azul, None, ancho * 1/2, altura * 9/10, 400, 80, Boton.ventana_salir)
 
-                        if opcion2 < 0 or opcion2 > 2:
-                            raise ValueError("Opción fuera de rango")
-                        break
+# Elegir Unimones
+Boton("atras_1", fuente_2, "Atrás", negro, azul, None, ancho * 1/4, altura * 9/10, 400, 80, Boton.ventana_inicio)
+Boton("seguir_1", fuente_2, "Seguir", negro, azul, None, ancho * 3/ 4, altura * 9/10, 400, 80, Boton.ventana_elegir_habilidades)
 
-                    except ValueError as e:
-                        print(e)
+# Elegir Habilidades
+Boton("atras_2", fuente_2, "Atrás", negro, azul, None, ancho * 1/4, altura * 9/10, 400, 80, Boton.ventana_elegir_unimones)
+Boton("seguir_2", fuente_2, "Seguir", negro, azul, None, ancho * 3/4, altura * 9/10, 400, 80, Boton.ventana_combate)
 
-                if opcion2 == 0:
-                    print("TE RENDISTE")
-                    break
+# Estadisticas y Configuracion
+Boton("atras_3", fuente_2, "Atrás", negro, azul, None, ancho * 1/2, altura * 9/10, 400, 80, Boton.ventana_inicio)
 
-                # verificar si puede cambiar
-                if opcion2 == 2 and len(equipo_usr) <= 1:
-                    opcion2 = 1
-                    print("\nNo puedes cambiar de unimon")
+# Combate
+Boton("atacar", fuente_2, "Atacar", negro, azul, None, ancho * 1/6, altura * 9/10, 400, 80, Boton.ventana_atacar)
+Boton("sacar", fuente_2, "Sacar", negro, azul, None, ancho * 3/6, altura * 9/10, 400, 80, Boton.ventana_sacar)
+Boton("huir", fuente_2, "Huir", negro, azul, None, ancho * 5/6, altura * 9/10, 400, 80, Boton.ventana_elegir_habilidades)
 
-                # se puede cambiar la opcion2 si el NPC decide cambiar de pokemon
-                if not len(equipo_npc) <= 1:
-                    if cambiar_npc(unimon_npc, unimon_usr):
-                        if opcion2 == 1:
-                            opcion2 = -1
-                        elif opcion2 == 2:
-                            opcion2 = -2
-
-                # los unimones combate, solo esta la opcion de ataques de daño
-                if opcion2 == 1:
-                    # se eligen las habilidades a usar, se les llama turno para no repetir nombres
-                    print("\n===== ELECCION DE MOVIMIENTO =====")
-                    movimiento_usr = elegir_movimiento_usr(unimon_usr)
-                    movimiento_npc = elegir_movimiento_npc(unimon_npc) 
-
-                    # verificar si se misminuira la velocidad
-                    verificar_paralizado(unimon_usr)
-                    verificar_paralizado(unimon_npc)
-
-                    if unimon_usr.spe > unimon_npc.spe:
-                        primero = 1
-                    elif unimon_usr.spe < unimon_npc.spe:
-                        primero = 2
-                    # si tiene igual de velocidad es aleatorio
-                    else:
-                        primero = randint(1, 2)
-                        
-                    # la habilidad ataca y verifica si el pokemon se ha debilitado para terminar el combate
-                    if primero == 1:
-
-                        # Verifica si el Unimon puede actuar (no está dormido, paralizado ni congelado)
-                        print("")
-                        if not estado_antes(unimon_usr):
-                            restar_hp("Usuario", movimiento_usr, unimon_usr, unimon_npc)
-                        else:
-                            # notifica al usuario porque no atacó
-                            print(f"El {unimon_usr} de Usuario pierde turno por estar {unimon_usr.estado}")
-
-                        seguir = True
-                        if verificar_hp("NPC", unimon_npc):
-                            seguir = debilitado(unimon_npc, equipo_npc, "NPC")
-                            unimon_npc = elegir_sacar_npc(equipo_npc)
-                            if unimon_npc == "Todos debilitados":
-                                gano = "Usuario"
-                                break
-
-                        print("")
-                        if not estado_antes(unimon_npc) and seguir:
-                            restar_hp("NPC", movimiento_npc, unimon_npc, unimon_usr)
-                        else:
-                            print(f"El {unimon_npc} de NPC pierde turno por estar {unimon_npc.estado}")
-
-                        if verificar_hp("Usuario", unimon_usr) and seguir:
-                            debilitado(unimon_usr, equipo_usr, "Usuario")
-                            unimon_usr = elegir_sacar_usr(equipo_usr)
-                            if unimon_usr == "Todos debilitados":
-                                gano = "NPC"
-                                break
-                    else:
-                        print("")
-                        if not estado_antes(unimon_npc):
-                            restar_hp("NPC", movimiento_npc, unimon_npc, unimon_usr)
-                        else:
-                            print(f"El {unimon_npc} de NPC pierde turno por estar {unimon_npc.estado}")
-
-                        seguir = True
-                        if verificar_hp("Usuario", unimon_usr):
-                            seguir = debilitado(unimon_usr, equipo_usr, "Usuario")
-                            unimon_usr = elegir_sacar_usr(equipo_usr)
-                            if unimon_usr == "Todos debilitados":
-                                gano = "NPC"
-                                break
-
-                        print("")
-                        if not estado_antes(unimon_usr) and seguir:
-                            restar_hp("Usuario", movimiento_usr, unimon_usr, unimon_npc)
-                        else:
-                            print(f"El {unimon_usr} de Usuario pierde turno por estar {unimon_usr.estado}")
-
-                        if verificar_hp("NPC", unimon_npc) and seguir:
-                            debilitado(unimon_npc, equipo_npc, "NPC")
-                            unimon_npc = elegir_sacar_npc(equipo_npc)
-                            if unimon_npc == "Todos debilitados":
-                                gano = "Usuario"
-                                break
-
-                # USUARIO CAMBIA
-                elif opcion2 == 2:
-                    movimiento_npc = elegir_movimiento_npc(unimon_npc)
-                    unimon_usr = elegir_sacar_usr(equipo_usr)
-
-                    print("")
-                    if not estado_antes(unimon_npc):
-                        restar_hp("NPC", movimiento_npc, unimon_npc, unimon_usr)
-                    else:
-                        print(f"El {unimon_npc} de NPC pierde turno por estar {unimon_npc.estado}")
-
-                    if verificar_hp("Usuario", unimon_usr):
-                        debilitado(unimon_usr, equipo_usr, "Usuario")
-                        unimon_usr = elegir_sacar_usr(equipo_usr)
-                        if unimon_usr == "Todos debilitados":
-                            break
-
-                # NPC CAMBIA
-                elif opcion2 == -1:
-                    # se eligen las habilidades a usar, se les llama turno para no repetir nombres
-                    print("\n===== ELECCION DE MOVIMIENTO =====")
-                    movimiento_usr = elegir_movimiento_usr(unimon_usr)
-                    unimon_npc = elegir_sacar_npc(equipo_npc)
-
-                    # Verifica si el Unimon puede actuar (no está dormido, paralizado ni congelado)
-                    print("")
-                    if not estado_antes(unimon_usr):
-                        restar_hp("Usuario", movimiento_usr, unimon_usr, unimon_npc)
-                    else:
-                        # notifica al usuario porque no atacó
-                        print(f"El {unimon_usr} de Usuario pierde turno por estar {unimon_usr.estado}")
-
-                    if verificar_hp("NPC", unimon_npc):
-                        debilitado(unimon_npc, equipo_npc, "NPC")
-                        unimon_npc = elegir_sacar_npc(equipo_npc)
-                        if unimon_npc == "Todos debilitados":
-                            break
-
-                # LOS DOS CAMBIAN
-                elif opcion2 == -2:
-                    print("\n====  SACAR UNIMON =====")
-                    unimon_usr = elegir_sacar_usr(equipo_usr)
-                    unimon_npc = elegir_sacar_npc(equipo_npc)
-
-                estado_danio(unimon_usr)
-                estado_danio(unimon_npc)
-
-                # verificar si alguien murio por los estados de daño
-                if unimon_usr.hp <= 0 and unimon_npc.hp <= 0:
-                    debilitado(unimon_usr, equipo_usr, "Usuario")
-                    unimon_usr = elegir_sacar_usr(equipo_usr)
-                    unimon_npc = elegir_sacar_npc(equipo_npc)
-                    if unimon_usr == "Todos debilitados" and unimon_npc == "Todos debilitados":
-                        gano = "EMPATE"
-                        break
-
-                if unimon_usr.hp <= 0:
-                    debilitado(unimon_usr, equipo_usr, "Usuario")
-                    unimon_usr = elegir_sacar_usr(equipo_usr)
-                    if unimon_usr == "Todos debilitados":
-                        gano = "NPC"
-                        break
-                
-                if unimon_npc.hp <= 0:
-                    debilitado(unimon_npc, equipo_npc, "NPC")
-                    unimon_npc = elegir_sacar_npc(equipo_npc)
-                    if unimon_npc == "Todos debilitados":
-                        gano = "Usuario"
-                        break
-                turno += 1
-            
-            if gano == "Usuario":
-                print("GANASTE")    
-            elif gano == "NPC":
-                print("PERDISTE")
-            elif gano == "EMPATE":
-                print("EMPATE")
-
-            print("El combate termino...")
-
-        elif opcion == 2:
-            while True:
-                # poner la opcion de imprimir las stats de unimones y habilidades
-                print("\n===== ESTADISTICAS =====")
-                print("\n0) salir")
-
-                while True:
-                    try:
-                        opcion2 = int(input("Elige opción (0-0): "))
-
-                        if opcion2 < 0 or opcion2 > 0:
-                            raise ValueError("Opción fuera de rango")
-                        break
-
-                    except ValueError as e:
-                        print(e)
-            
-                if opcion2 == 0:
-                    print("\nSaliendo de estadisticas...")
-                    break
-    
-        elif opcion == 3:
-            while True:
-                print("\n===== CONFIGURACION =====")
-                print("1) Cambiar cantidad de unimones")
-                print("2) Cambiar cantidad de habilidades")
-                print("0) Salir")
-
-                while True:
-                    try:
-                        opcion2 = int(input("Elige opción (0-2): "))
-
-                        if opcion2 < 0 or opcion2 > 2:
-                            raise ValueError("Opción fuera de rango")
-                        break
-
-                    except ValueError as e:
-                        print(e)
-
-                if opcion2 == 0:
-                    print("\nSaliendo de configuracion...")
-                    break
-
-                if opcion2 == 1:
-                    cantidad_uni = cantidad_unimones()
-
-                if opcion2 == 2:
-                    cantidad_hb = cantidad_habilidades()
+# Atacar y Sacar
+Boton("atras_4", fuente_2, "Atrás", negro, azul, None, ancho * 1/2, altura * 9/10, 400, 80, Boton.ventana_combate)
 
 
+# Ventanas
+Ventana("inicio", [Imagen.imagenes["inicio"]], [Texto.textos["inicio"]], [Boton.botones["jugar"], Boton.botones["estadisticas"], Boton.botones["configuracion"], Boton.botones["salir"]])
 
+Ventana("elegir_unimones", [Imagen.imagenes["inicio"]], [Texto.textos["elegir_unimones"]], [Boton.botones["atras_1"], Boton.botones["seguir_1"]])
+Ventana("elegir_habilidades", [Imagen.imagenes["inicio"]], [Texto.textos["elegir_habilidades"]], [Boton.botones["atras_2"], Boton.botones["seguir_2"]])
 
+Ventana("estadisticas", [Imagen.imagenes["inicio"]], [Texto.textos["estadisticas"]], [Boton.botones["atras_3"]])
+Ventana("configuracion", [Imagen.imagenes["inicio"]], [Texto.textos["configuracion"]], [Boton.botones["atras_3"]])
 
-            
+Ventana("combate", [Imagen.imagenes["inicio"]], [Texto.textos["combate"]], [Boton.botones["atacar"], Boton.botones["sacar"], Boton.botones["huir"]])
 
-if __name__ == "__main__":
-    main()
+Ventana("atacar", [Imagen.imagenes["inicio"]], [Texto.textos["atacar"]], [Boton.botones["atras_4"]])
 
+Ventana("sacar", [Imagen.imagenes["inicio"]], [Texto.textos["sacar"]], [Boton.botones["atras_4"]])
 
+# Datos
+datos_unimones()
+datos_habilidades()
 
-            
+# Empieza en inicio
+ventana = "inicio"
 
+while True:
+    pos_mouse = pygame.mouse.get_pos()
 
+    for event in pygame.event.get():
+        # Cerrar el juego
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            exit()
 
-        
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 1:
 
+                funcion = Ventana.ventanas[ventana].collision(pos_mouse, azul)
+                if funcion:
+                    ventana = funcion
 
-            
+        # Efecto Hover
+        if event.type == pygame.MOUSEMOTION:
+
+            Ventana.ventanas[ventana].hover(pos_mouse, azul, azul_oscuro)
+
+    screen.fill(negro)
+    Ventana.ventanas[ventana].dibujar(screen)
+    pygame.display.update()
+    fps.tick(60)

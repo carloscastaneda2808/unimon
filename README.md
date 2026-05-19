@@ -24,8 +24,8 @@ Comandos:
         deactivate
 
     - para iniciar el programa desde la carpte unimon se usa:
-    python -m interfaz_grafica
+        python -m main
 
 Cosas del commit:
-    Este codigo cuando lo empeze solo dios y yo sabiamos como funcionada, ahora solo dios (es broma). Este commit puede que tenga error, pero se puede correr. Le aniadi una carpte llamada ia con un archivo llamdo npc. El combate de varios pokemones ya funciona. El archivo main cambio mucho, no es eficiente pero funciona.
+    - Falta cambiar los archivos de combate, estados, input_validation y npc. Tambien falta la selecion de pokemones en main
 """
