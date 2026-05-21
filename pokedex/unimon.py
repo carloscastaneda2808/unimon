@@ -3,21 +3,18 @@ Archivo para crear los unimones
 """
 
 import pygame
+from copy import copy
 
-pygame.init()
-
-info_pantalla = pygame.display.Info()
-ancho = info_pantalla.current_w
-altura = info_pantalla.current_h
+from clase_main import Main
 
 class Unimon:
-    unimones = {}
 
-    def __init__(self, nombre, tipo, 
+    def __init__(self, key, tipo, 
                  hp, atk_fisico, df_fisico, atk_especial, df_especial, spe, 
                  estado, estado_duracion,
                  hb_posibles,
-                 imagenes_rutas, x, y, ancho, altura):
+                 imagenes_rutas, x, y, ancho, altura,
+                 dic):
         
         # Estadisticas
         self.tipo = tipo
@@ -31,7 +28,7 @@ class Unimon:
         self.spe_max = spe
 
         # Habilidades
-        self.hb = []
+        self.hb = set()
         self.hb_posibles = hb_posibles
 
         # Estado
@@ -53,7 +50,23 @@ class Unimon:
         self.rect = self.imagen.get_rect(center = (self.x, self.y))
 
         # Guardar en la clase
-        Unimon.unimones[nombre] = self
+        if dic not in Main.unimones:
+            Main.unimones[dic] = {}
+        Main.unimones[dic][key] = self
+
+    # Funcion para crear unimones
+    def copiar_unimon(copiar, copiado, unimon):
+        Main.unimones[copiar][unimon] = copy(Main.unimones[copiado][unimon])
+
+    def eliminar_unimon(dic, unimon):
+        Main.unimones[dic].pop(unimon)
+
+    def unimon_ventana(unimon_dic, unimon, ventanas_dic, ventana, dic_elementos):
+        Main.ventanas[ventanas_dic][ventana].dic_elementos[dic_elementos][6] = unimon_dic
+        Main.ventanas[ventanas_dic][ventana].dic_elementos[dic_elementos][7].add(unimon)
+
+    def eliminar_unimon_ventana(unimon_dic, unimon, ventanas_dic, ventana, dic_elementos):
+        Main.ventanas[ventanas_dic][ventana].dic_elementos[dic_elementos][7].remove(unimon)
     
     # Funciones
     def verificar_hp(self):
@@ -61,7 +74,11 @@ class Unimon:
 
     # Funciones de Sprite
     def cambiar_front(self):
-        self.cambiar_xy(ancho * 9/12, altura * 5/12)
+        self.cambiar_xy(Main.ancho * 9/12, Main.altura * 5/12)
+        self.cambiar_imagen(0)
+
+    def cambiar_back(self):
+        self.cambiar_xy(Main.ancho * 3/12, Main.altura * 9/12)
         self.cambiar_imagen(1)
 
     def cambiar_imagen(self, index):

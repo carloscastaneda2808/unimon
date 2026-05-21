@@ -4,16 +4,19 @@ Archivo para crear imagenes
 
 import pygame
 
-class Imagen:
-    imagenes = {}
+from clase_main import Main
 
-    def __init__(self, nombre, imagen_ruta, ancho, altura, x, y):
+class Imagen:
+
+    def __init__(self, key, imagen_ruta, ancho, altura, x, y, dic):
         self.surf = pygame.image.load(imagen_ruta).convert()
         self.scale = pygame.transform.scale(self.surf, (ancho, altura))
         self.x = x
         self.y = y
 
-        Imagen.imagenes[nombre] = self
+        if dic not in Main.imagenes:
+            Main.imagenes[dic] = {}
+        Main.imagenes[dic][key] = self
 
     def dibujar(self, screen):
         screen.blit(self.scale, (self.x, self.y))

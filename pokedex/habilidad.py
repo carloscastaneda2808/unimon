@@ -3,14 +3,16 @@ Archivo para hacer las habilidades
 """
 
 import pygame
+
+from clase_main import Main
 from random import randint
 
 class Habilidad:
-    habilidades = {}
     
-    def __init__(self, nombre, tipo, 
+    def __init__(self, key, tipo, 
                  poder, pp, acc, sts, estado, estado_acc,
-                 imagenes_rutas, x, y, ancho, altura):
+                 imagenes_rutas, x, y, ancho, altura,
+                 dic):
 
         self.tipo = tipo
         self.poder = poder
@@ -34,7 +36,9 @@ class Habilidad:
         self.imagen = self.frames[self.index]
         self.rect = self.imagen.get_rect(center = (self.x, self.y))
         
-        Habilidad.habilidades[nombre] = self
+        if dic not in Main.habilidades:
+            Main.habilidades[dic] = {}
+        Main.habilidades[dic][key] = self
 
     # Funciones
     def verificar_estado_acc(self):

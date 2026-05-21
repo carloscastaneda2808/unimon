@@ -23,6 +23,9 @@ Comandos:
     - para desactivar venv:
         deactivate
 
+    - para instalar pygame:
+        pip install pygame
+
     - para iniciar el programa desde la carpte unimon se usa:
         python -m main
 

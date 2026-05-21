@@ -5,6 +5,7 @@ Archivo para crear elementos UI
 import pygame
 
 class ElementoUI:
+
     def __init__(self, fuente, texto, texto_color, fondo_color, imagen_ruta, x, y, ancho, alto,):
         self.imagen = imagen_ruta
 
