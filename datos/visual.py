@@ -2,7 +2,7 @@
 Archivo para los datos de lo visual
 """
 
-from clase_main import Main
+from clase.main import Main
 from visual.boton import Boton
 from visual.texto import Texto
 from visual.ventana import Ventana

@@ -1,12 +1,13 @@
 """
-Archivo para interfaz grafica de prube
+Archivo para interfaz grafica
 """
 
 import pygame
 from sys import exit
 from copy import copy
 
-from clase_main import Main
+from clase.main import Main
+from clase.cadena import Cadena
 
 from visual.elemento_ui import ElementoUI
 from visual.ventana import Ventana
@@ -25,14 +26,25 @@ from datos.visual import datos_visual
 screen = pygame.display.set_mode((Main.ancho, Main.altura))
 pygame.display.set_caption("Unimon")
 
+# Reinicio
+def reinicio():
+    if Boton.reiniciar:
+        Main.reinicio()
+        datos_unimones()
+        datos_visual()
+        Boton.crear_botones(Cadena.main, Main.unimones[Cadena.main].keys(), Boton.elegir_unimon, Boton.descartar_unimon)
+        Boton.botones_ventana(Main.unimones[Cadena.main].keys(), Cadena.main, Cadena.elegir_unimones, Cadena.a)
+
+        Boton.reiniciar = False
+
 # Datos
 datos_unimones()
 datos_habilidades()
 datos_visual()
 
 # Crear Botones
-Boton.crear_botones("main", Main.unimones["main"].keys(), Boton.elegir_unimon, Boton.descartar_unimon)
-Boton.botones_ventana(Main.unimones["main"].keys(), "main", Main.vent_2, "a")
+Boton.crear_botones(Cadena.main, Main.unimones[Cadena.main].keys(), Boton.elegir_unimon, Boton.descartar_unimon)
+Boton.botones_ventana(Main.unimones[Cadena.main].keys(), Cadena.main, Cadena.elegir_unimones, Cadena.a)
 
 while True:
     pos_mouse = pygame.mouse.get_pos()
@@ -48,6 +60,7 @@ while True:
             if event.button == 1:
 
                 Main.ventanas[Main.ventanas_dic][Main.vent_actual].collision_1(pos_mouse)
+                reinicio()
 
             # Click izquierdo
             if event.button == 3:
@@ -61,8 +74,7 @@ while True:
 
     # Dibuja la pantalla
     screen.fill(Main.negro)
-
     Main.ventanas[Main.ventanas_dic][Main.vent_actual].dibujar(screen)
-
     pygame.display.update()
+
     Main.fps.tick(60)

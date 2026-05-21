@@ -1,7 +1,7 @@
 """
 Archivo para crear ventanas
 """
-from clase_main import Main
+from clase.main import Main
 
 class Ventana:
 
@@ -71,7 +71,6 @@ class Ventana:
                 if boton.collision(pos_mouse):
                     if boton.funcion_2:
                         boton.funcion_2(value[4], key)
-
 
     def dibujar(self, screen):
         for value in self.dic_elementos.values():

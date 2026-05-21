@@ -4,7 +4,7 @@ Archivo para hacer las habilidades
 
 import pygame
 
-from clase_main import Main
+from clase.main import Main
 from random import randint
 
 class Habilidad:

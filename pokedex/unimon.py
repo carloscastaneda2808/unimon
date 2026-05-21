@@ -5,7 +5,7 @@ Archivo para crear los unimones
 import pygame
 from copy import copy
 
-from clase_main import Main
+from clase.main import Main
 
 class Unimon:
 

@@ -4,7 +4,7 @@ Archivo para datos de las habilidades
 
 import pygame
 
-from clase_main import Main
+from clase.main import Main
 from pokedex.habilidad import Habilidad
 
 def datos_habilidades():

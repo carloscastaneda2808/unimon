@@ -2,7 +2,7 @@
 Archivo para crear textos
 """
 
-from clase_main import Main
+from clase.main import Main
 from visual.elemento_ui import ElementoUI
 
 class Texto(ElementoUI):

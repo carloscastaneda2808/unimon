@@ -1,0 +1,21 @@
+"""
+Archivo para guardar cadenas
+"""
+
+class Cadena:
+    main = "main"
+    inicio = "inicio"
+    elegir_unimones = "elegir_unimones"
+    elegir_habilidades = "elegir_habilidades"
+    estadisticas = "estadisticas"
+    configuracion = "configuracion"
+    combate = "combate"
+    atacar = "atacar"
+    sacar = "sacar"
+    equipo = "equipo"
+    usuario = "usuario"
+    NPC = "NPC"
+    a = "a"
+    b = "b"
+    atras_4 = "atras_4"
+    atras_5 = "atras_5"
