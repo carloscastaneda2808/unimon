@@ -31,7 +31,7 @@ datos_habilidades()
 datos_visual()
 
 # Crear Botones
-Boton.crear_botones("main", Main.unimones["main"].keys(), Boton.seleccionar_1, Boton.deseleccionar_1)
+Boton.crear_botones("main", Main.unimones["main"].keys(), Boton.elegir_unimon, Boton.descartar_unimon)
 Boton.botones_ventana(Main.unimones["main"].keys(), "main", Main.vent_2, "a")
 
 while True:

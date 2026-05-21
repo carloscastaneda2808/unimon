@@ -36,16 +36,17 @@ class Unimon:
         self.estado_duracion = estado_duracion
 
         # Sprite
+        self.imagenes_rutas = imagenes_rutas
         self.frames = []
 
-        for imagen_ruta in imagenes_rutas:    
+        for imagen_ruta in self.imagenes_rutas:    
             frame = pygame.image.load(imagen_ruta).convert_alpha()
             frame = pygame.transform.scale(frame, (ancho, altura))
             self.frames.append(frame)
         
         self.x = x
         self.y = y
-        self.index = 0
+        self.index = 1
         self.imagen = self.frames[self.index]
         self.rect = self.imagen.get_rect(center = (self.x, self.y))
 
@@ -65,21 +66,27 @@ class Unimon:
         Main.ventanas[ventanas_dic][ventana].dic_elementos[dic_elementos][6] = unimon_dic
         Main.ventanas[ventanas_dic][ventana].dic_elementos[dic_elementos][7].add(unimon)
 
-    def eliminar_unimon_ventana(unimon_dic, unimon, ventanas_dic, ventana, dic_elementos):
+    def eliminar_unimon_ventana(unimon, ventanas_dic, ventana, dic_elementos):
+        Main.ventanas[ventanas_dic][ventana].dic_elementos[dic_elementos][6] = None
         Main.ventanas[ventanas_dic][ventana].dic_elementos[dic_elementos][7].remove(unimon)
     
     # Funciones
+    def restar_vida(self, danio):
+        self.hp -= danio
+
     def verificar_hp(self):
         return self.hp > 0
 
     # Funciones de Sprite
     def cambiar_front(self):
-        self.cambiar_xy(Main.ancho * 9/12, Main.altura * 5/12)
+        self.cambiar_medidas(400, 400)
         self.cambiar_imagen(0)
+        self.cambiar_xy(Main.ancho * 9/12, Main.altura * 5/12)
 
     def cambiar_back(self):
-        self.cambiar_xy(Main.ancho * 3/12, Main.altura * 9/12)
+        self.cambiar_medidas(600, 600)
         self.cambiar_imagen(1)
+        self.cambiar_xy(Main.ancho * 3/12, Main.altura * 8/12)
 
     def cambiar_imagen(self, index):
         self.index = index
@@ -90,6 +97,14 @@ class Unimon:
         self.x = x
         self.y = y
         self.rect = self.imagen.get_rect(center = (self.x, self.y))
+
+    def cambiar_medidas(self, ancho, altura):
+        self.frames.clear()
+
+        for imagen_ruta in self.imagenes_rutas:    
+            frame = pygame.image.load(imagen_ruta).convert_alpha()
+            frame = pygame.transform.scale(frame, (ancho, altura))
+            self.frames.append(frame)
 
     def dibujar(self, screen):
         screen.blit(self.imagen, self.rect)

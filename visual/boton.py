@@ -14,6 +14,8 @@ from visual.texto import Texto
 from pokedex.unimon import Unimon
 from pokedex.habilidad import Habilidad
 
+from ia.npc import NPC
+
 class Boton(ElementoUI):
 
     def __init__(self, key, fuente, texto, texto_color, fondo_color, imagen_ruta, x, y, ancho, alto, funcion_1, funcion_2, dic):
@@ -27,6 +29,9 @@ class Boton(ElementoUI):
             Main.botones[dic] = {}
         Main.botones[dic][key] = self
 
+
+
+
     # Funciones principales
     def collision(self, pos_mouse):
         return self.rect.collidepoint(pos_mouse)
@@ -37,7 +42,10 @@ class Boton(ElementoUI):
         elif self.fondo_color != Main.cian:
             self.fondo_color = nuevo_fondo
 
-    # Funcion para crear objetos
+
+
+
+    # Funcion para crear botones
     def crear_boton(dic, key, texto, x, y, ancho, altura, funcion_1, funcion_2):
         Boton(key, Main.fuente_3, texto, Main.negro, Main.azul, None, x, y, ancho, altura, funcion_1, funcion_2, dic)
 
@@ -70,17 +78,22 @@ class Boton(ElementoUI):
         for key in keys:
             Main.botones[dic].pop(key)
 
-    def seleccionar_1(dic, key):
+
+
+
+    # Funciones para elegir cosas
+    def elegir_unimon(dic, key):
         Main.crear_diccionario(Main.unimones, "usuario")
 
         if len(Main.unimones["usuario"]) < 6:
             # Crea diccionario para los unimones del usuario
             Unimon.copiar_unimon("usuario", "main", key)
-            Main.unimones["usuario"][key].cambiar_back()
+            unimon = Main.unimones["usuario"][key]
+            unimon.cambiar_back()
 
             # Crea el diccionario para los botones de la ventana elegir_habilidades
             Main.crear_diccionario(Main.botones, "elegir_habilidades")
-            Boton.crear_botones("elegir_habilidades", Main.unimones["usuario"].keys(), Boton.seleccionar_2, None)
+            Boton.crear_botones("elegir_habilidades", Main.unimones["usuario"].keys(), Boton.unimon_habilidades, None)
 
             # Se crea en la ventana elegir_habilidades el diccionario de elementos "b"
             Main.ventanas["main"][Main.vent_3].crear_dic_elementos("b", None, None, "elegir_habilidades")
@@ -89,8 +102,6 @@ class Boton(ElementoUI):
 
 
             # VENTANA DE CADA UNIMON
-            unimon = Main.unimones["usuario"][key]
-
             # Crea la ventana de cada unimon de elegir habilidades
             Main.crear_diccionario(Main.ventanas, "elegir_habilidades")
             Ventana.crear_ventana("elegir_habilidades", f"{key}_elegir_habilidades", {"a": [None, None, "elegir_habilidades", set(), "main", {"atras_5"}]})
@@ -103,7 +114,7 @@ class Boton(ElementoUI):
 
             # Crea los botones de cada unimon de sus habilidades posibles
             Main.crear_diccionario(Main.botones, f"{key}_elegir_habilidades")
-            Boton.crear_botones(f"{key}_elegir_habilidades", unimon.hb_posibles, Boton.seleccionar_3, Boton.deseleccionar_3)
+            Boton.crear_botones(f"{key}_elegir_habilidades", unimon.hb_posibles, Boton.elegir_habilidades, Boton.descartar_habilidades)
             Boton.botones_ventana(unimon.hb_posibles, "elegir_habilidades", f"{key}_elegir_habilidades", "b")
 
             # Cambia de color el boton
@@ -113,7 +124,7 @@ class Boton(ElementoUI):
             boton = Main.botones[dic][key]
             boton.cambiar_fondo(Main.rojo)
 
-    def deseleccionar_1(dic, key):
+    def descartar_unimon(dic, key):
         boton = Main.botones[dic][key]
         # Verifica si ya habia sido seleccionado
         if boton.fondo_color == Main.cian:
@@ -144,7 +155,7 @@ class Boton(ElementoUI):
             # Cambia de color el boton
             boton.fondo_color = Main.azul
 
-    def seleccionar_2(dic, key):
+    def unimon_habilidades(dic, key):
         Main.ventanas_dic = "elegir_habilidades"
         Main.vent_actual = f"{key}_elegir_habilidades"
 
@@ -152,7 +163,7 @@ class Boton(ElementoUI):
         boton.cambiar_fondo(Main.azul)
         pass
 
-    def seleccionar_3(dic, key):
+    def elegir_habilidades(dic, key):
         unimon_nombre = dic[:-19]
         unimon = Main.unimones["usuario"][unimon_nombre]
 
@@ -165,7 +176,7 @@ class Boton(ElementoUI):
             boton = Main.botones[dic][key]
             boton.cambiar_fondo(Main.rojo)
 
-    def deseleccionar_3(dic, key):
+    def descartar_habilidades(dic, key):
         unimon_nombre = dic[:-19]
         unimon = Main.unimones["usuario"][unimon_nombre]
 
@@ -175,69 +186,102 @@ class Boton(ElementoUI):
         boton = Main.botones[dic][key]
         boton.fondo_color = Main.azul
 
-    def ventana_sacar(dic, key):
-        seguir = True
-        unimon = list(Main.unimones["usuario"].values())[0]
-        num_pasado = len(unimon.hb)
+    def sacar_unimon(dic, key):
+        if key != Main.unimon_usr:
+            if Main.unimon_usr:
+                Unimon.eliminar_unimon_ventana(Main.unimon_usr, "main", Main.vent_6, "a")
 
-        for unimon in Main.unimones["usuario"].values():
-            if len(unimon.hb) != num_pasado or len(unimon.hb) < 1:
-                seguir = False
-                break
+            Main.unimon_usr = key
+            Unimon.unimon_ventana("usuario", key, "main", Main.vent_6, "a")
+
+            # Funcion NPC
+            NPC.elegir_turno()
+
+            Main.ventanas_dic = "main"
+            Main.vent_actual = "combate"
+
+            boton = Main.botones[dic][key]
+            boton.cambiar_fondo(Main.azul)
+
+        else:
+            boton = Main.botones[dic][key]
+            boton.cambiar_fondo(Main.rojo)
+
+    def elegir_movimiento(dic, key):
+        Main.movimiento_usr = key
+
+        # Funcion NPC
+        NPC.elegir_turno()
+
+        Main.ventanas_dic = "main"
+        Main.vent_actual = "combate"
+
+        boton = Main.botones[dic][key]
+        boton.cambiar_fondo(Main.azul)
+
+
+
+
+    # Funion para cambiar de ventana
+    def ventana_sacar(dic, key):
+
+        if not Main.unimon_usr:
+            seguir = True
+            unimon = list(Main.unimones["usuario"].values())[0]
             num_pasado = len(unimon.hb)
 
-        if seguir:
-            # Modifica la ventana sacar
-            Main.ventanas["main"]["sacar"].crear_dic_elementos("b", None, None, "equipo")
-            Main.crear_diccionario(Main.botones, "equipo")
-            Boton.crear_botones("equipo", Main.unimones["usuario"].keys(), Boton.seleccionar_4, None)
-            Boton.botones_ventana(Main.unimones["usuario"].keys(), "main", "sacar", "b")
-            
-            # Crea ventanas para cada unimon
-            Main.crear_diccionario(Main.ventanas, "equipo")
-            Main.crear_diccionario(Main.textos, "equipo")
+            for unimon in Main.unimones["usuario"].values():
+                if len(unimon.hb) != num_pasado or len(unimon.hb) < 1:
+                    seguir = False
+                    break
+                num_pasado = len(unimon.hb)
 
-            for nombre, value in Main.unimones["usuario"].items():
-                Ventana.crear_ventana("equipo", nombre, {"a" : [None, None, "equipo", set(), "main", {"atras_4"}]})
-                Main.ventanas["equipo"][nombre].crear_dic_elementos("b", None, None, f"{nombre}_equipo")
+            if seguir:
+                # Modifica la ventana sacar
+                Main.ventanas["main"]["sacar"].crear_dic_elementos("b", None, None, "equipo")
+                Main.crear_diccionario(Main.botones, "equipo")
+                Boton.crear_botones("equipo", Main.unimones["usuario"].keys(), Boton.sacar_unimon, None)
+                Boton.botones_ventana(Main.unimones["usuario"].keys(), "main", "sacar", "b")
+                
+                # Crea ventanas para cada unimon
+                Main.crear_diccionario(Main.ventanas, "equipo")
+                Main.crear_diccionario(Main.textos, "equipo")
 
-                Texto.crear_titulo("equipo", nombre, nombre)
-                Texto.texto_ventana(nombre, "equipo", nombre, "a")
+                for nombre, value in Main.unimones["usuario"].items():
+                    Ventana.crear_ventana("equipo", nombre, {"a" : [None, None, "equipo", set(), "main", {"atras_4"}]})
+                    Main.ventanas["equipo"][nombre].crear_dic_elementos("b", None, None, f"{nombre}_equipo")
 
-                Main.crear_diccionario(Main.botones, f"{nombre}_equipo")
-                Boton.crear_botones(f"{nombre}_equipo", value.hb, Boton.seleccionar_5, None)
-                Boton.botones_ventana(value.hb, "equipo", nombre, "b")
+                    Texto.crear_titulo("equipo", nombre, nombre)
+                    Texto.texto_ventana(nombre, "equipo", nombre, "a")
 
+                    Main.crear_diccionario(Main.botones, f"{nombre}_equipo")
+                    Boton.crear_botones(f"{nombre}_equipo", value.hb, Boton.elegir_movimiento, None)
+                    Boton.botones_ventana(value.hb, "equipo", nombre, "b")
+
+                # Funcion del NPC
+                NPC.elegir_habilidades()
+                Main.ventanas["main"][Main.vent_6].crear_dic_elementos("b", None, None, None)
+                NPC.sacar_unimon()
+
+                Main.ventanas_dic = "main"
+                Main.vent_actual = copy(Main.vent_8)
+
+                boton = Main.botones[dic][key]
+                boton.cambiar_fondo(Main.azul)
+            else:
+                boton = Main.botones[dic][key]
+                boton.cambiar_fondo(Main.rojo)
+
+        elif len(Main.unimones["usuario"]) > 1:
             Main.ventanas_dic = "main"
             Main.vent_actual = copy(Main.vent_8)
 
             boton = Main.botones[dic][key]
             boton.cambiar_fondo(Main.azul)
+
         else:
             boton = Main.botones[dic][key]
             boton.cambiar_fondo(Main.rojo)
-
-    def seleccionar_4(dic, key):
-        if Main.unimon_usr:
-            Unimon.eliminar_unimon_ventana("usuario", Main.unimon_usr, "main", "combate", "a")
-
-        Main.unimon_usr = key
-        Unimon.unimon_ventana("usuario", key, "main", "combate", "a")
-
-        Main.ventanas_dic = "main"
-        Main.vent_actual = "combate"
-
-        boton = Main.botones[dic][key]
-        boton.cambiar_fondo(Main.azul)
-
-    def seleccionar_5(dic, key):
-        Main.movimiento_usr = key
-
-        Main.ventanas_dic = "main"
-        Main.vent_actual = "combate"
-
-        boton = Main.botones[dic][key]
-        boton.cambiar_fondo(Main.azul)
 
     def ventana_atacar(dic, key):
         Main.ventanas_dic = "equipo"
@@ -246,7 +290,6 @@ class Boton(ElementoUI):
         boton = Main.botones[dic][key]
         boton.cambiar_fondo(Main.azul)
 
-    # Funciones de los botones
     def ventana_inicio(dic, key):
         Main.ventanas_dic = "main"
         Main.vent_actual = copy(Main.vent_1)
@@ -263,7 +306,11 @@ class Boton(ElementoUI):
 
     def ventana_elegir_habilidades(dic, key):
         Main.crear_diccionario(Main.unimones, "usuario")
+
         if len(Main.unimones["usuario"]) > 0:
+            # Funcion del NPC
+            NPC.elegir_equipo()
+
             Main.ventanas_dic = "main"
             Main.vent_actual = copy(Main.vent_3)
 
