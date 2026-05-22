@@ -125,6 +125,10 @@ class Boton(ElementoUI):
         if len(unimon.hb) < 4:
             unimon.hb.add(key)
 
+            # Diccionario de habilidades usuario
+            Main.crear_diccionario(Main.habilidades, Cadena.usuario)
+            Habilidad.copiar_habilidad(Cadena.usuario, Cadena.main, key)
+
             boton = Main.botones[dic][key]
             boton.cambiar_fondo(Main.cian)
         else:
@@ -137,6 +141,9 @@ class Boton(ElementoUI):
         if key in unimon.hb:
             unimon.hb.remove(key)
 
+            # Diccionario de habilidades usuario
+            Habilidad.eliminar_habilidad(Cadena.usuario, key)
+
         boton = Main.botones[dic][key]
         boton.fondo_color = Main.azul
 
@@ -145,14 +152,17 @@ class Boton(ElementoUI):
 
             # Visual
             if Main.unimon_usr:
-                Unimon.eliminar_unimon_ventana(Main.unimon_usr, Cadena.main, Cadena.combate, Cadena.a)
-                # Funcion NPC
-                NPC.elegir_turno()
-                # Combate
-                Main.combate = True
+                Unimon.eliminar_unimon_ventana(Main.unimon_usr, Cadena.main, Cadena.combate, Cadena.usuario)
 
+                if Main.unimon_usr in Main.unimones[Cadena.usuario]:
+                    # Funcion NPC
+                    NPC.elegir_turno()
+                    # Combate
+                    Main.combate = True
+
+            Main.ventanas[Cadena.main][Cadena.combate].crear_dic_elementos(Cadena.usuario, None, None, None)
             Main.unimon_usr = key
-            Unimon.unimon_ventana(Cadena.usuario, key, Cadena.main, Cadena.combate, Cadena.a)
+            Unimon.unimon_ventana(Cadena.usuario, key, Cadena.main, Cadena.combate, Cadena.usuario)
             
             Main.textos[Cadena.main][Cadena.unimon_usr].cambiar_texto(Main.unimon_usr)
 
@@ -234,7 +244,7 @@ class Boton(ElementoUI):
                 boton = Main.botones[dic][key]
                 boton.cambiar_fondo(Main.rojo)
 
-        elif len(Main.unimones[Cadena.usuario]) > 1:
+        elif len(Main.unimones[Cadena.usuario]) > 1 and not Main.timer:
             Main.ventanas_dic = Cadena.main
             Main.vent_actual = Cadena.sacar
 
@@ -248,58 +258,72 @@ class Boton(ElementoUI):
     def ventana_elegir_habilidades(dic, key):
         Main.crear_diccionario(Main.unimones, Cadena.usuario)
 
-        if Cadena.elegir_habilidades not in Main.botones:
-            if len(Main.unimones[Cadena.usuario]) > 0:
-                # Modifica la ventana sacar
-                Main.ventanas[Cadena.main][Cadena.elegir_habilidades].crear_dic_elementos(Cadena.b, None, None, Cadena.elegir_habilidades)
-                Main.crear_diccionario(Main.botones, Cadena.elegir_habilidades)
-                Boton.crear_botones(Cadena.elegir_habilidades , Main.unimones[Cadena.usuario].keys(), Boton.unimon_habilidades, None)
-                Boton.botones_ventana(Main.unimones[Cadena.usuario].keys(), Cadena.main, Cadena.elegir_habilidades, Cadena.b)
+        # if Cadena.elegir_habilidades not in Main.botones:
+        if len(Main.unimones[Cadena.usuario]) > 0:
+            # reinicia la ventana elegir habilidades
+            Ventana("elegir_habilidades",
+            {"a" : 
+             ["main", {"inicio"},
+            "main", {"elegir_habilidades"},
+            "main", {"atras_2", "seguir_2"}]},
+            "main")
 
-                # Crea ventanas para cada unimon
-                Main.crear_diccionario(Main.ventanas, Cadena.elegir_habilidades)
-                Main.crear_diccionario(Main.textos, Cadena.elegir_habilidades)
+            # Modifica la ventana sacar
+            Main.ventanas[Cadena.main][Cadena.elegir_habilidades].crear_dic_elementos(Cadena.b, None, None, Cadena.elegir_habilidades)
+            Main.crear_diccionario(Main.botones, Cadena.elegir_habilidades)
+            Boton.crear_botones(Cadena.elegir_habilidades , Main.unimones[Cadena.usuario].keys(), Boton.unimon_habilidades, None)
+            Boton.botones_ventana(Main.unimones[Cadena.usuario].keys(), Cadena.main, Cadena.elegir_habilidades, Cadena.b)
 
-                for nombre, value in Main.unimones[Cadena.usuario].items():
-                    value.cambiar_back()
+            # Crea ventanas para cada unimon
+            Main.crear_diccionario(Main.ventanas, Cadena.elegir_habilidades)
+            Main.crear_diccionario(Main.textos, Cadena.elegir_habilidades)
 
-                    Ventana.crear_ventana(Cadena.elegir_habilidades, nombre, {Cadena.a : [None, None, Cadena.elegir_habilidades, set(), Cadena.main, {Cadena.atras_5}]})
-                    Main.ventanas[Cadena.elegir_habilidades][nombre].crear_dic_elementos(Cadena.b, None, None, f"{nombre}_{Cadena.elegir_habilidades}")
+            for nombre, value in Main.unimones[Cadena.usuario].items():
+                value.cambiar_back()
 
-                    Texto.crear_titulo(Cadena.elegir_habilidades, nombre, nombre)
-                    Texto.texto_ventana(nombre, Cadena.elegir_habilidades, nombre, Cadena.a )
+                Ventana.crear_ventana(Cadena.elegir_habilidades, nombre, {Cadena.a : [None, None, Cadena.elegir_habilidades, set(), Cadena.main, {Cadena.atras_5}]})
+                Main.ventanas[Cadena.elegir_habilidades][nombre].crear_dic_elementos(Cadena.b, None, None, f"{nombre}_{Cadena.elegir_habilidades}")
 
-                    Main.crear_diccionario(Main.botones, f"{nombre}_{Cadena.elegir_habilidades}")
-                    Boton.crear_botones(f"{nombre}_{Cadena.elegir_habilidades}", value.hb_posibles, Boton.elegir_habilidades, Boton.descartar_habilidades)
-                    Boton.botones_ventana(value.hb_posibles, Cadena.elegir_habilidades, nombre, Cadena.b)
+                Texto.crear_titulo(Cadena.elegir_habilidades, nombre, nombre)
+                Texto.texto_ventana(nombre, Cadena.elegir_habilidades, nombre, Cadena.a )
 
-                # Funcion del NPC
-                NPC.elegir_equipo()
+                Main.crear_diccionario(Main.botones, f"{nombre}_{Cadena.elegir_habilidades}")
+                Boton.crear_botones(f"{nombre}_{Cadena.elegir_habilidades}", value.hb_posibles, Boton.elegir_habilidades, Boton.descartar_habilidades)
+                Boton.botones_ventana(value.hb_posibles, Cadena.elegir_habilidades, nombre, Cadena.b)
 
-                Main.ventanas_dic = Cadena.main
-                Main.vent_actual = Cadena.elegir_habilidades
+            # Funcion del NPC
+            NPC.elegir_equipo()
 
-                boton = Main.botones[dic][key]
-                boton.cambiar_fondo(Main.azul)
-            else:
-                boton = Main.botones[dic][key]
-                boton.cambiar_fondo(Main.rojo)
-        
-        else:
             Main.ventanas_dic = Cadena.main
             Main.vent_actual = Cadena.elegir_habilidades
 
             boton = Main.botones[dic][key]
             boton.cambiar_fondo(Main.azul)
+        else:
+            boton = Main.botones[dic][key]
+            boton.cambiar_fondo(Main.rojo)
+        
+        # else:
+        #     Main.ventanas_dic = Cadena.main
+        #     Main.vent_actual = Cadena.elegir_habilidades
+
+        #     boton = Main.botones[dic][key]
+        #     boton.cambiar_fondo(Main.azul)
 
     def ventana_atacar(dic, key):
-        Main.ventanas_dic = Cadena.equipo
-        Main.vent_actual = Main.unimon_usr
 
-        boton = Main.botones[dic][key]
-        boton.cambiar_fondo(Main.azul)
+        if not Main.timer:
+            Main.ventanas_dic = Cadena.equipo
+            Main.vent_actual = Main.unimon_usr
+
+            boton = Main.botones[dic][key]
+            boton.cambiar_fondo(Main.azul)
+        else:
+            boton = Main.botones[dic][key]
+            boton.cambiar_fondo(Main.rojo)
 
     def ventana_inicio(dic, key):
+
         # Reinicio
         Boton.reiniciar = True
 

@@ -42,6 +42,11 @@ class Unimon:
         self.imagenes_rutas = imagenes_rutas
         self.frames = []
 
+        # Timer
+        self.usando_timer = False
+        self.empieza = 0
+        self.termina = 0
+
         for imagen_ruta in self.imagenes_rutas:    
             frame = pygame.image.load(imagen_ruta).convert_alpha()
             frame = pygame.transform.scale(frame, (ancho, altura))
@@ -74,7 +79,7 @@ class Unimon:
         Main.ventanas[ventanas_dic][ventana].dic_elementos[dic_elementos][7].remove(unimon)
     
     # Funciones
-    def restar_vida(self, danio):
+    def restar_hp(self, danio):
         self.hp -= round(danio)
 
         if self.hp < 0: 
@@ -113,5 +118,14 @@ class Unimon:
             self.frames.append(frame)
 
     def dibujar(self, screen):
+        if self.usando_timer:
+            if Main.timer:
+                if Main.timer > self.empieza and Main.timer < self.termina:
+                    self.y += 10
+                    self.cambiar_xy(self.x, self.y)
+
+            else:
+                self.usando_timer = False
+            
         screen.blit(self.imagen, self.rect)
 

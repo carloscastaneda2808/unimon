@@ -8,6 +8,7 @@ from clase.clase_main import Main
 from clase.cadena import Cadena
 
 from pokedex.unimon import Unimon
+from pokedex.habilidad import Habilidad
 
 class NPC:
     def elegir_equipo():
@@ -22,12 +23,16 @@ class NPC:
     def elegir_habilidades():
         cantidad = len(list(Main.unimones[Cadena.usuario].values())[0].hb)
 
+        Main.crear_diccionario(Main.habilidades, Cadena.NPC)
         for unimon in Main.unimones[Cadena.NPC].values():
             unimon.hb.update(sample(list(unimon.hb_posibles), cantidad))
 
+            for habilidad in unimon.hb:
+                Habilidad.copiar_habilidad(Cadena.NPC, Cadena.main, habilidad)
+
     def sacar_unimon():
         if Main.unimon_npc:
-            Unimon.eliminar_unimon_ventana(Main.unimon_npc, Cadena.main, Cadena.combate, Cadena.b)
+            Unimon.eliminar_unimon_ventana(Main.unimon_npc, Cadena.main, Cadena.combate, Cadena.NPC)
 
         Main.unimon_npc = choice(
             [x for x in Main.unimones[Cadena.NPC].keys()
@@ -35,7 +40,8 @@ class NPC:
         )
 
         # Visual
-        Unimon.unimon_ventana(Cadena.NPC, Main.unimon_npc, Cadena.main, Cadena.combate, Cadena.b)
+        Main.ventanas[Cadena.main][Cadena.combate].crear_dic_elementos(Cadena.NPC, None, None, None)
+        Unimon.unimon_ventana(Cadena.NPC, Main.unimon_npc, Cadena.main, Cadena.combate, Cadena.NPC)
         Main.textos[Cadena.main][Cadena.unimon_npc].cambiar_texto(Main.unimon_npc)
 
     def elegir_movimiento():

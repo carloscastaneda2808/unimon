@@ -32,6 +32,7 @@ def reinicio():
     if Boton.reiniciar:
         Main.reinicio()
         datos_unimones()
+        datos_habilidades()
         datos_visual()
         Boton.crear_botones(Cadena.main, Main.unimones[Cadena.main].keys(), Boton.elegir_unimon, Boton.descartar_unimon)
         Boton.botones_ventana(Main.unimones[Cadena.main].keys(), Cadena.main, Cadena.elegir_unimones, Cadena.a)
@@ -43,7 +44,14 @@ def combate():
         Combate.combate()
         Main.turno += 1
         Main.combate = False
-        Main.animacion = True
+
+def timer():
+    if Main.timer:
+        Main.timer += 1
+
+        if Main.timer > Main.timer_terminar:
+            Main.timer = 0
+            Main.timer_terminar = 0
 
 # Datos
 datos_unimones()
@@ -55,6 +63,8 @@ Boton.crear_botones(Cadena.main, Main.unimones[Cadena.main].keys(), Boton.elegir
 Boton.botones_ventana(Main.unimones[Cadena.main].keys(), Cadena.main, Cadena.elegir_unimones, Cadena.a)
 
 while True:
+    timer()
+
     pos_mouse = pygame.mouse.get_pos()
 
     for event in pygame.event.get():
@@ -84,6 +94,10 @@ while True:
     # Dibuja la pantalla
     Main.screen.fill(Main.negro)
     Main.ventanas[Main.ventanas_dic][Main.vent_actual].dibujar(Main.screen)
-
     pygame.display.update()
+
+    # No verifica si hay una animacion en curso y solo si esta en la ventana combate
+    if not Main.timer and Main.vent_actual == Cadena.combate:
+        Combate.verificar_partida()
+
     Main.fps.tick(60)

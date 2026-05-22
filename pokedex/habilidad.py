@@ -6,6 +6,7 @@ import pygame
 
 from random import randint
 from time import sleep
+from copy import copy
 
 from clase.clase_main import Main
 from clase.cadena import Cadena
@@ -29,6 +30,11 @@ class Habilidad:
         self.imagenes_rutas = imagenes_rutas
         self.frames = []
 
+        # Timer
+        self.usando_timer = False
+        self.empieza = 0
+        self.termina = 0
+
         for imagen_ruta in self.imagenes_rutas:    
             frame = pygame.image.load(imagen_ruta).convert_alpha()
             frame = pygame.transform.scale(frame, (ancho, altura))
@@ -47,15 +53,34 @@ class Habilidad:
     # Funciones
     def verificar_estado_acc(self):
         return self.acc >= randint(1, 100)
+    
+    # Funciones para crear habilidades
+    def copiar_habilidad(copiar, copiado, habilidad):
+        Main.habilidades[copiar][habilidad] = copy(Main.habilidades[copiado][habilidad])
+
+    def eliminar_habilidad(dic, habilidad):
+        Main.habilidades[dic].pop(habilidad)
+
+    def habilidad_ventana(habilidad_dic, habilidad, ventanas_dic, ventana, dic_elementos):
+        Main.ventanas[ventanas_dic][ventana].dic_elementos[dic_elementos][8] = habilidad_dic
+        Main.ventanas[ventanas_dic][ventana].dic_elementos[dic_elementos][9].add(habilidad)
+
+    def eliminar_habilidad_ventana(habilidad, ventanas_dic, ventana, dic_elementos):
+        Main.ventanas[ventanas_dic][ventana].dic_elementos[dic_elementos][8] = None
+        Main.ventanas[ventanas_dic][ventana].dic_elementos[dic_elementos][9].remove(habilidad)
+
+    def limpiar_habilidad_ventana(ventanas_dic, ventana, dic_elementos):
+        Main.ventanas[ventanas_dic][ventana].dic_elementos[dic_elementos][8] = None
+        Main.ventanas[ventanas_dic][ventana].dic_elementos[dic_elementos][9].clear
 
     # Funciones de Sprite
     def cambiar_front(self):
-        self.cambiar_medidas(400, 400)
+        self.cambiar_medidas(300, 300)
         self.cambiar_imagen(0)
         self.cambiar_xy(Main.ancho * 9/12, Main.altura * 5/12)
 
     def cambiar_back(self):
-        self.cambiar_medidas(600, 600)
+        self.cambiar_medidas(500, 500)
         self.cambiar_imagen(0)
         self.cambiar_xy(Main.ancho * 3/12, Main.altura * 8/12)
 
@@ -77,12 +102,13 @@ class Habilidad:
             frame = pygame.transform.scale(frame, (ancho, altura))
             self.frames.append(frame)
 
-    def dibujar(self, screen, jugador):
-        if jugador == Cadena.usuario:
-            self.cambiar_back()
+    def dibujar(self, screen):
 
-        if jugador == Cadena.NPC:
-            self.cambiar_front()
-
-        screen.blit(self.imagen, self.rect)
+        if self.usando_timer:
+            if Main.timer:
+                if Main.timer > self.empieza and Main.timer < self.termina:
+                    screen.blit(self.imagen, self.rect)
+            
+            else:
+                self.usando_timer = False
 

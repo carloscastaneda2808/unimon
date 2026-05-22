@@ -25,7 +25,8 @@ class Main():
         Main.unimones_dic = Cadena.main
         Main.unimones = {Cadena.main: {}}
 
-        # No se reinician habilidades porque nunca cambian
+        Main.habilidades_dic = Cadena.main
+        Main.habilidades = {Cadena.main: {}}
 
         Main.botones_dic = Cadena.main
         Main.botones = {Cadena.main: {}}
@@ -43,9 +44,12 @@ class Main():
         Main.unimon_npc = None
         Main.movimiento_usr = None
         Main.movimiento_npc = None
+
         Main.combate = False
         Main.turno = 1
         Main.resultado = None
+        Main.timer = 0
+        Main.timer_terminar = 0
 
     # Pantalla
     info_pantalla = pygame.display.Info()
@@ -104,4 +108,5 @@ class Main():
     combate = False
     turno = 1
     resultado = None
-
+    timer = 0
+    timer_terminar = 0

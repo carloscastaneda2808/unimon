@@ -9,6 +9,9 @@ from clase.clase_main import Main
 from clase.cadena import Cadena
 
 from partida.estado import Estado
+from pokedex.habilidad import Habilidad
+
+from visual.boton import Boton
 
 from ia.npc import NPC
 
@@ -29,105 +32,71 @@ class Combate:
         Estado.quemado_atk_fisico(unimon_npc)
 
         if Main.movimiento_usr and Main.movimiento_npc:
-            movimiento_usr = Main.habilidades[Cadena.main][Main.movimiento_usr]
-            movimiento_npc = Main.habilidades[Cadena.main][Main.movimiento_npc]
+            movimiento_usr = Main.habilidades[Cadena.usuario][Main.movimiento_usr]
+            movimiento_npc = Main.habilidades[Cadena.NPC][Main.movimiento_npc]
 
             if unimon_usr.spe > unimon_npc.spe:
                 if Combate.verificar_turno(unimon_usr, movimiento_usr):
                     Combate.turno(unimon_usr, unimon_npc, movimiento_usr)
-                    Combate.animacion(movimiento_usr, Cadena.NPC)
+                    Combate.animacion_habilidad(Main.movimiento_usr, Cadena.usuario, True)
 
                 if Combate.verificar_turno(unimon_npc, movimiento_npc):
                     Combate.turno(unimon_npc, unimon_usr, movimiento_npc)
-                    Combate.animacion(movimiento_npc, Cadena.usuario)
+                    Combate.animacion_habilidad(Main.movimiento_npc, Cadena.NPC, False)
 
             elif unimon_usr.spe < unimon_npc.spe:
                 if Combate.verificar_turno(unimon_npc, movimiento_npc):
                     Combate.turno(unimon_npc, unimon_usr, movimiento_npc)
-                    Combate.animacion(movimiento_npc, Cadena.usuario)
+                    Combate.animacion_habilidad(Main.movimiento_npc, Cadena.NPC, True)
 
                 if Combate.verificar_turno(unimon_usr, movimiento_usr):
                     Combate.turno(unimon_usr, unimon_npc, movimiento_usr)
-                    Combate.animacion(movimiento_usr, Cadena.NPC)
+                    Combate.animacion_habilidad(Main.movimiento_usr, Cadena.usuario, False)
 
             else:
                 if randint(0, 1):
                     if Combate.verificar_turno(unimon_usr, movimiento_usr):
                         Combate.turno(unimon_usr, unimon_npc, movimiento_usr)
-                        Combate.animacion(movimiento_usr, Cadena.NPC)
+                        Combate.animacion_habilidad(Main.movimiento_usr, Cadena.usuario, True)
 
                     if Combate.verificar_turno(unimon_npc, movimiento_npc):
                         Combate.turno(unimon_npc, unimon_usr, movimiento_npc)
-                        Combate.animacion(movimiento_npc, Cadena.usuario)
+                        Combate.animacion_habilidad(Main.movimiento_npc, Cadena.NPC, False)
 
                 else:
                     if Combate.verificar_turno(unimon_npc, movimiento_npc):
                         Combate.turno(unimon_npc, unimon_usr, movimiento_npc)
-                        Combate.animacion(movimiento_npc, Cadena.usuario)
+                        Combate.animacion_habilidad(Main.movimiento_npc, Cadena.NPC, True)
 
                     if Combate.verificar_turno(unimon_usr, movimiento_usr):
                         Combate.turno(unimon_usr, unimon_npc, movimiento_usr)
-                        Combate.animacion(movimiento_usr, Cadena.NPC)
+                        Combate.animacion_habilidad(Main.movimiento_usr, Cadena.usuario, False)
         
         elif Main.movimiento_usr:
-            movimiento_usr = Main.habilidades[Cadena.main][Main.movimiento_usr]
+            movimiento_usr = Main.habilidades[Cadena.usuario][Main.movimiento_usr]
+
             if Combate.verificar_turno(unimon_usr, movimiento_usr):
                 Combate.turno(unimon_usr, unimon_npc, movimiento_usr)
-                Combate.animacion(movimiento_usr, Cadena.NPC)
+                Combate.animacion_habilidad(Main.movimiento_usr, Cadena.usuario, True)
         
         elif Main.movimiento_npc:
-            movimiento_npc = Main.habilidades[Cadena.main][Main.movimiento_npc]
+            movimiento_npc = Main.habilidades[Cadena.NPC][Main.movimiento_npc]
+
             if Combate.verificar_turno(unimon_npc, movimiento_npc):
                 Combate.turno(unimon_npc, unimon_usr, movimiento_npc)
-                Combate.animacion(movimiento_npc, Cadena.usuario)
+                Combate.animacion_habilidad(Main.movimiento_npc, Cadena.NPC, True)
 
         # Actualiza los estados de danio
         Estado.estado_danio(unimon_usr)
         Estado.estado_danio(unimon_npc)
 
+        # Animacion
+        Combate.animacion_debilitado(unimon_usr)
+        Combate.animacion_debilitado(unimon_npc)
+
         # limpia los ataques
         Main.movimiento_usr = None
         Main.movimiento_npc = None
-
-        Combate.verificar_partida(unimon_usr, unimon_npc)
-
-    def verificar_partida(unimon_usr, unimon_npc):
-
-        if not unimon_usr.verificar_hp() and not unimon_npc.verificar_hp():
-            if not Main.unimones[Cadena.usuario] and not Main.unimones[Cadena.NPC]:
-                # Verificar si queda empate
-                Main.ventanas_dic = Cadena.main
-                Main.vent_actual = Cadena.inicio
-
-                Main.resultado = Cadena.Empate
-
-        if not unimon_usr.verificar_hp():
-            Main.unimones[Cadena.usuario].pop(Main.unimon_usr)
-
-            if Main.unimones[Cadena.usuario]:
-                # Cambia de ventana a sacar
-                Main.ventanas_dic = Cadena.main
-                Main.vent_actual = Cadena.sacar
-            
-            else:
-                Main.ventanas_dic = Cadena.main
-                Main.vent_actual = Cadena.inicio
-
-                Main.resultado = Cadena.Perdiste
-
-        if not unimon_npc.verificar_hp():
-            Main.unimones[Cadena.NPC].pop(Main.unimon_npc)
-
-            if Main.unimones[Cadena.NPC]:
-                # Obliga a sacar otro unimon
-                NPC.sacar_unimon()
-            
-            else:
-                Main.ventanas_dic = Cadena.main
-                Main.vent_actual = Cadena.inicio
-
-                Main.resultado = Cadena.Ganaste
-
 
     def verificar_turno(atacante, habilidad):
         if atacante.verificar_hp():
@@ -161,12 +130,83 @@ class Combate:
             elif Combate.verificar_tipos(habilidad, defensa) == Cadena.poco_efectivo:
                 danio = danio / 2
 
-            defensa.restar_vida(danio)
+            defensa.restar_hp(danio)
 
         Combate.verificar_estado(defensa, habilidad) 
 
-    def animacion(habilidad, defensa):
-        habilidad.dibujar(Main.screen, defensa)
+    def animacion_habilidad(habilidad, jugador, primero):
+        value = Main.habilidades[jugador][habilidad]
+        Main.timer = 1
+        Main.timer_terminar = 200
+
+        if primero:
+            value.usando_timer = True
+            value.empieza = 0
+            value.termina = 60
+        else:
+            value.usando_timer = True
+            value.empieza = 70
+            value.termina = 130
+
+        if jugador == Cadena.usuario:
+            value.cambiar_front()
+        else:
+            value.cambiar_back()
+
+        Habilidad.limpiar_habilidad_ventana(Cadena.main, Cadena.combate, jugador)
+        Habilidad.habilidad_ventana(jugador, habilidad, Cadena.main, Cadena.combate, jugador)
+
+    def animacion_debilitado(unimon):
+        if not unimon.verificar_hp():
+
+            unimon.usando_timer = True
+            unimon.empieza = 140
+            unimon.termina = 200
+
+    def verificar_partida():
+        unimon_usr = Main.unimones[Cadena.usuario][Main.unimon_usr]
+        unimon_npc = Main.unimones[Cadena.NPC][Main.unimon_npc]
+
+        if not unimon_usr.verificar_hp() and not unimon_npc.verificar_hp():
+            if not Main.unimones[Cadena.usuario] and not Main.unimones[Cadena.NPC]:
+                # Verificar si queda empate
+                Main.ventanas_dic = Cadena.main
+                Main.vent_actual = Cadena.inicio
+
+                Boton.reiniciar = True
+
+                Main.resultado = Cadena.Empate
+
+        if not unimon_usr.verificar_hp():
+            Main.unimones[Cadena.usuario].pop(Main.unimon_usr)
+
+            if Main.unimones[Cadena.usuario]:
+                # Cambia de ventana a sacar
+                Main.ventanas_dic = Cadena.main
+                Main.vent_actual = Cadena.sacar
+            
+            else:
+                Main.ventanas_dic = Cadena.main
+                Main.vent_actual = Cadena.inicio
+
+                Boton.reiniciar = True
+
+                Main.resultado = Cadena.Perdiste
+
+        if not unimon_npc.verificar_hp():
+            Main.unimones[Cadena.NPC].pop(Main.unimon_npc)
+
+            if Main.unimones[Cadena.NPC]:
+                # Obliga a sacar otro unimon
+                NPC.sacar_unimon()
+            
+            else:
+                Main.ventanas_dic = Cadena.main
+                Main.vent_actual = Cadena.inicio
+
+                Boton.reiniciar = True
+
+                Main.resultado = Cadena.Ganaste
 
     def verificar_tipos(tipo_1, tipo_2):
         
