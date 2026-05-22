@@ -37,3 +37,4 @@ class Cadena:
     Empate = "Empate"
     Perdiste = "Perdiste"
     Ganaste = "Ganaste"
+    resultado = "resultado"

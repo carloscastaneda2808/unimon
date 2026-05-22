@@ -167,15 +167,18 @@ class Combate:
         unimon_usr = Main.unimones[Cadena.usuario][Main.unimon_usr]
         unimon_npc = Main.unimones[Cadena.NPC][Main.unimon_npc]
 
+        # Verificar si queda empate
         if not unimon_usr.verificar_hp() and not unimon_npc.verificar_hp():
             if not Main.unimones[Cadena.usuario] and not Main.unimones[Cadena.NPC]:
-                # Verificar si queda empate
-                Main.ventanas_dic = Cadena.main
-                Main.vent_actual = Cadena.inicio
-
-                Boton.reiniciar = True
 
                 Main.resultado = Cadena.Empate
+
+                # Texto resultado
+                Main.textos[Cadena.main][Cadena.resultado].cambiar_texto(Main.resultado)
+
+                # Cambiar ventana
+                Main.ventanas_dic = Cadena.main
+                Main.vent_actual = Cadena.resultado
 
         if not unimon_usr.verificar_hp():
             Main.unimones[Cadena.usuario].pop(Main.unimon_usr)
@@ -186,12 +189,16 @@ class Combate:
                 Main.vent_actual = Cadena.sacar
             
             else:
-                Main.ventanas_dic = Cadena.main
-                Main.vent_actual = Cadena.inicio
-
-                Boton.reiniciar = True
 
                 Main.resultado = Cadena.Perdiste
+
+                # Texto resultado
+                Main.textos[Cadena.main][Cadena.resultado].cambiar_texto(Main.resultado)
+
+                # Cambiar ventana
+                Main.ventanas_dic = Cadena.main
+                Main.vent_actual = Cadena.resultado
+
 
         if not unimon_npc.verificar_hp():
             Main.unimones[Cadena.NPC].pop(Main.unimon_npc)
@@ -201,12 +208,15 @@ class Combate:
                 NPC.sacar_unimon()
             
             else:
-                Main.ventanas_dic = Cadena.main
-                Main.vent_actual = Cadena.inicio
-
-                Boton.reiniciar = True
 
                 Main.resultado = Cadena.Ganaste
+
+                # Texto resultado
+                Main.textos[Cadena.main][Cadena.resultado].cambiar_texto(Main.resultado)
+
+                # Cambiar ventana
+                Main.ventanas_dic = Cadena.main
+                Main.vent_actual = Cadena.resultado
 
     def verificar_tipos(tipo_1, tipo_2):
         

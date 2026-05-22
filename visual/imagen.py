@@ -8,7 +8,7 @@ from clase.clase_main import Main
 
 class Imagen:
 
-    def __init__(self, key, imagen_ruta, ancho, altura, x, y, dic):
+    def __init__(self, key, imagen_ruta, x, y, ancho, altura, dic):
         self.surf = pygame.image.load(imagen_ruta).convert()
         self.scale = pygame.transform.scale(self.surf, (ancho, altura))
         self.x = x

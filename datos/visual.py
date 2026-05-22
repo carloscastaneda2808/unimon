@@ -10,7 +10,7 @@ from visual.imagen import Imagen
 
 def datos_visual():
     # Imagenes
-    Imagen("inicio", "images/backround/inicio.jpg", Main.ancho, Main.altura, 0, 0, "main")
+    Imagen("inicio", "images/backround/inicio.jpg", 0, 0, Main.ancho, Main.altura, "main")
 
     # Textos
     Texto("inicio", Main.fuente_1, "Unimon", Main.negro, Main.verde, None, Main.ancho * 1/2, Main.altura * 1/10, 700, 110, "main")
@@ -23,11 +23,18 @@ def datos_visual():
     Texto("sacar", Main.fuente_1, "Sacar", Main.negro, Main.verde, None, Main.ancho * 1/2, Main.altura * 1/10, 700, 110, "main")
 
     # Combate
-    Texto("cuadro_usr", Main.fuente_1, "", Main.negro, Main.gris, None, Main.ancho * 19/24, Main.altura * 9/12, 500, 130, "main")
-    Texto("cuadro_npc", Main.fuente_1, "", Main.negro, Main.gris, None, Main.ancho * 5/24, Main.altura * 4/12, 500, 130, "main")
+    Texto("gris", Main.fuente_1, "", Main.negro, Main.gris, None, Main.ancho * 1/2, Main.altura * 7/8, Main.ancho, Main.altura * 1/4, "main")
 
-    Texto("unimon_usr", Main.fuente_2, "", Main.negro, Main.gris, None, Main.ancho * 17/24, Main.altura * 17/24, 0, 0, "main")
-    Texto("unimon_npc", Main.fuente_2, "", Main.negro, Main.gris, None, Main.ancho * 3/24, Main.altura * 7/24, 0, 0, "main")
+    Texto("cuadro_usr", Main.fuente_1, "", Main.negro, Main.gris, None, Main.ancho * 19/24, Main.altura * 15/24, 500, 150, "main")
+    Texto("cuadro_npc", Main.fuente_1, "", Main.negro, Main.gris, None, Main.ancho * 5/24, Main.altura * 4/24, 500, 150, "main")
+
+    Texto("unimon_usr", Main.fuente_2, "", Main.negro, Main.gris, None, Main.ancho * 17/24, Main.altura * 14/24, 0, 0, "main")
+    Texto("unimon_npc", Main.fuente_2, "", Main.negro, Main.gris, None, Main.ancho * 3/24, Main.altura * 3/24, 0, 0, "main")
+
+    Texto("hp_usr", Main.fuente_1, "", Main.negro, Main.verde, None, Main.ancho * 19/24, Main.altura * 16/24, 400, 30, "main")
+    Texto("hp_npc", Main.fuente_1, "", Main.negro, Main.verde, None, Main.ancho * 5/24, Main.altura * 5/24, 400, 30, "main")
+
+    Texto("resultado", Main.fuente_1, "", Main.negro, Main.verde, None, Main.ancho * 1/2, Main.altura * 5/10, 700, 110, "main")
 
     # Botones
     # Inicio
@@ -48,9 +55,9 @@ def datos_visual():
     Boton("atras_3", Main.fuente_2, "Atrás", Main.negro, Main.azul, None, Main.ancho * 1/2, Main.altura * 9/10, 400, 80, Boton.ventana_inicio, None, "main")
 
     # Combate
-    Boton("atacar", Main.fuente_2, "Atacar", Main.negro, Main.azul, None, Main.ancho * 1/6, Main.altura * 9/10, 400, 80, Boton.ventana_atacar, None, "main")
-    Boton("sacar", Main.fuente_2, "Sacar", Main.negro, Main.azul, None, Main.ancho * 3/6, Main.altura * 9/10, 400, 80, Boton.ventana_sacar, None, "main")
-    Boton("huir", Main.fuente_2, "Huir", Main.negro, Main.azul, None, Main.ancho * 5/6, Main.altura * 9/10, 400, 80, Boton.ventana_inicio, None, "main")
+    Boton("atacar", Main.fuente_2, "Atacar", Main.negro, Main.azul, None, Main.ancho * 4/24, Main.altura * 22/24, 400, 80, Boton.ventana_atacar, None, "main")
+    Boton("sacar", Main.fuente_2, "Sacar", Main.negro, Main.azul, None, Main.ancho * 12/24, Main.altura * 22/24, 400, 80, Boton.ventana_sacar, None, "main")
+    Boton("huir", Main.fuente_2, "Huir", Main.negro, Main.azul, None, Main.ancho * 20/24, Main.altura * 22/24, 400, 80, Boton.ventana_inicio, None, "main")
 
     # Atacar y Sacar
     Boton("atras_4", Main.fuente_2, "Atrás", Main.negro, Main.azul, None, Main.ancho * 1/2, Main.altura * 9/10, 400, 80, Boton.ventana_combate, None, "main")
@@ -95,13 +102,20 @@ def datos_visual():
             "main")
 
     Ventana("combate",
+            
             {"a" : 
              ["main", {"inicio"},
-            "main", {"combate", "cuadro_usr", "cuadro_npc"},
-            "main", {"atacar", "sacar", "huir"}],
-            "c" : 
+            "main", {"gris"},
+            None, set()],
+
+            "c" :
             [None, set(),
-             "main", {"unimon_usr", "unimon_npc"},
+             "main", {"cuadro_usr", "cuadro_npc"},
+             "main", {"atacar", "sacar", "huir"}],
+
+            "d" : 
+            [None, set(),
+             "main", {"unimon_usr", "unimon_npc", "hp_usr", "hp_npc"},
              None, set()]},
             "main")
 
@@ -118,3 +132,10 @@ def datos_visual():
             "main", {"sacar"},
             "main", {"atras_4"}]},
             "main")
+    
+    Ventana("resultado", 
+            {"a": 
+             ["main", {"inicio"}, 
+              "main", {"resultado"}, 
+              "main", {"atras_3"}]}, 
+              "main")

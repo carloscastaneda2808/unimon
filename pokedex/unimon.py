@@ -92,12 +92,12 @@ class Unimon:
     def cambiar_front(self):
         self.cambiar_medidas(400, 400)
         self.cambiar_imagen(0)
-        self.cambiar_xy(Main.ancho * 9/12, Main.altura * 5/12)
+        self.cambiar_xy(Main.ancho * 18/24, Main.altura * 7/24)
 
     def cambiar_back(self):
         self.cambiar_medidas(600, 600)
         self.cambiar_imagen(1)
-        self.cambiar_xy(Main.ancho * 3/12, Main.altura * 8/12)
+        self.cambiar_xy(Main.ancho * 6/24, Main.altura * 13/24)
 
     def cambiar_imagen(self, index):
         self.index = index
@@ -121,7 +121,7 @@ class Unimon:
         if self.usando_timer:
             if Main.timer:
                 if Main.timer > self.empieza and Main.timer < self.termina:
-                    self.y += 10
+                    self.y += 12
                     self.cambiar_xy(self.x, self.y)
 
             else:
