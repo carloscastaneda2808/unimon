@@ -4,7 +4,7 @@ Archivo para los datos de los unimones
 
 import pygame
 
-from clase.main import Main
+from clase.clase_main import Main
 from pokedex.unimon import Unimon
 # from pokedex.habilidad import Habilidad
 

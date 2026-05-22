@@ -2,7 +2,7 @@
 Archivo para los datos de lo visual
 """
 
-from clase.main import Main
+from clase.clase_main import Main
 from visual.boton import Boton
 from visual.texto import Texto
 from visual.ventana import Ventana
@@ -14,13 +14,20 @@ def datos_visual():
 
     # Textos
     Texto("inicio", Main.fuente_1, "Unimon", Main.negro, Main.verde, None, Main.ancho * 1/2, Main.altura * 1/10, 700, 110, "main")
-    Texto("elegir_unimones", Main.fuente_1, "Elegir Unimon", Main.negro, Main.verde, None, Main.ancho / 2, Main.altura / 10, 700, 110, "main")
-    Texto("elegir_habilidades", Main.fuente_1, "Elegir Habilidades", Main.negro, Main.verde, None, Main.ancho / 2, Main.altura / 10, 700, 110, "main")
-    Texto("estadisticas", Main.fuente_1, "Estadisticas", Main.negro, Main.verde, None, Main.ancho / 2, Main.altura / 10, 700, 110, "main")
-    Texto("configuracion", Main.fuente_1, "Configuracion", Main.negro, Main.verde, None, Main.ancho / 2, Main.altura / 10, 700, 110, "main")
-    Texto("combate", Main.fuente_1, "Combate", Main.negro, Main.verde, None, Main.ancho / 2, Main.altura / 10, 700, 110, "main")
-    Texto("atacar", Main.fuente_1, "Atacar", Main.negro, Main.verde, None, Main.ancho / 2, Main.altura / 10, 700, 110, "main")
-    Texto("sacar", Main.fuente_1, "Sacar", Main.negro, Main.verde, None, Main.ancho / 2, Main.altura / 10, 700, 110, "main")
+    Texto("elegir_unimones", Main.fuente_1, "Elegir Unimon", Main.negro, Main.verde, None, Main.ancho * 1/2, Main.altura * 1/10, 700, 110, "main")
+    Texto("elegir_habilidades", Main.fuente_1, "Elegir Habilidades", Main.negro, Main.verde, None, Main.ancho * 1/2, Main.altura * 1/10, 700, 110, "main")
+    Texto("estadisticas", Main.fuente_1, "Estadisticas", Main.negro, Main.verde, None, Main.ancho *  1/2, Main.altura * 1/10, 700, 110, "main")
+    Texto("configuracion", Main.fuente_1, "Configuracion", Main.negro, Main.verde, None, Main.ancho * 1/2, Main.altura * 1/10, 700, 110, "main")
+    Texto("combate", Main.fuente_1, "Combate", Main.negro, Main.verde, None, Main.ancho * 1/2, Main.altura * 1/10, 700, 110, "main")
+    Texto("atacar", Main.fuente_1, "Atacar", Main.negro, Main.verde, None, Main.ancho * 1/2, Main.altura * 1/10, 700, 110, "main")
+    Texto("sacar", Main.fuente_1, "Sacar", Main.negro, Main.verde, None, Main.ancho * 1/2, Main.altura * 1/10, 700, 110, "main")
+
+    # Combate
+    Texto("cuadro_usr", Main.fuente_1, "", Main.negro, Main.gris, None, Main.ancho * 19/24, Main.altura * 9/12, 500, 130, "main")
+    Texto("cuadro_npc", Main.fuente_1, "", Main.negro, Main.gris, None, Main.ancho * 5/24, Main.altura * 4/12, 500, 130, "main")
+
+    Texto("unimon_usr", Main.fuente_2, "", Main.negro, Main.gris, None, Main.ancho * 17/24, Main.altura * 17/24, 0, 0, "main")
+    Texto("unimon_npc", Main.fuente_2, "", Main.negro, Main.gris, None, Main.ancho * 3/24, Main.altura * 7/24, 0, 0, "main")
 
     # Botones
     # Inicio
@@ -53,49 +60,61 @@ def datos_visual():
 
     # Ventanas
     Ventana("inicio",
-            {"a" : ["main", {"inicio"},
+            {"a" : 
+             ["main", {"inicio"},
             "main", {"inicio"},
             "main", {"jugar", "estadisticas", "configuracion", "salir"}]},
             "main")
 
     Ventana("elegir_unimones",
-            {"a" : ["main", {"inicio"},
+            {"a" : 
+             ["main", {"inicio"},
             "main", {"elegir_unimones"},
             "main", {"atras_1", "seguir_1"}]},
             "main")
 
     Ventana("elegir_habilidades",
-            {"a" : ["main", {"inicio"},
+            {"a" : 
+             ["main", {"inicio"},
             "main", {"elegir_habilidades"},
             "main", {"atras_2", "seguir_2"}]},
             "main")
 
     Ventana("estadisticas",
-            {"a" : ["main", {"inicio"},
+            {"a" : 
+             ["main", {"inicio"},
             "main", {"estadisticas"},
             "main", {"atras_3"}]},
             "main")
 
     Ventana("configuracion",
-            {"a" : ["main", {"inicio"},
+            {"a" : 
+             ["main", {"inicio"},
             "main", {"configuracion"},
             "main", {"atras_3"}]},
             "main")
 
     Ventana("combate",
-            {"a" : ["main", {"inicio"},
-            "main", {"combate"},
-            "main", {"atacar", "sacar", "huir"}]},
+            {"a" : 
+             ["main", {"inicio"},
+            "main", {"combate", "cuadro_usr", "cuadro_npc"},
+            "main", {"atacar", "sacar", "huir"}],
+            "c" : 
+            [None, set(),
+             "main", {"unimon_usr", "unimon_npc"},
+             None, set()]},
             "main")
 
     Ventana("atacar",
-            {"a" : ["main", {"inicio"},
+            {"a" : 
+             ["main", {"inicio"},
             "main", {"atacar"},
             "main", {"atras_4"}]},
             "main")
 
     Ventana("sacar",
-            {"a" : ["main", {"inicio"},
+            {"a" : 
+             ["main", {"inicio"},
             "main", {"sacar"},
             "main", {"atras_4"}]},
             "main")

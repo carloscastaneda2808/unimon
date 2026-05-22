@@ -1,14 +1,17 @@
 """
 Archivo para crear ventanas
 """
-from clase.main import Main
+from clase.clase_main import Main
 
 class Ventana:
 
     def __init__(self, key,  dic_elementos, dic_ventanas):
+
+        for llave in dic_elementos.keys():
+            dic_elementos[llave].append(None)
+            dic_elementos[llave].append(set())
+
         self.dic_elementos = dic_elementos
-        self.dic_elementos["a"].append(None)
-        self.dic_elementos["a"].append(set())
 
         #     imagenes_dic = value[0]
         #     imagenes = value[1]

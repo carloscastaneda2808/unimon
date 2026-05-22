@@ -6,7 +6,7 @@ import pygame
 from sys import exit
 from copy import copy
 
-from clase.main import Main
+from clase.clase_main import Main
 from clase.cadena import Cadena
 
 from visual.elemento_ui import ElementoUI
@@ -18,12 +18,13 @@ from visual.texto import Texto
 from pokedex.unimon import Unimon
 from pokedex.habilidad import Habilidad
 
+from partida.combate import Combate
+
 from datos.unimones import datos_unimones
 from datos.habilidades import datos_habilidades
 from datos.visual import datos_visual
 
 # Crea la pantalla
-screen = pygame.display.set_mode((Main.ancho, Main.altura))
 pygame.display.set_caption("Unimon")
 
 # Reinicio
@@ -36,6 +37,13 @@ def reinicio():
         Boton.botones_ventana(Main.unimones[Cadena.main].keys(), Cadena.main, Cadena.elegir_unimones, Cadena.a)
 
         Boton.reiniciar = False
+
+def combate():
+    if Main.combate:
+        Combate.combate()
+        Main.turno += 1
+        Main.combate = False
+        Main.animacion = True
 
 # Datos
 datos_unimones()
@@ -61,6 +69,7 @@ while True:
 
                 Main.ventanas[Main.ventanas_dic][Main.vent_actual].collision_1(pos_mouse)
                 reinicio()
+                combate()
 
             # Click izquierdo
             if event.button == 3:
@@ -73,8 +82,8 @@ while True:
             Main.ventanas[Main.ventanas_dic][Main.vent_actual].hover(pos_mouse)
 
     # Dibuja la pantalla
-    screen.fill(Main.negro)
-    Main.ventanas[Main.ventanas_dic][Main.vent_actual].dibujar(screen)
-    pygame.display.update()
+    Main.screen.fill(Main.negro)
+    Main.ventanas[Main.ventanas_dic][Main.vent_actual].dibujar(Main.screen)
 
+    pygame.display.update()
     Main.fps.tick(60)

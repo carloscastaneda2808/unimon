@@ -3,9 +3,10 @@ Archivo para crear los unimones
 """
 
 import pygame
+
 from copy import copy
 
-from clase.main import Main
+from clase.clase_main import Main
 
 class Unimon:
 
@@ -19,12 +20,14 @@ class Unimon:
         # Estadisticas
         self.tipo = tipo
         self.hp = hp
-        self.hp_max = hp
         self.atk_fisico = atk_fisico
         self.df_fisico = df_fisico
         self.atk_especial = atk_especial
         self.df_especial = df_especial
         self.spe = spe
+
+        self.hp_max = hp
+        self.atk_fisico_max = atk_fisico
         self.spe_max = spe
 
         # Habilidades
@@ -72,7 +75,10 @@ class Unimon:
     
     # Funciones
     def restar_vida(self, danio):
-        self.hp -= danio
+        self.hp -= round(danio)
+
+        if self.hp < 0: 
+            self.hp = 0
 
     def verificar_hp(self):
         return self.hp > 0

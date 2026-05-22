@@ -4,7 +4,7 @@ Archivo para datos de las habilidades
 
 import pygame
 
-from clase.main import Main
+from clase.clase_main import Main
 from pokedex.habilidad import Habilidad
 
 def datos_habilidades():
@@ -262,3 +262,48 @@ def datos_habilidades():
             ["images/habilidades/habilidad_generica.png"],
             Main.ancho * 9/12, Main.altura * 5/12, 500, 500,
             "main")
+    
+    Habilidad("TierraViva", "Tierra", 90, 10, 100, "Especial", "Nada", 0,
+        ["images/habilidades/habilidad_generica.png"],
+        Main.ancho * 9/12, Main.altura * 5/12, 500, 500,
+        "main")
+
+    Habilidad("PuyaNociva", "Veneno", 80, 20, 100, "Físico", "Nada", 0,
+        ["images/habilidades/habilidad_generica.png"],
+        Main.ancho * 9/12, Main.altura * 5/12, 500, 500,
+        "main")
+
+    Habilidad("CuerpoPesado", "Normal", 85, 15, 100, "Físico", "Nada", 0,
+        ["images/habilidades/habilidad_generica.png"],
+        Main.ancho * 9/12, Main.altura * 5/12, 500, 500,
+        "main")
+
+    Habilidad("OndaTóxica", "Veneno", 0, 10, 90, "Estado", "Envenenado", 100,
+        ["images/habilidades/habilidad_generica.png"],
+        Main.ancho * 9/12, Main.altura * 5/12, 500, 500,
+        "main")
+
+    Habilidad("Psicocorte", "Psíquico", 70, 15, 100, "Físico", "Nada", 0,
+        ["images/habilidades/habilidad_generica.png"],
+        Main.ancho * 9/12, Main.altura * 5/12, 500, 500,
+        "main")
+
+    Habilidad("Sumisión", "Lucha", 80, 20, 100, "Físico", "Nada", 0,
+        ["images/habilidades/habilidad_generica.png"],
+        Main.ancho * 9/12, Main.altura * 5/12, 500, 500,
+        "main")
+    
+    Habilidad("Avalancha", "Hielo", 75, 10, 90, "Físico", "Nada", 0,
+        ["images/habilidades/habilidad_generica.png"],
+        Main.ancho * 9/12, Main.altura * 5/12, 500, 500,
+        "main")
+
+    Habilidad("TajoCruzado", "Lucha", 100, 5, 80, "Físico", "Nada", 0,
+        ["images/habilidades/habilidad_generica.png"],
+        Main.ancho * 9/12, Main.altura * 5/12, 500, 500,
+        "main")
+
+    Habilidad("Ácido", "Veneno", 40, 30, 100, "Especial", "Envenenado", 30,
+        ["images/habilidades/habilidad_generica.png"],
+        Main.ancho * 9/12, Main.altura * 5/12, 500, 500,
+        "main")

@@ -44,12 +44,14 @@ class Main():
         Main.movimiento_usr = None
         Main.movimiento_npc = None
         Main.combate = False
-        Main.turno = 0
+        Main.turno = 1
+        Main.resultado = None
 
     # Pantalla
     info_pantalla = pygame.display.Info()
     ancho = info_pantalla.current_w
     altura = info_pantalla.current_h
+    screen = pygame.display.set_mode((ancho, altura))
 
     # FPS
     fps = pygame.time.Clock()
@@ -61,6 +63,7 @@ class Main():
     azul_oscuro = "darkblue"
     cian = "cyan"
     negro = "Black"
+    gris = "gray" 
 
     # Letras
     fuente_1 = pygame.font.Font("letras/SHPinscher-Regular.otf", 100)
@@ -99,4 +102,6 @@ class Main():
 
     # Combate
     combate = False
-    turno = 0
+    turno = 1
+    resultado = None
+

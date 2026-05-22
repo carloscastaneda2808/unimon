@@ -2,7 +2,7 @@
 Archivo para crear textos
 """
 
-from clase.main import Main
+from clase.clase_main import Main
 from visual.elemento_ui import ElementoUI
 
 class Texto(ElementoUI):
@@ -31,3 +31,8 @@ class Texto(ElementoUI):
 
     def texto_ventana(texto, ventanas_dic, ventana, dic_elementos):
         Main.ventanas[ventanas_dic][ventana].dic_elementos[dic_elementos][3].add(texto)
+
+    def cambiar_texto(self, texto):
+        self.texto_surf = self.fuente.render(texto, True, self.texto_color)
+        self.texto_rect = self.texto_surf.get_rect(center=(self.x, self.y))
+

@@ -8,6 +8,10 @@ class ElementoUI:
 
     def __init__(self, fuente, texto, texto_color, fondo_color, imagen_ruta, x, y, ancho, alto,):
         self.imagen = imagen_ruta
+        self.fuente = fuente
+        self.texto_color = texto_color
+        self.x = x
+        self.y = y
 
         # Crear el texto
         self.texto_surf = fuente.render(texto, True, texto_color)

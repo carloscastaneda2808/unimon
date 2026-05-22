@@ -4,7 +4,7 @@ Archivo para el NPC
 
 from random import sample, choice, randint
 
-from clase.main import Main
+from clase.clase_main import Main
 from clase.cadena import Cadena
 
 from pokedex.unimon import Unimon
@@ -34,7 +34,9 @@ class NPC:
             if x != Main.unimon_npc]
         )
 
+        # Visual
         Unimon.unimon_ventana(Cadena.NPC, Main.unimon_npc, Cadena.main, Cadena.combate, Cadena.b)
+        Main.textos[Cadena.main][Cadena.unimon_npc].cambiar_texto(Main.unimon_npc)
 
     def elegir_movimiento():
         Main.movimiento_npc = choice(list(Main.unimones[Cadena.NPC][Main.unimon_npc].hb))
@@ -42,12 +44,16 @@ class NPC:
     def elegir_turno():
         unimon = Main.unimones[Cadena.NPC][Main.unimon_npc]
 
-        acc = 10
-        if unimon.hp < (unimon.hp_max / 4):
-            acc += 10
+        if len(Main.unimones[Cadena.NPC]) > 1:
+            acc = 10
+            if unimon.hp < (unimon.hp_max / 4):
+                acc += 10
 
-        if acc >= randint(1, 100):
-            NPC.sacar_unimon()
+            if acc >= randint(1, 100):
+                NPC.sacar_unimon()
+                
+            else:
+                NPC.elegir_movimiento()
 
         else:
             NPC.elegir_movimiento()

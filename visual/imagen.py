@@ -4,7 +4,7 @@ Archivo para crear imagenes
 
 import pygame
 
-from clase.main import Main
+from clase.clase_main import Main
 
 class Imagen:
 

@@ -6,7 +6,7 @@ import pygame
 
 from copy import copy
 
-from clase.main import Main
+from clase.clase_main import Main
 from clase.cadena import Cadena
 
 from visual.elemento_ui import ElementoUI
@@ -142,14 +142,19 @@ class Boton(ElementoUI):
 
     def sacar_unimon(dic, key):
         if key != Main.unimon_usr:
+
+            # Visual
             if Main.unimon_usr:
                 Unimon.eliminar_unimon_ventana(Main.unimon_usr, Cadena.main, Cadena.combate, Cadena.a)
+                # Funcion NPC
+                NPC.elegir_turno()
+                # Combate
+                Main.combate = True
 
             Main.unimon_usr = key
             Unimon.unimon_ventana(Cadena.usuario, key, Cadena.main, Cadena.combate, Cadena.a)
-
-            # Funcion NPC
-            NPC.elegir_turno()
+            
+            Main.textos[Cadena.main][Cadena.unimon_usr].cambiar_texto(Main.unimon_usr)
 
             Main.ventanas_dic = Cadena.main
             Main.vent_actual = Cadena.combate
@@ -166,6 +171,9 @@ class Boton(ElementoUI):
 
         # Funcion NPC
         NPC.elegir_turno()
+
+        # Combate
+        Main.combate = True
 
         Main.ventanas_dic = Cadena.main
         Main.vent_actual = Cadena.combate
