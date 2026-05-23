@@ -21,6 +21,8 @@ class Main():
     # Reinicio
     def reinicio():
         Main.vent_actual = Cadena.inicio
+        Main.vent_anterior = Cadena.inicio
+        Main.ventanas_dic_anterior = Cadena.main
 
         Main.unimones_dic = Cadena.main
         Main.unimones = {Cadena.main: {}}
@@ -47,9 +49,12 @@ class Main():
 
         Main.combate = False
         Main.turno = 1
-        Main.resultado = None
+        Main.resultado = ""
         Main.timer = 0
         Main.timer_termina = 0
+
+        Main.historial = []
+        Main.historial_nuevo = ""
 
     # Pantalla
     info_pantalla = pygame.display.Info()
@@ -96,6 +101,8 @@ class Main():
 
     # Ventanas
     vent_actual = Cadena.inicio
+    vent_anterior = Cadena.inicio
+    ventanas_dic_anterior = Cadena.main
 
     # Unimones
     unimon_usr = None
@@ -108,6 +115,10 @@ class Main():
     # Combate
     combate = False
     turno = 1
-    resultado = None
+    resultado = ""
     timer = 0
     timer_termina = 0
+
+    # Historial
+    historial = []
+    historial_nuevo = ""

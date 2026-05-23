@@ -70,5 +70,5 @@ class Estado:
         if unimon.estado_duracion == 0:
             unimon.estado_duracion = 1
 
-        unimon.restar_hp(unimon.estado_duracion * unimon.hb_max / 16)
+        unimon.restar_hp(unimon.estado_duracion * unimon.hp_max / 16)
         unimon.estado_duracion += 1

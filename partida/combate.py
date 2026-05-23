@@ -125,12 +125,12 @@ class Combate:
                 danio = (habilidad.poder * atacante.atk_especial / defensa.df_especial) / 3 + 2
 
             if habilidad.tipo == atacante.tipo:
-                danio = danio * 1.5
+                danio = danio * 1.2
 
-            if Combate.verificar_tipos(habilidad, defensa) == Cadena.muy_efectivo:
+            if Combate.verificar_tipos(habilidad.tipo, defensa.tipo) == Cadena.muy_efectivo:
                 danio *= 2
 
-            elif Combate.verificar_tipos(habilidad, defensa) == Cadena.poco_efectivo:
+            elif Combate.verificar_tipos(habilidad.tipo, defensa.tipo) == Cadena.poco_efectivo:
                 danio = danio / 2
 
             defensa.restar_hp(danio)

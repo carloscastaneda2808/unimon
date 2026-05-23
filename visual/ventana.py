@@ -69,6 +69,7 @@ class Ventana:
                 else:
                     boton.cambiar_fondo(Main.azul)
 
+    # Click izquierdo
     def collision_1(self, pos_mouse):
         for value in self.dic_elementos.values():
 
@@ -79,6 +80,7 @@ class Ventana:
                     if boton.funcion_1:
                         boton.funcion_1(value[4], key)
 
+    # Click derecho
     def collision_2(self, pos_mouse):
         for value in self.dic_elementos.values():
 
@@ -88,6 +90,17 @@ class Ventana:
                 if boton.collision(pos_mouse):
                     if boton.funcion_2:
                         boton.funcion_2(value[4], key)
+
+    # Click rueda
+    def collision_3(self, pos_mouse):
+        for value in self.dic_elementos.values():
+
+            for key in value[5]:
+                boton = Main.botones[value[4]][key]
+
+                if boton.collision(pos_mouse):
+                    if boton.funcion_3:
+                        boton.funcion_3(value[4], key)
 
     def dibujar(self, screen):
 

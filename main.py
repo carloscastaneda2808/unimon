@@ -26,6 +26,9 @@ from datos.visual import datos_visual
 
 # Crea la pantalla
 pygame.display.set_caption("Unimon")
+bg_Music = pygame.mixer.Sound('musica/soundtrack/tema_principal.mp3')
+bg_Music.set_volume(0.5)
+bg_Music.play(loops = -1)
 
 # Reinicio
 def reinicio():
@@ -34,7 +37,7 @@ def reinicio():
         datos_unimones()
         datos_habilidades()
         datos_visual()
-        Boton.crear_botones(Cadena.main, Main.unimones[Cadena.main].keys(), Boton.elegir_unimon, Boton.descartar_unimon)
+        Boton.crear_botones(Cadena.main, Main.unimones[Cadena.main].keys(), Boton.elegir_unimon, Boton.descartar_unimon, Boton.unimon_stats, Boton.quitar_unimon_stats)
         Boton.botones_ventana(Main.unimones[Cadena.main].keys(), Cadena.main, Cadena.elegir_unimones, Cadena.a)
 
         Boton.reiniciar = False
@@ -59,7 +62,7 @@ datos_habilidades()
 datos_visual()
 
 # Crear Botones
-Boton.crear_botones(Cadena.main, Main.unimones[Cadena.main].keys(), Boton.elegir_unimon, Boton.descartar_unimon)
+Boton.crear_botones(Cadena.main, Main.unimones[Cadena.main].keys(), Boton.elegir_unimon, Boton.descartar_unimon, Boton.unimon_stats, Boton.quitar_unimon_stats)
 Boton.botones_ventana(Main.unimones[Cadena.main].keys(), Cadena.main, Cadena.elegir_unimones, Cadena.a)
 
 while True:
@@ -81,10 +84,22 @@ while True:
                 reinicio()
                 combate()
 
+            # Click rueda
+            if event.button == 2:
+
+                Main.ventanas[Main.ventanas_dic][Main.vent_actual].collision_3(pos_mouse)
+
             # Click izquierdo
             if event.button == 3:
 
                 Main.ventanas[Main.ventanas_dic][Main.vent_actual].collision_2(pos_mouse)
+
+        if event.type == pygame.MOUSEBUTTONUP:
+            # Levantar click rueda
+            if event.button == 2:
+
+                Boton.quitar_unimon_stats()
+                Boton.quitar_habilidad_stats()
 
         # Efecto Hover
         if event.type == pygame.MOUSEMOTION:
