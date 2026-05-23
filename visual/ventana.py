@@ -52,6 +52,11 @@ class Ventana:
         if key not in self.dic_elementos:
             self.dic_elementos[key] = [imagenes_dic, set(), textos_dic, set(), botones_dic, set(), None, set(), None, set()]
 
+    def eliminar_dic_elementos(self, key):
+        
+        if key in self.dic_elementos:
+            self.dic_elementos.pop(key)
+
     def hover(self, pos_mouse):
         for value in self.dic_elementos.values():
 

@@ -49,7 +49,7 @@ class Main():
         Main.turno = 1
         Main.resultado = None
         Main.timer = 0
-        Main.timer_terminar = 0
+        Main.timer_termina = 0
 
     # Pantalla
     info_pantalla = pygame.display.Info()
@@ -67,7 +67,8 @@ class Main():
     azul_oscuro = "darkblue"
     cian = "cyan"
     negro = "Black"
-    gris = "gray" 
+    gris = "gray"
+    amarillo = "yellow"
 
     # Letras
     fuente_1 = pygame.font.Font("letras/SHPinscher-Regular.otf", 100)
@@ -109,4 +110,4 @@ class Main():
     turno = 1
     resultado = None
     timer = 0
-    timer_terminar = 0
+    timer_termina = 0

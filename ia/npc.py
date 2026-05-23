@@ -38,11 +38,29 @@ class NPC:
             [x for x in Main.unimones[Cadena.NPC].keys()
             if x != Main.unimon_npc]
         )
+        unimon_npc = Main.unimones[Cadena.NPC][Main.unimon_npc]
 
-        # Visual
+        # Visual unimon
         Main.ventanas[Cadena.main][Cadena.combate].crear_dic_elementos(Cadena.NPC, None, None, None)
         Unimon.unimon_ventana(Cadena.NPC, Main.unimon_npc, Cadena.main, Cadena.combate, Cadena.NPC)
+
+        # Visual texto
         Main.textos[Cadena.main][Cadena.unimon_npc].cambiar_texto(Main.unimon_npc)
+
+        # Visual barra de vida
+        texto_npc = Main.textos[Cadena.main][Cadena.hp_npc]
+        texto_npc.ancho = texto_npc.ancho_max * unimon_npc.hp / unimon_npc.hp_max
+        texto_npc.cambiar_medidas(texto_npc.ancho, texto_npc.alto)
+
+        # Visual estado
+        if unimon_npc.estado != Cadena.Nada:
+            Main.textos[Cadena.main][Cadena.estado_npc].cambiar_texto(unimon_npc.estado)
+            
+        else:
+            Main.textos[Cadena.main][Cadena.estado_npc].cambiar_texto("")
+
+        # Visual numero hp
+        Main.textos[Cadena.main][Cadena.numero_hp_npc].cambiar_texto(f"{unimon_npc.hp}")
 
     def elegir_movimiento():
         Main.movimiento_npc = choice(list(Main.unimones[Cadena.NPC][Main.unimon_npc].hb))

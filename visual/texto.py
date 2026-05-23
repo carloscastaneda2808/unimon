@@ -7,9 +7,9 @@ from visual.elemento_ui import ElementoUI
 
 class Texto(ElementoUI):
 
-    def __init__(self, key, fuente, texto, texto_color, fondo_color, imagen_ruta, x, y, ancho, alto, dic):
+    def __init__(self, key, fuente, texto, texto_color, fondo_color, imagen_ruta, x, y, ancho, alto, dic, midleft = False):
         # Invoca a elementos UI
-        super().__init__(fuente, texto, texto_color, fondo_color, imagen_ruta, x, y, ancho, alto)
+        super().__init__(fuente, texto, texto_color, fondo_color, imagen_ruta, x, y, ancho, alto, midleft)
         
         # Se guarda en un dicccionario
         if dic not in Main.textos:
@@ -32,7 +32,6 @@ class Texto(ElementoUI):
     def texto_ventana(texto, ventanas_dic, ventana, dic_elementos):
         Main.ventanas[ventanas_dic][ventana].dic_elementos[dic_elementos][3].add(texto)
 
-    def cambiar_texto(self, texto):
-        self.texto_surf = self.fuente.render(texto, True, self.texto_color)
-        self.texto_rect = self.texto_surf.get_rect(center=(self.x, self.y))
+    def eliminar_texto_ventana(texto, ventanas_dic, ventana, dic_elementos):
+        Main.ventanas[ventanas_dic][ventana].dic_elementos[dic_elementos][3].remove(texto)
 

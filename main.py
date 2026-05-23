@@ -49,9 +49,9 @@ def timer():
     if Main.timer:
         Main.timer += 1
 
-        if Main.timer > Main.timer_terminar:
+        if Main.timer > Main.timer_termina:
             Main.timer = 0
-            Main.timer_terminar = 0
+            Main.timer_termina = 0
 
 # Datos
 datos_unimones()

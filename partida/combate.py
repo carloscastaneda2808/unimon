@@ -12,6 +12,7 @@ from partida.estado import Estado
 from pokedex.habilidad import Habilidad
 
 from visual.boton import Boton
+from visual.animacion import Animacion
 
 from ia.npc import NPC
 
@@ -38,66 +39,68 @@ class Combate:
             if unimon_usr.spe > unimon_npc.spe:
                 if Combate.verificar_turno(unimon_usr, movimiento_usr):
                     Combate.turno(unimon_usr, unimon_npc, movimiento_usr)
-                    Combate.animacion_habilidad(Main.movimiento_usr, Cadena.usuario, True)
+                    Animacion.animacion_habilidad(Main.movimiento_usr, Cadena.usuario, True)
 
                 if Combate.verificar_turno(unimon_npc, movimiento_npc):
                     Combate.turno(unimon_npc, unimon_usr, movimiento_npc)
-                    Combate.animacion_habilidad(Main.movimiento_npc, Cadena.NPC, False)
+                    Animacion.animacion_habilidad(Main.movimiento_npc, Cadena.NPC, False)
 
             elif unimon_usr.spe < unimon_npc.spe:
                 if Combate.verificar_turno(unimon_npc, movimiento_npc):
                     Combate.turno(unimon_npc, unimon_usr, movimiento_npc)
-                    Combate.animacion_habilidad(Main.movimiento_npc, Cadena.NPC, True)
+                    Animacion.animacion_habilidad(Main.movimiento_npc, Cadena.NPC, True)
 
                 if Combate.verificar_turno(unimon_usr, movimiento_usr):
                     Combate.turno(unimon_usr, unimon_npc, movimiento_usr)
-                    Combate.animacion_habilidad(Main.movimiento_usr, Cadena.usuario, False)
+                    Animacion.animacion_habilidad(Main.movimiento_usr, Cadena.usuario, False)
 
             else:
                 if randint(0, 1):
                     if Combate.verificar_turno(unimon_usr, movimiento_usr):
                         Combate.turno(unimon_usr, unimon_npc, movimiento_usr)
-                        Combate.animacion_habilidad(Main.movimiento_usr, Cadena.usuario, True)
+                        Animacion.animacion_habilidad(Main.movimiento_usr, Cadena.usuario, True)
 
                     if Combate.verificar_turno(unimon_npc, movimiento_npc):
                         Combate.turno(unimon_npc, unimon_usr, movimiento_npc)
-                        Combate.animacion_habilidad(Main.movimiento_npc, Cadena.NPC, False)
+                        Animacion.animacion_habilidad(Main.movimiento_npc, Cadena.NPC, False)
 
                 else:
                     if Combate.verificar_turno(unimon_npc, movimiento_npc):
                         Combate.turno(unimon_npc, unimon_usr, movimiento_npc)
-                        Combate.animacion_habilidad(Main.movimiento_npc, Cadena.NPC, True)
+                        Animacion.animacion_habilidad(Main.movimiento_npc, Cadena.NPC, True)
 
                     if Combate.verificar_turno(unimon_usr, movimiento_usr):
                         Combate.turno(unimon_usr, unimon_npc, movimiento_usr)
-                        Combate.animacion_habilidad(Main.movimiento_usr, Cadena.usuario, False)
+                        Animacion.animacion_habilidad(Main.movimiento_usr, Cadena.usuario, False)
         
         elif Main.movimiento_usr:
             movimiento_usr = Main.habilidades[Cadena.usuario][Main.movimiento_usr]
 
             if Combate.verificar_turno(unimon_usr, movimiento_usr):
                 Combate.turno(unimon_usr, unimon_npc, movimiento_usr)
-                Combate.animacion_habilidad(Main.movimiento_usr, Cadena.usuario, True)
+                Animacion.animacion_habilidad(Main.movimiento_usr, Cadena.usuario, True)
         
         elif Main.movimiento_npc:
             movimiento_npc = Main.habilidades[Cadena.NPC][Main.movimiento_npc]
 
             if Combate.verificar_turno(unimon_npc, movimiento_npc):
                 Combate.turno(unimon_npc, unimon_usr, movimiento_npc)
-                Combate.animacion_habilidad(Main.movimiento_npc, Cadena.NPC, True)
+                Animacion.animacion_habilidad(Main.movimiento_npc, Cadena.NPC, True)
 
         # Actualiza los estados de danio
         Estado.estado_danio(unimon_usr)
         Estado.estado_danio(unimon_npc)
 
         # Animacion
-        Combate.animacion_debilitado(unimon_usr)
-        Combate.animacion_debilitado(unimon_npc)
+        Animacion.animacion_barra_hp(unimon_usr, unimon_npc)
+        Animacion.animacion_debilitado(unimon_usr, unimon_npc)
+        Animacion.animacion_estado(unimon_usr, unimon_npc)
 
         # limpia los ataques
         Main.movimiento_usr = None
         Main.movimiento_npc = None
 
+    # Funciones de turno
     def verificar_turno(atacante, habilidad):
         if atacante.verificar_hp():
 
@@ -116,10 +119,10 @@ class Combate:
             danio = 0
 
             if habilidad.sts == Cadena.Físico:
-                danio = (habilidad.poder * atacante.atk_fisico / defensa.df_fisico) // 4 + 2
+                danio = (habilidad.poder * atacante.atk_fisico / defensa.df_fisico) / 3 + 2
 
             if habilidad.sts == Cadena.Especial:
-                danio = (habilidad.poder * atacante.atk_especial / defensa.df_especial) // 4 + 2
+                danio = (habilidad.poder * atacante.atk_especial / defensa.df_especial) / 3 + 2
 
             if habilidad.tipo == atacante.tipo:
                 danio = danio * 1.5
@@ -132,37 +135,36 @@ class Combate:
 
             defensa.restar_hp(danio)
 
-        Combate.verificar_estado(defensa, habilidad) 
+        Combate.verificar_estado(defensa, habilidad)
 
-    def animacion_habilidad(habilidad, jugador, primero):
-        value = Main.habilidades[jugador][habilidad]
-        Main.timer = 1
-        Main.timer_terminar = 200
+    # Verificar tipo y estado
+    def verificar_tipos(tipo_1, tipo_2):
+        
+        with open("resources/tipos.txt", "r", encoding = "utf-8") as file:
+            lineas = file.readlines()
 
-        if primero:
-            value.usando_timer = True
-            value.empieza = 0
-            value.termina = 60
-        else:
-            value.usando_timer = True
-            value.empieza = 70
-            value.termina = 130
+            for linea in lineas:
 
-        if jugador == Cadena.usuario:
-            value.cambiar_front()
-        else:
-            value.cambiar_back()
+                if linea.strip() != "" and not linea.startswith("#"):
+                    dato = linea.split()
 
-        Habilidad.limpiar_habilidad_ventana(Cadena.main, Cadena.combate, jugador)
-        Habilidad.habilidad_ventana(jugador, habilidad, Cadena.main, Cadena.combate, jugador)
+                    if dato[0] == tipo_1 and dato[1] == tipo_2:
+                        if dato[2] == "1":
+                            return Cadena.efectivo
+                        
+                        if dato[2] == "2":
+                            return Cadena.muy_efectivo
+                        
+                        if dato[2] == "0.5":
+                            return Cadena.poco_efectivo
 
-    def animacion_debilitado(unimon):
-        if not unimon.verificar_hp():
-
-            unimon.usando_timer = True
-            unimon.empieza = 140
-            unimon.termina = 200
-
+    def verificar_estado(unimon, habilidad):
+        if habilidad.estado != Cadena.Nada and unimon.estado == Cadena.Nada:
+            
+            if habilidad.estado_acc >= randint(1, 100):
+                unimon.estado = copy(habilidad.estado)
+    
+    # Verificacion final
     def verificar_partida():
         unimon_usr = Main.unimones[Cadena.usuario][Main.unimon_usr]
         unimon_npc = Main.unimones[Cadena.NPC][Main.unimon_npc]
@@ -217,29 +219,3 @@ class Combate:
                 # Cambiar ventana
                 Main.ventanas_dic = Cadena.main
                 Main.vent_actual = Cadena.resultado
-
-    def verificar_tipos(tipo_1, tipo_2):
-        
-        with open("resources/tipos.txt", "r", encoding = "utf-8") as file:
-            lineas = file.readlines()
-
-            for linea in lineas:
-
-                if linea.strip() != "" and not linea.startswith("#"):
-                    dato = linea.split()
-
-                    if dato[0] == tipo_1 and dato[1] == tipo_2:
-                        if dato[2] == "1":
-                            return Cadena.efectivo
-                        
-                        if dato[2] == "2":
-                            return Cadena.muy_efectivo
-                        
-                        if dato[2] == "0.5":
-                            return Cadena.poco_efectivo
-
-    def verificar_estado(unimon, habilidad):
-        if habilidad.estado != Cadena.Nada and unimon.estado == Cadena.Nada:
-            
-            if habilidad.estado_acc >= randint(1, 100):
-                unimon.estado = copy(habilidad.estado)

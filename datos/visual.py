@@ -24,17 +24,25 @@ def datos_visual():
 
     # Combate
     Texto("gris", Main.fuente_1, "", Main.negro, Main.gris, None, Main.ancho * 1/2, Main.altura * 7/8, Main.ancho, Main.altura * 1/4, "main")
-
+    
     Texto("cuadro_usr", Main.fuente_1, "", Main.negro, Main.gris, None, Main.ancho * 19/24, Main.altura * 15/24, 500, 150, "main")
     Texto("cuadro_npc", Main.fuente_1, "", Main.negro, Main.gris, None, Main.ancho * 5/24, Main.altura * 4/24, 500, 150, "main")
 
-    Texto("unimon_usr", Main.fuente_2, "", Main.negro, Main.gris, None, Main.ancho * 17/24, Main.altura * 14/24, 0, 0, "main")
-    Texto("unimon_npc", Main.fuente_2, "", Main.negro, Main.gris, None, Main.ancho * 3/24, Main.altura * 3/24, 0, 0, "main")
+    Texto("unimon_usr", Main.fuente_3, "", Main.negro, Main.gris, None, Main.ancho * 17/24, Main.altura * 14/24, 0, 0, "main")
+    Texto("unimon_npc", Main.fuente_3, "", Main.negro, Main.gris, None, Main.ancho * 3/24, Main.altura * 3/24, 0, 0, "main")
 
-    Texto("hp_usr", Main.fuente_1, "", Main.negro, Main.verde, None, Main.ancho * 19/24, Main.altura * 16/24, 400, 30, "main")
-    Texto("hp_npc", Main.fuente_1, "", Main.negro, Main.verde, None, Main.ancho * 5/24, Main.altura * 5/24, 400, 30, "main")
+    Texto("estado_usr", Main.fuente_3, "", Main.negro, Main.gris, None, Main.ancho * 21/24, Main.altura * 14/24, 0, 0, "main")
+    Texto("estado_npc", Main.fuente_3, "", Main.negro, Main.gris, None, Main.ancho * 7/24, Main.altura * 3/24, 0, 0, "main")
+
+    Texto("numero_hp_usr", Main.fuente_3, "", Main.negro, Main.gris, None, Main.ancho * 17/24, Main.altura * 15/24, 0, 0, "main")
+    Texto("numero_hp_npc", Main.fuente_3, "", Main.negro, Main.gris, None, Main.ancho * 3/24, Main.altura * 4/24, 0, 0, "main")
+
+    Texto("hp_usr", Main.fuente_1, "", Main.negro, Main.verde, None, Main.ancho * 16/24, Main.altura * 16/24, 400, 30, "main", True)
+    Texto("hp_npc", Main.fuente_1, "", Main.negro, Main.verde, None, Main.ancho * 2/24, Main.altura * 5/24, 400, 30, "main", True)
 
     Texto("resultado", Main.fuente_1, "", Main.negro, Main.verde, None, Main.ancho * 1/2, Main.altura * 5/10, 700, 110, "main")
+
+    Texto("stats", Main.fuente_3, "", Main.negro, Main.amarillo, None, Main.ancho * 1/2, Main.altura * 1/2, 500, 500, "main")
 
     # Botones
     # Inicio
@@ -115,7 +123,7 @@ def datos_visual():
 
             "d" : 
             [None, set(),
-             "main", {"unimon_usr", "unimon_npc", "hp_usr", "hp_npc"},
+             "main", {"unimon_usr", "unimon_npc", "hp_usr", "hp_npc", "estado_usr", "estado_npc", "numero_hp_usr", "numero_hp_npc"},
              None, set()]},
             "main")
 
