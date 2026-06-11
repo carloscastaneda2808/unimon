@@ -16,6 +16,6 @@ venv/
 .DS_Store
 Thumbs.db
 
-# Python缓存文件
+# Python缓存
 __pycache__/
 *.pyc
