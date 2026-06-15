@@ -1,6 +1,10 @@
 """
 Archivo para interfaz grafica
 """
+import sys
+# Que no crea pycache
+sys.dont_write_bytecode = True
+
 
 import pygame
 from sys import exit
