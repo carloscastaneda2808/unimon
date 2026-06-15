@@ -14,8 +14,10 @@ from visual.animacion import Animacion
 
 from ia.npc import NPC
 
-class Combate:
 
+
+class Combate:
+    # 这个只会呼叫另一个def，他是不会计算的，是中继器
     # Función principal
     def combate():
         unimon_usr = Main.unimones[Cadena.usuario][Main.unimon_usr]
@@ -102,7 +104,7 @@ class Combate:
 
 
 
-
+    # 检查血量，状态和速度是否可以攻击
     # Funciones de turno
     def verificar_turno(atacante, habilidad):
         if atacante.verificar_hp():
@@ -164,6 +166,7 @@ class Combate:
                         if dato[2] == "0.5":
                             return Cadena.poco_efectivo
 
+    #检查是否有状态，因为最多一个
     def verificar_estado(unimon, habilidad):
         if habilidad.estado != Cadena.Nada and unimon.estado == Cadena.Nada:
             
@@ -172,7 +175,7 @@ class Combate:
     
 
 
-    
+    # 检查宝可梦是否还要
     # Verificación final
     def verificar_partida():
         unimon_usr = Main.unimones[Cadena.usuario][Main.unimon_usr]
