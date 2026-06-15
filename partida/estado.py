@@ -4,7 +4,7 @@ Archivo para los estados
 
 from random import randint
 
-from clase.cadena import Cadena
+from settings.cadena import Cadena
 
 class Estado:
     def estado_antes(unimon):

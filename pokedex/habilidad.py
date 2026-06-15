@@ -5,11 +5,9 @@ Archivo para hacer las habilidades
 import pygame
 
 from random import randint
-from time import sleep
 from copy import copy
 
-from clase.clase_main import Main
-from clase.cadena import Cadena
+from settings.settings import Main
 
 class Habilidad:
     
@@ -46,21 +44,32 @@ class Habilidad:
         self.imagen = self.frames[self.index]
         self.rect = self.imagen.get_rect(center = (self.x, self.y))
         
+        # Guardar en la clase
         if dic not in Main.habilidades:
             Main.habilidades[dic] = {}
         Main.habilidades[dic][key] = self
-
-    # Funciones
-    def verificar_estado_acc(self):
-        return self.acc >= randint(1, 100)
     
-    # Funciones para crear habilidades
+
+
+
+    # Funciones para copiar o eliminar habilidades
     def copiar_habilidad(copiar, copiado, habilidad):
         Main.habilidades[copiar][habilidad] = copy(Main.habilidades[copiado][habilidad])
 
     def eliminar_habilidad(dic, habilidad):
         Main.habilidades[dic].pop(habilidad)
 
+
+
+
+    # Funciones para verificar
+    def verificar_estado_acc(self):
+        return self.acc >= randint(1, 100)
+
+
+
+
+    # Funciones para agregar o quitar habilidades de una ventana
     def habilidad_ventana(habilidad_dic, habilidad, ventanas_dic, ventana, dic_elementos):
         Main.ventanas[ventanas_dic][ventana].dic_elementos[dic_elementos][8] = habilidad_dic
         Main.ventanas[ventanas_dic][ventana].dic_elementos[dic_elementos][9].add(habilidad)
@@ -72,6 +81,9 @@ class Habilidad:
     def limpiar_habilidad_ventana(ventanas_dic, ventana, dic_elementos):
         Main.ventanas[ventanas_dic][ventana].dic_elementos[dic_elementos][8] = None
         Main.ventanas[ventanas_dic][ventana].dic_elementos[dic_elementos][9].clear
+
+
+
 
     # Funciones de Sprite
     def cambiar_front(self):

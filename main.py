@@ -1,27 +1,17 @@
 """
-Archivo para interfaz grafica
+Archivo main
 """
 import sys
 # Que no crea pycache
 sys.dont_write_bytecode = True
 
-
 import pygame
+
 from sys import exit
-from copy import copy
 
-from clase.clase_main import Main
-from clase.cadena import Cadena
-
-from visual.elemento_ui import ElementoUI
-from visual.ventana import Ventana
+from settings.settings import Main
+from settings.cadena import Cadena
 from visual.boton import Boton
-from visual.imagen import Imagen
-from visual.texto import Texto
-
-from pokedex.unimon import Unimon
-from pokedex.habilidad import Habilidad
-
 from partida.combate import Combate
 
 from datos.unimones import datos_unimones
@@ -34,7 +24,7 @@ bg_Music = pygame.mixer.Sound('musica/soundtrack/tema_principal.mp3')
 bg_Music.set_volume(0.5)
 bg_Music.play(loops = -1)
 
-# Reinicio
+# Funciones
 def reinicio():
     if Boton.reiniciar:
         Main.reinicio()
@@ -72,15 +62,20 @@ Boton.botones_ventana(Main.unimones[Cadena.main].keys(), Cadena.main, Cadena.ele
 while True:
     timer()
 
+    # Posición del mouse
     pos_mouse = pygame.mouse.get_pos()
 
+    # Ciclo de eventos
     for event in pygame.event.get():
-        # Cerrar el juego
+
+        # Evento de cerrar
         if event.type == pygame.QUIT:
             pygame.quit()
             exit()
 
+        # Evento de click de mouse
         if event.type == pygame.MOUSEBUTTONDOWN:
+
             # Click derecho
             if event.button == 1:
 
@@ -98,14 +93,16 @@ while True:
 
                 Main.ventanas[Main.ventanas_dic][Main.vent_actual].collision_2(pos_mouse)
 
+        # Evento de levantar click de mouse
         if event.type == pygame.MOUSEBUTTONUP:
+
             # Levantar click rueda
             if event.button == 2:
 
                 Boton.quitar_unimon_stats()
                 Boton.quitar_habilidad_stats()
 
-        # Efecto Hover
+        # Evento para efecto Hover
         if event.type == pygame.MOUSEMOTION:
 
             Main.ventanas[Main.ventanas_dic][Main.vent_actual].hover(pos_mouse)
@@ -115,7 +112,7 @@ while True:
     Main.ventanas[Main.ventanas_dic][Main.vent_actual].dibujar(Main.screen)
     pygame.display.update()
 
-    # No verifica si hay una animacion en curso y solo si esta en la ventana combate
+    # Verifica si hay una animacion en curso y solo si esta en la ventana combate
     if not Main.timer and Main.vent_actual == Cadena.combate:
         Combate.verificar_partida()
 

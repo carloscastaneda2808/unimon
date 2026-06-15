@@ -2,9 +2,7 @@
 Archivo para datos de las habilidades
 """
 
-import pygame
-
-from clase.clase_main import Main
+from settings.settings import Main
 from pokedex.habilidad import Habilidad
 
 # 48 Habilidades

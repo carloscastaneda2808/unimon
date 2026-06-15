@@ -4,8 +4,8 @@ Archivo para crear elementos UI
 
 import pygame
 
-from clase.clase_main import Main
-from clase.cadena import Cadena
+from settings.settings import Main
+from settings.cadena import Cadena
 
 from visual.animacion import Animacion
 
@@ -78,6 +78,7 @@ class ElementoUI:
             else:
                 self.rect.center = (self.x, self.y)
 
+    # Dibujar
     def dibujar(self, screen):
         if self.usando_timer:
             if Main.timer:

@@ -4,13 +4,15 @@ Archivo para el NPC
 
 from random import sample, choice, randint
 
-from clase.clase_main import Main
-from clase.cadena import Cadena
+from settings.settings import Main
+from settings.cadena import Cadena
 
 from pokedex.unimon import Unimon
 from pokedex.habilidad import Habilidad
 
 class NPC:
+
+    # Funciones para seleccionar equipo y habilidades
     def elegir_equipo():
         cantidad = len(Main.unimones[Cadena.usuario])
 
@@ -29,6 +31,25 @@ class NPC:
 
             for habilidad in unimon.hb:
                 Habilidad.copiar_habilidad(Cadena.NPC, Cadena.main, habilidad)
+
+    # Funciones para seleccionar en el combate
+    def elegir_turno():
+        unimon = Main.unimones[Cadena.NPC][Main.unimon_npc]
+
+        # Con random decide que hacer
+        if len(Main.unimones[Cadena.NPC]) > 1:
+            acc = 10
+            if unimon.hp < (unimon.hp_max / 4):
+                acc += 10
+
+            if acc >= randint(1, 100):
+                NPC.sacar_unimon()
+                
+            else:
+                NPC.elegir_movimiento()
+
+        else:
+            NPC.elegir_movimiento()
 
     def sacar_unimon():
         if Main.unimon_npc:
@@ -64,22 +85,4 @@ class NPC:
 
     def elegir_movimiento():
         Main.movimiento_npc = choice(list(Main.unimones[Cadena.NPC][Main.unimon_npc].hb))
-
-    def elegir_turno():
-        unimon = Main.unimones[Cadena.NPC][Main.unimon_npc]
-
-        if len(Main.unimones[Cadena.NPC]) > 1:
-            acc = 10
-            if unimon.hp < (unimon.hp_max / 4):
-                acc += 10
-
-            if acc >= randint(1, 100):
-                NPC.sacar_unimon()
-                
-            else:
-                NPC.elegir_movimiento()
-
-        else:
-            NPC.elegir_movimiento()
-
         

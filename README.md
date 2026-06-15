@@ -28,7 +28,4 @@ Comandos:
 
     - para iniciar el programa desde la carpte unimon se usa:
         python -m main
-
-Cosas del commit:
-    - Falta cambiar los archivos de combate, estados, input_validation y npc. Tambien falta la selecion de pokemones en main
 """

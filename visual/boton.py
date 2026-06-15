@@ -4,15 +4,12 @@ Archivo para crear botones
 
 import pygame
 
-from copy import copy
-
-from clase.clase_main import Main
-from clase.cadena import Cadena
+from settings.settings import Main
+from settings.cadena import Cadena
 
 from visual.elemento_ui import ElementoUI
 from visual.ventana import Ventana
 from visual.texto import Texto
-from visual.animacion import Animacion
 
 from pokedex.unimon import Unimon
 from pokedex.habilidad import Habilidad
@@ -40,10 +37,11 @@ class Boton(ElementoUI):
 
 
 
-    # Funciones principales
+    # Collisiones
     def collision(self, pos_mouse):
         return self.rect.collidepoint(pos_mouse)
     
+    # Cambiar fondo
     def cambiar_fondo(self, nuevo_fondo):
         if self.imagen:
             self.rect_imagen = nuevo_fondo
@@ -53,7 +51,7 @@ class Boton(ElementoUI):
 
 
 
-    # Funcion para crear botones
+    # Funcion para crear, eliminar o modificar botones
     def crear_boton(dic, key, texto, x, y, ancho, altura, funcion_1, funcion_2, funcion_3, funcion_4):
         Boton(key, Main.fuente_3, texto, Main.negro, Main.azul, None, x, y, ancho, altura, funcion_1, funcion_2, funcion_3, funcion_4, dic)
 
@@ -71,14 +69,6 @@ class Boton(ElementoUI):
 
             Boton.crear_boton(dic, key, key, x, y, 230, 60, funcion_1, funcion_2, funcion_3, funcion_4)
 
-    def botones_ventana(botones, ventanas_dic, ventana, dic_elementos):
-        for boton in botones:
-
-            Main.ventanas[ventanas_dic][ventana].dic_elementos[dic_elementos][5].add(boton)
-
-    def eliminar_boton_ventana(boton, ventana_dic, ventana, dic_elementos):
-        Main.ventanas[ventana_dic][ventana].dic_elementos[dic_elementos][5].remove(boton)
-
     def eliminar_boton(dic, key):
         Main.botones[dic].pop(key)
 
@@ -89,16 +79,28 @@ class Boton(ElementoUI):
 
 
 
-    # Funciones para elegir cosas
+    # Funcion para agregar o quitar un botón de una ventana
+    def botones_ventana(botones, ventanas_dic, ventana, dic_elementos):
+        for boton in botones:
+
+            Main.ventanas[ventanas_dic][ventana].dic_elementos[dic_elementos][5].add(boton)
+
+    def eliminar_boton_ventana(boton, ventana_dic, ventana, dic_elementos):
+        Main.ventanas[ventana_dic][ventana].dic_elementos[dic_elementos][5].remove(boton)
+
+
+
+    # Funciones que se guardan en un botón
+    # Funciones para seleccionar cosas
     def elegir_unimon(dic, key):
         # Crea diccionario para los unimones del usuario
         Main.crear_diccionario(Main.unimones, Cadena.usuario)
 
         if len(Main.unimones[Cadena.usuario]) < 6:
-            # Aniade el unimon al equipo
+            # Añade el unimon al equipo
             Unimon.copiar_unimon(Cadena.usuario, Cadena.main, key)
 
-            # Cambia de color el boton
+            # Cambia de color el boton (esto se repite múltiples veces)
             boton = Main.botones[dic][key]
             boton.cambiar_fondo(Main.cian)
         else:
@@ -110,10 +112,10 @@ class Boton(ElementoUI):
 
         # Verifica si ya habia sido seleccionado
         if boton.fondo_color == Main.cian:
+
             # Elimina el unimon del equipo
             Unimon.eliminar_unimon(Cadena.usuario, key)
 
-            # Cambia de color el boton
             boton.fondo_color = Main.azul
 
     def unimon_habilidades(dic, key):
@@ -122,7 +124,6 @@ class Boton(ElementoUI):
 
         boton = Main.botones[dic][key]
         boton.cambiar_fondo(Main.azul)
-        pass
 
     def elegir_habilidades(dic, key):
         unimon = Main.unimones[Cadena.usuario][Main.vent_actual]
@@ -218,13 +219,16 @@ class Boton(ElementoUI):
 
 
 
-    # Funion para cambiar de ventana
+    # Funciones para cambiar de ventana
     def ventana_elegir_habilidades(dic, key):
         Main.crear_diccionario(Main.unimones, Cadena.usuario)
 
         if Cadena.elegir_habilidades not in Main.botones or Main.vent_actual == Cadena.elegir_unimones:
+
+            # Verifica si el usuario ha elegido un unimon
             if len(Main.unimones[Cadena.usuario]) > 0:
-                # reinicia la ventana elegir habilidades
+
+                # Reinicia la ventana elegir habilidades
                 Ventana("elegir_habilidades",
                 {"a" : 
                 ["main", {"inicio"},
@@ -242,6 +246,7 @@ class Boton(ElementoUI):
                 Main.crear_diccionario(Main.ventanas, Cadena.elegir_habilidades)
                 Main.crear_diccionario(Main.textos, Cadena.elegir_habilidades)
 
+                # Ciclo para crear ventanas, títulos, etc.
                 for nombre, value in Main.unimones[Cadena.usuario].items():
                     value.cambiar_back()
 
@@ -255,7 +260,7 @@ class Boton(ElementoUI):
                     Boton.crear_botones(f"{nombre}_{Cadena.elegir_habilidades}", value.hb_posibles, Boton.elegir_habilidades, Boton.descartar_habilidades, Boton.habilidad_stats, Boton.quitar_habilidad_stats)
                     Boton.botones_ventana(value.hb_posibles, Cadena.elegir_habilidades, nombre, Cadena.b)
 
-                # Funcion del NPC
+                # Función del NPC
                 NPC.elegir_equipo()
 
                 Main.ventanas_dic = Cadena.main
@@ -276,11 +281,13 @@ class Boton(ElementoUI):
 
     def ventana_sacar(dic, key):
 
+        # Verifica si el unimon tiene un unimon afuera
         if not Main.unimon_usr:
             seguir = True
             unimon = list(Main.unimones[Cadena.usuario].values())[0]
             num_pasado = len(unimon.hb)
 
+            # Verifica si los unimones tiene el mismo número de habilidades
             for unimon in Main.unimones[Cadena.usuario].values():
                 if len(unimon.hb) != num_pasado or len(unimon.hb) < 1:
                     seguir = False
@@ -336,6 +343,7 @@ class Boton(ElementoUI):
 
     def ventana_atacar(dic, key):
 
+        # Verifica si hay animación
         if not Main.timer:
             Main.ventanas_dic = Cadena.equipo
             Main.vent_actual = Main.unimon_usr
@@ -347,6 +355,7 @@ class Boton(ElementoUI):
             boton.cambiar_fondo(Main.rojo)
 
     def ventana_inicio(dic, key):
+
         # Reinicio
         Main.historial_nuevo += Main.resultado
         Archivo.escribir_historial()
@@ -362,6 +371,7 @@ class Boton(ElementoUI):
     def ventana_estadisticas(dic, key):
         Archivo.leer_historial()
 
+        # Cambia los textos
         for i, texto in enumerate(Main.textos[Cadena.estadisticas].values()):
             texto.cambiar_texto(Main.historial[i])
 
@@ -374,6 +384,7 @@ class Boton(ElementoUI):
     def borrar_historial(dic, key):
         Archivo.borrar_historial()
 
+        # Limpia los textos
         for texto in Main.textos[Cadena.estadisticas].values():
             texto.cambiar_texto("")
 
@@ -388,6 +399,8 @@ class Boton(ElementoUI):
         boton.cambiar_fondo(Main.azul)
 
     def ventana_combate(dic, key):
+
+        # Verifica si el usuario tiene un unimon afuera
         if Main.unimon_usr:
             Main.ventanas_dic = Cadena.main
             Main.vent_actual = Cadena.combate
@@ -408,19 +421,23 @@ class Boton(ElementoUI):
     def unimon_stats(dic, key):
         unimon = Main.unimones[Cadena.main][key]
 
+        # Escribe los texto en una lista
         lista = [f"Nombre: {key}", f"Tipo: {unimon.tipo}", f"HP: {unimon.hp}", f"Ataque Fisico: {unimon.atk_fisico}", f"Defensa Fisica: {unimon.df_fisico}"]
         lista.extend([f"Ataque Especial: {unimon.atk_especial}", f"Defensa Especial: {unimon.df_especial}", f"Velocidad: {unimon.spe}"])
 
+        # Escribe el texto
         for i, texto in enumerate(Main.textos[Cadena.stats].values()):
             texto.cambiar_texto(lista[i])
 
         Main.ventanas_dic_anterior = Main.ventanas_dic
         Main.ventanas_dic = Cadena.main
+
         Main.vent_anterior = Main.vent_actual
         Main.vent_actual = Cadena.stats
 
     def quitar_unimon_stats():
 
+        # Limpia los textos
         for texto in Main.textos[Cadena.stats].values():
             texto.cambiar_texto("")
 
@@ -430,25 +447,25 @@ class Boton(ElementoUI):
     def habilidad_stats(dic, key):
         habilidad = Main.habilidades[Cadena.main][key]
 
+        # Escribe el texto en una lista
         lista = [f"Nombre: {key}", f"Tipo: {habilidad.tipo}", f"Poder: {habilidad.poder}", f"Probabilidad: {habilidad.acc}"]
         lista.extend([f"STS: {habilidad.sts}", f"Estado: {habilidad.estado}", f"Estado Probabilidad: {habilidad.estado_acc}", ""])
 
+        # Escribe el texto
         for i, texto in enumerate(Main.textos[Cadena.stats].values()):
             texto.cambiar_texto(lista[i])
 
         Main.ventanas_dic_anterior = Main.ventanas_dic
         Main.ventanas_dic = Cadena.main
+
         Main.vent_anterior = Main.vent_actual
         Main.vent_actual = Cadena.stats
 
     def quitar_habilidad_stats():
 
+        # Limpia los textos
         for texto in Main.textos[Cadena.stats].values():
             texto.cambiar_texto("")
 
         Main.ventanas_dic = Main.ventanas_dic_anterior
         Main.vent_actual = Main.vent_anterior
-
-
-
-    

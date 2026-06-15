@@ -2,16 +2,18 @@
 Archivo para las animacion
 """
 
-from clase.clase_main import Main
-from clase.cadena import Cadena
+from settings.settings import Main
+from settings.cadena import Cadena
 
 from pokedex.habilidad import Habilidad
 
 class Animacion:
+
     def animacion_habilidad(habilidad, jugador, primero):
         value = Main.habilidades[jugador][habilidad]
-        Main.timer_termina += 60
 
+        # Modifica el timer
+        Main.timer_termina += 60
         if primero:
             value.usando_timer = True
             value.empieza = Main.timer_termina - 60
@@ -33,6 +35,7 @@ class Animacion:
         texto_usr = Main.textos[Cadena.main][Cadena.hp_usr]
         texto_npc = Main.textos[Cadena.main][Cadena.hp_npc]
 
+        # Modifica el timer
         Main.timer_termina += 60
 
         texto_usr.usando_timer = True
@@ -52,6 +55,7 @@ class Animacion:
     def animacion_debilitado(unimon_usr, unimon_npc):
         animacion = False
 
+        # Modifica el timer
         if not unimon_usr.verificar_hp():
             Main.timer = 1
             unimon_usr.usando_timer = True
@@ -69,7 +73,7 @@ class Animacion:
             unimon_npc.empieza = Main.timer_termina - 60
             unimon_npc.termina = Main.timer_termina
 
-    def animacion_estado(unimon_usr, unimon_npc):
+    def animacion_estado(unimon_usr, unimon_npc): # no es un cambio de texto mas que una animación
         if unimon_usr.estado != Cadena.Nada:
             Main.textos[Cadena.main][Cadena.estado_usr].cambiar_texto(unimon_usr.estado)
         else:

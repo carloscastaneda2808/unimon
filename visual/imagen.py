@@ -4,7 +4,7 @@ Archivo para crear imagenes
 
 import pygame
 
-from clase.clase_main import Main
+from settings.settings import Main
 
 class Imagen:
 
@@ -18,5 +18,6 @@ class Imagen:
             Main.imagenes[dic] = {}
         Main.imagenes[dic][key] = self
 
+    # Dibujar
     def dibujar(self, screen):
         screen.blit(self.scale, (self.x, self.y))

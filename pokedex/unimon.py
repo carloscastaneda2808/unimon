@@ -6,7 +6,7 @@ import pygame
 
 from copy import copy
 
-from clase.clase_main import Main
+from settings.settings import Main
 
 class Unimon:
 
@@ -63,13 +63,17 @@ class Unimon:
             Main.unimones[dic] = {}
         Main.unimones[dic][key] = self
 
-    # Funcion para crear unimones
+
+
+
+    # Función para copiar o eliminar unimones
     def copiar_unimon(copiar, copiado, unimon):
         Main.unimones[copiar][unimon] = copy(Main.unimones[copiado][unimon])
 
     def eliminar_unimon(dic, unimon):
         Main.unimones[dic].pop(unimon)
 
+    # Funciones para agregar o quitar un unimon de una ventana
     def unimon_ventana(unimon_dic, unimon, ventanas_dic, ventana, dic_elementos):
         Main.ventanas[ventanas_dic][ventana].dic_elementos[dic_elementos][6] = unimon_dic
         Main.ventanas[ventanas_dic][ventana].dic_elementos[dic_elementos][7].add(unimon)
@@ -78,7 +82,10 @@ class Unimon:
         Main.ventanas[ventanas_dic][ventana].dic_elementos[dic_elementos][6] = None
         Main.ventanas[ventanas_dic][ventana].dic_elementos[dic_elementos][7].remove(unimon)
     
-    # Funciones
+
+
+
+    # Funciones de hp
     def restar_hp(self, danio):
         self.hp -= round(danio)
 
@@ -87,6 +94,9 @@ class Unimon:
 
     def verificar_hp(self):
         return self.hp > 0
+
+
+
 
     # Funciones de Sprite
     def cambiar_front(self):
@@ -118,6 +128,8 @@ class Unimon:
             self.frames.append(frame)
 
     def dibujar(self, screen):
+
+        # Timer
         if self.usando_timer:
             if Main.timer:
                 if Main.timer > self.empieza and Main.timer < self.termina:

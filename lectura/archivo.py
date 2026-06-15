@@ -2,7 +2,7 @@
 Archivo para leer y escribir archivos
 """
 
-from clase.clase_main import Main
+from settings.settings import Main
 
 class Archivo:
     def leer_historial():

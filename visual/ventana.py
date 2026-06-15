@@ -1,8 +1,7 @@
 """
 Archivo para crear ventanas
 """
-from clase.clase_main import Main
-from clase.cadena import Cadena
+from settings.settings import Main
 
 class Ventana:
 
@@ -15,6 +14,8 @@ class Ventana:
             dic_elementos[llave].append(set())
 
         self.dic_elementos = dic_elementos
+
+        # Que valor tiene cada elemento
 
         # imagenes_dic = value[0]
         # imagenes = value[1]
@@ -35,6 +36,10 @@ class Ventana:
             Main.ventanas[dic_ventanas] = {}
         Main.ventanas[dic_ventanas][key] = self
 
+
+
+
+    # Funciones para crear, eliminar o modificar ventanas
     def crear_ventana(dic_ventanas, key, dic_elementos):
         if dic_elementos["a"][0] == None:
             dic_elementos["a"][0] = "main"
@@ -57,6 +62,10 @@ class Ventana:
         if key in self.dic_elementos:
             self.dic_elementos.pop(key)
 
+
+
+
+    # Efecto hover
     def hover(self, pos_mouse):
         for value in self.dic_elementos.values():
 
@@ -102,6 +111,10 @@ class Ventana:
                     if boton.funcion_3:
                         boton.funcion_3(value[4], key)
 
+
+
+
+    # Dibuja en la ventana
     def dibujar(self, screen):
 
         # Primero se dibuja el fondo

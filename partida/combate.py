@@ -5,18 +5,18 @@ Archivo para el combate
 from random import randint
 from copy import copy
 
-from clase.clase_main import Main
-from clase.cadena import Cadena
+from settings.settings import Main
+from settings.cadena import Cadena
 
 from partida.estado import Estado
-from pokedex.habilidad import Habilidad
 
-from visual.boton import Boton
 from visual.animacion import Animacion
 
 from ia.npc import NPC
 
 class Combate:
+
+    # Función principal
     def combate():
         unimon_usr = Main.unimones[Cadena.usuario][Main.unimon_usr]
         unimon_npc = Main.unimones[Cadena.NPC][Main.unimon_npc]
@@ -100,6 +100,9 @@ class Combate:
         Main.movimiento_usr = None
         Main.movimiento_npc = None
 
+
+
+
     # Funciones de turno
     def verificar_turno(atacante, habilidad):
         if atacante.verificar_hp():
@@ -137,6 +140,9 @@ class Combate:
 
         Combate.verificar_estado(defensa, habilidad)
 
+
+
+
     # Verificar tipo y estado
     def verificar_tipos(tipo_1, tipo_2):
         
@@ -164,7 +170,10 @@ class Combate:
             if habilidad.estado_acc >= randint(1, 100):
                 unimon.estado = copy(habilidad.estado)
     
-    # Verificacion final
+
+
+    
+    # Verificación final
     def verificar_partida():
         unimon_usr = Main.unimones[Cadena.usuario][Main.unimon_usr]
         unimon_npc = Main.unimones[Cadena.NPC][Main.unimon_npc]
@@ -182,6 +191,7 @@ class Combate:
                 Main.ventanas_dic = Cadena.main
                 Main.vent_actual = Cadena.resultado
 
+        # Verifica si el usuario perdió
         if not unimon_usr.verificar_hp():
             Main.unimones[Cadena.usuario].pop(Main.unimon_usr)
 
@@ -201,7 +211,7 @@ class Combate:
                 Main.ventanas_dic = Cadena.main
                 Main.vent_actual = Cadena.resultado
 
-
+        # Verifica si el NPC perdió
         if not unimon_npc.verificar_hp():
             Main.unimones[Cadena.NPC].pop(Main.unimon_npc)
 
