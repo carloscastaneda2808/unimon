@@ -13,6 +13,11 @@ Caracteristicas:
     4. Equipos
     5. Combates
 
+Bibliotecas:
+    - Pygame
+    - Random
+    - Copy
+
 Comandos:
     - para crear venv (tienes que tener python 3.11):
         py -3.11 -m venv .venv
